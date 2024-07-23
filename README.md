@@ -42,7 +42,7 @@ npm run build
 ![输入图片说明](src/assets/image3.png)
 
 ### 相关证书
-![输入图片说明](src/assets/6f741855050d352dfc3dd610ddb2950.jpg)
+![输入图片说明](src/assets/43b414fa39aaed117979797e914f9b4.jpg)
 
 ### 联系方式
 ### 微信联系方式
