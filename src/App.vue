@@ -26,6 +26,7 @@ export default {
   },
   created() {
     let that = this;
+	window.console.log('我日你妈什么玩意？？？',this.GetQueryString('token'))
     if (this.GetQueryString('token')) {
       window.sessionStorage.clear()
       window.sessionStorage.setItem('token', this.GetQueryString('token'))
