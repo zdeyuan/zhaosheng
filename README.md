@@ -21,7 +21,7 @@
 
 ### 功能清单
 
-![输入图片说明](src/assets/image5.png)
+![输入图片说明](src/assets/gn.png)
 
 ### 项目下载和运行
 - 拉取项目代码
