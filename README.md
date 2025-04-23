@@ -4,6 +4,8 @@
 
 招生管理系统是基于VUE+ elementui的开源招生管理平台系统；其中提供包含如招生、录取、迎新等各个方面的服务，方便用户可以使用本系统快捷、简洁、从容的完成关于招生的数据操作、管理。
 
+### 提示：该项目为前后端分离，如需要后端请点击<a href='https://gitee.com/dysxsoft/enrollment-management-backend'>这里</a>
+
 ### 软件架构
 
 架构上我们选择当下最主流的也是最具兼容性的方案。
@@ -35,10 +37,13 @@ npm run serve
 npm run build
 
 ### 项目图片预览
-![输入图片说明](src/assets/image.png)
 ![输入图片说明](src/assets/image1.png)
 ![输入图片说明](src/assets/image2.png)
 ![输入图片说明](src/assets/image3.png)
+
+### 相关证书
+![输入图片说明](src/assets/43b414fa39aaed117979797e914f9b4.jpg)
+
 ### 联系方式
 ### 微信联系方式
 
