@@ -1,23 +1,21 @@
 <template>
-<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+<div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">当前招生季设置</span></div>
-      <hr class="right-hr" />
       <div class="content-head">
         <div>
           <!-- 内容区 -->
           <!-- 传入需要进行设置的年份参数 -->
-           <a-button class="set-season-btn " @click="batchReport()">
-            <!-- <icon-font type="icontianjia" style="color: #ffffff" /> -->
-            <img src="@/assets/img/hook.png" class="icon-position"/> 设为当前招生季 </a-button>
+           <a-button type="primary" icon="plus" @click="batchReport()">
+            <!--  -->
+             设为当前招生季 </a-button>
 
          
-          <a-button class="add-season-btn " @click="showModal"> 
-            <icon-font type="icontianjia" style="color: #ffffff" />添加 
+          <a-button type="primary" style="margin-left: 10px;" @click="showModal"> 
+            添加 
           </a-button>
 
-         <a-button type="primary" @click="noSelect" class="refresh-season-btn button-after"> 
-            <img src="@/assets/img/shuaxin.png" class="icon-position"/>刷新 
+         <a-button type="primary" icon="reload" style="margin-left: 10px;" @click="noSelect" > 
+            刷新 
           </a-button>
         </div>
       </div>
@@ -41,7 +39,6 @@
               <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
               </template>
 
-          <div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img" /></div>
           <div class="delete-text">确认执行删除?</div>
         </a-modal>
 
@@ -57,7 +54,7 @@
                 <div class="font-style-sea">招生季名称：</div>
               </td>
               <td colspan="3" class="double">
-                <a-input class="input-style-sea" v-model="zsjmc"></a-input>
+                <a-input class="input-style-reply" v-model="zsjmc"></a-input>
               </td>
             </tr>
 
@@ -66,7 +63,7 @@
                 <div class="font-style-sea">入学年份：</div>
               </td>
               <td colspan="3" class="double">
-                <a-select class="input-style-select" 
+                <a-select 
                 :options="zsnf" v-model="rxnfs" placeholder="请选择" />
               </td>
             </tr>
@@ -76,13 +73,11 @@
                 <div class="font-style-sea">入学年月：</div>
               </td>
               <td colspan="3" class="double">
-                <a-date-picker
-                  @change="addDate"
-                   :disabled-date="disabledStartDate"
-                      :show-time="{ format: 'HH:MM:SS' }"
-                  format="YYYY-MM-DD HH:mm:SS"
-                  v-model="rq"
-                />
+				  <DatePickByCN
+					displayFormat="YYYY-MM-DD HH:mm:ss"
+				        v-model="rq"
+				        placeholder="请选择入学年月"
+				      />
               </td>
             </tr>
 
@@ -91,7 +86,7 @@
                 <div class="font-style-sea">代码：</div>
               </td>
               <td colspan="3" class="double">
-                <a-input class="input-style-sea" v-model="daima" oninput="value=value.replace(/[^\d]/g,'')"></a-input>
+                <a-input class="input-style-reply" v-model="daima" oninput="value=value.replace(/[^\d]/g,'')"></a-input>
               </td>
             </tr>
 
@@ -100,14 +95,19 @@
                 <div class="font-style-sea">报名开始时间：</div>
               </td>
               <td colspan="3" class="double">
-                <a-date-picker
+				 <DatePickByCN
+				   v-model="startValue"
+				   placeholder="请选择报名开始时间"
+				  displayFormat="YYYY-MM-DD HH:mm:ss"
+				 /> 
+              <!--  <a-date-picker
                   v-model="startValue"
                   :disabled-date="disabledStartDate"
                   :show-time="{ format: 'HH:MM:SS' }"
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder="Start"
                   @openChange="handleStartOpenChange"
-                />
+                /> -->
               </td>
             </tr>
 
@@ -116,15 +116,19 @@
                 <div class="font-style-sea">报名结束时间：</div>
               </td>
               <td colspan="3" class="double">
-                <a-date-picker
+				  <DatePickByCN
+				        v-model="endValue"
+				        placeholder="请选择报名结束时间"
+				  	  displayFormat="YYYY-MM-DD HH:mm:ss"
+				      />
+                <!-- <a-date-picker
                   v-model="endValue"
                   :disabled-date="disabledEndDate"
                     :show-time="{ format: 'HH:MM:SS' }"
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder="End"
                   :open="endOpen"
-                  @openChange="handleEndOpenChange"
-                />
+                  @openChange="handleEndOpenChange" -->
               </td>
             </tr>
 
@@ -785,9 +789,6 @@ this.dys= zsj.key
 .font-style-sea {
   width: 134px;
   height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
   color: #666666;
   line-height: 24px;
   text-align: right;
@@ -808,13 +809,7 @@ this.dys= zsj.key
   color: #FC8950;
 }
 
-.input-style-sea {
-  width: 253px;
-height: 23px;
-background: rgba(255, 255, 255, 0);
-border: 1px solid rgba(217, 237, 244, 0.3);
-border-radius: 2px;
-}
+
 
 .input-style-select{
   width: 102px;
@@ -830,15 +825,6 @@ border-radius: 2px;
 border: 0px solid #E5E5E5;
 }
 
-.btn {
-  width: 100px;
-  height: 40px;
-  background: #0098f8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #ffffff;
-}
 
 .add-season-btn{
   width: 88px;

@@ -1,45 +1,38 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div  class='constbox'>
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">学生分班管理</span></div>
-			<hr class="right-hr">
-            <div class="div-bg"><div class="span-class">温馨提示：分班之前需要按专业部、专业和年级搜索未分班学生，再根据专业的班级列表设定好班级，然后批量选中学生，调整到某一个班级里面。</div></div>
+            <div class="div-bg" style="margin-bottom: 10px;"><div class="span-class">温馨提示：分班之前需要按专业部、专业和年级搜索未分班学生，再根据专业的班级列表设定好班级，然后批量选中学生，调整到某一个班级里面。</div></div>
 			<div>
 
                 <a-row>
                     <a-col :span="11">
                         
                         <div class="content-head">
-                            <div>
-					            <span class="divide-span">年级</span>
-					            <a-cascader class="divide-select" :options="grade" placeholder="请选择" 
-						            v-model="gradeId" />
-				
-					            <span class="divide-span">专业部</span>
-					            <a-cascader class="divide-select" :options="faculty" placeholder="请选择" @change="facultyChange" 
-						            v-model="facultyId" />
-				
-					            <span class="divide-span">专业</span>
-					            <a-cascader class="divide-select" :options="specialty" placeholder="请选择" @change="getClazz"
-									v-model="specialtyId" />
+                            <div style="display:inline-block;margin-bottom:5px;margin-right:5px;">
+					            <!-- <span class="divide-span">年级</span> -->
+					           年级：<j-select-grade placeholder="请选择年级" v-model="gradeId"></j-select-grade>
+							</div><div style="display:inline-block;margin-bottom:5px;">
+					            <!-- <span class="divide-span">专业部</span> -->
+					           专业部： <j-select-zyb placeholder="请选择院系" v-model="facultyId"  :trigger-change="false" ></j-select-zyb>
+							</div><div style="display:inline-block">
+					            <!-- <span class="divide-span">专业</span> -->
+					           专业： <j-select-zy-by-zyb ref="zyByZyb" placeholder="请选择专业" v-model="specialtyId"  :trigger-change="false"></j-select-zy-by-zyb>
                             </div>
 				        </div>
 
                         <div class="content-head">
 				            <div>					
-					            <a-input class="condition-input" v-model.trim="keyword" />
 
-					            <a-cascader :options="keys" :default-value="defVal" placeholder="姓名" class="condition select"
+					            <a-cascader :options="keys" :default-value="defVal" style="width:100px" placeholder="姓名" class="condition select"
 						            v-model="keysVal"/>					
-				
-					            <a-button class="search-button" @click="search">
-						            <icon-font type="iconsousuo" style="color: #FFFFFF;" />
+								 <a-input class="condition-input" style="width: 200px;"  placeholder="请输入" v-model.trim="keyword" />	
+					            <a-button type="primary" icon="search" style="margin-right: 10px; margin-top: 10px;" @click="search">
 						            搜索
 					            </a-button>
 
-					            <a-button class="empty-button " @click="empty">
-						            <icon-font type="iconqingkong1" style="color: #FFFFFF;" />
+					            <a-button type="danger"  icon="delete" @click="empty">
+						            
 						            清空
 					            </a-button>
 				            </div>
@@ -55,6 +48,7 @@
 				            <a-table 		
                                 class="my-table"			
 					            :columns="columns" 
+								:scroll="{ x: 900, y: 300 }"
 					            :data-source="data" 
 					            :row-selection="rowSelection" 
 					            :defaultCurrent="6"
@@ -78,7 +72,6 @@
                         			<a-button key="back"  @click="handleOkDivide" class="btn"> 确定</a-button>
                         			<a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
                         			</template>		
-									<div class="img-bg"><img src="@/assets/img/right.png" class="duihao-img"/></div>					
       								<div class="divide-text">你确定要将这{{divideNum}}名学生进行分班吗？</div>
     							</a-modal>
                                 <span class="divideOrDrop">分班</span>
@@ -93,7 +86,6 @@
                         			<a-button key="back"  @click="handleOkDrop" class="btn"> 确定</a-button>
                         			<a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
                         			</template>	
-									<div class="delete-img-bg"><img src="@/assets/img/left.png" class="duihao-img"/></div>					
       								<div class="drop-text">你确定要将这{{dropNum}}名学生退成未分班的学生吗？</div>
     							</a-modal>
                                 <span class="divideOrDrop">退班</span>
@@ -107,12 +99,12 @@
                         
                         <div class="content-head">
                             <div>
-					            <span class="divide-span">可以分配的班级列表</span>
-					            <a-cascader class="divide-select" :options="clazz" placeholder="请选择" @change="getClazzInfo"
+					            <span class="divide-span">可以分配的班级列表：</span>
+					            <a-cascader :options="clazz" placeholder="请选择" @change="getClazzInfo"
 						            v-model="clazzId" />
 
-                                <a-button class="clear-button" @click="clear">
-						            <img src="@/assets/img/clean.png" class="icon-delete"/>
+                                <a-button type="danger"  icon="delete" style="margin-left:10px;" @click="clear">
+						            
 						            清除
 					            </a-button>
                             </div>
@@ -136,7 +128,8 @@
 
                         <div>
 				            <a-table 			
-                                class="my-table"		
+                                class="my-table"	
+							    :scroll="{ x: 900 }"
 					            :columns="columnsRight" 
 					            :data-source="dataRight" 
 					            :row-selection="rowSelectionRight" 
@@ -169,7 +162,9 @@
 	import {
 		axios
 	} from "@/utils/request"
-
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
+	import JSelectZyb from '@/components/kwglbiz/JSelectZyb'
+	import JSelectZyByZyb from '@/components/kwglbiz/JSelectZyByZyb'
     const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	});
@@ -178,44 +173,44 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
-			width: '12%',
+			width: 80,
 			ellipsis:true
 		},
 		{
 			title: '准考证号',
 			dataIndex: 'ZKZH',
 			key: 'ZKZH',
-			width: '15%',
+			width: 100,
 			ellipsis:true
 		},
         {
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
-			width: '10%',
+			width: 80,
 			ellipsis:true
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
-			width: '20%',
+			width: 120,
 			ellipsis:true
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
-			width: '20%',
+			width: 120,
 			ellipsis:true
 		},
-		{
-			title: '所属年级',
-			dataIndex: 'NJMC',
-			key: 'NJMC',
-			width: '15%',
-			ellipsis:true
-		},
+		// {
+		// 	title: '所属年级',
+		// 	dataIndex: 'NJMC',
+		// 	key: 'NJMC',
+		// 	width: 100,
+		// 	ellipsis:true
+		// },
 		
 	];
 
@@ -223,42 +218,42 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
-			width: '12%',
+			width: 150,
 			ellipsis:true
 		},
 		{
 			title: '准考证号',
 			dataIndex: 'ZKZH',
 			key: 'ZKZH',
-			width: '15%',
+			width: 200,
 			ellipsis:true
 		},
         {
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
-			width: '10%',
+			width: 100,
 			ellipsis:true
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
-			width: '20%',
+			width: 100,
 			ellipsis:true
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
-			width: '20%',
+			width: 100,
 			ellipsis:true
 		},
 		{
 			title: '所属年级',
 			dataIndex: 'NJMC',
 			key: 'NJMC',
-			width: '15%',
+			width: 100,
 			ellipsis:true
 		},
 		
@@ -301,13 +296,13 @@ export default {
 			pageSizeRight: 10,
             /* 下拉框数据 */
             grade: [],
-            gradeId: [],
+            gradeId: '',
             faculty: [],
-			facultyId: [],
+			facultyId: '',
 			specialty: [],
-			specialtyId: [], 
+			specialtyId: '', 
 			clazz: [],
-			clazzId: [],
+			clazzId: '',
             keys: [{value:'XM',label:'姓名'},{value:'SFZH',label:'身份证号'}],
 			defVal: ['XM'],
 			keysVal: [],
@@ -357,25 +352,36 @@ export default {
         },
     components: {
 		IconFont,
+		JSelectGrade,
+		JSelectZyb,
+		JSelectZyByZyb
+	},
+	watch:{
+			facultyId(val){
+				this.zybChange(val)
+			},
+			gradeId(val){
+				this.getClazz();
+			},specialtyId(val){
+				this.getClazz();
+			}
 	},
     mounted() {		
 				
 			//this.getStuList();
-			this.getGrade();
-			this.getFaculty();
+			// this.getGrade();
+			// this.getFaculty();
 			this.getStuOfNoDivideClass();
-					
 		},
     methods:{
 		
 		showModalDivide() {
 			if (this.selectedRowKeys.length == 0) {
-				
 				this.$message.warning("请选择要分班的学生！");
 				return;
 			}
 
-			if(this.clazzId[0] == undefined){
+			if(this.clazzId == ''){
 				this.$message.warning("请选择一个班级！");
 				return;
 			}
@@ -431,6 +437,11 @@ export default {
 			this.getClazzInfo();
 
 		},
+		zybChange(code) {
+		  if (this.$refs.zyByZyb != null) {
+		    this.$refs.zyByZyb.initDictData(code)
+		  }
+		},
         clear(){				
 			this.gradeId = [];				
 			this.facultyId = [];
@@ -459,13 +470,13 @@ export default {
 		},
         search(){
 			this.currentPage = 1;
-			this.curGrade = this.gradeId.length == 0 ? 0 : this.gradeId[0];
-			this.curFaculty = this.facultyId.length == 0 ? 0 : this.facultyId[0];
-			this.curSpecialty = this.specialtyId.length == 0 ? 0 : this.specialtyId[0];
+			this.curGrade = this.gradeId.length == 0 ? 0 : this.gradeId;
+			this.curFaculty = this.facultyId.length == 0 ? 0 : this.facultyId;
+			this.curSpecialty = this.specialtyId.length == 0 ? 0 : this.specialtyId;
 			this.kw = this.keyword;
-			this.condit = this.keysVal[0] == undefined ? 'XM' : this.keysVal[0];
+			this.condit = this.keysVal[0] == undefined ? 'XM' : this.keysVal;
 			this.getStuOfNoDivideClass();
-
+			//this.getClazz();
         },
 		divideClass(){
 			
@@ -480,7 +491,6 @@ export default {
 				}
 
 				axios({
-					
 					url: 'enroll/divideClassMng/divideClass',
 					method: 'post',
 					params: {
@@ -578,7 +588,6 @@ export default {
 					this.pagination.current = currentPage;
 					this.pagination.total = res.result.count;
 				}).catch(err => {
-					this.$message.warning("获取学生列表失败");
 				})
         },
         getGrade() {
@@ -660,13 +669,16 @@ export default {
 
 				this.clazz = [];
 				this.clazzId = [];
-				
+				if(!this.gradeId&&!this.specialtyId){
+					this.$message.warning("请选择年级或专业");
+					return;
+				}
 				axios({
 					url: 'enroll/divideClassMng/getClazz',
 					method: 'post',
 					params: {
-						"gradeId": this.curGrade,
-						"specialtyId": this.curSpecialty,
+						"gradeId": this.gradeId,
+						"specialtyId": this.specialtyId,
 					}
 				}).then(res => {
 
@@ -739,7 +751,6 @@ export default {
 
 .my-table .ant-pagination-total-text {
     position: absolute;
-    left: 500px;
     margin-top: 30px;
     font-family: "Adobe Heiti Std R";
     font-size: 14px;
@@ -748,18 +759,13 @@ export default {
 }
 
 .div-bg{
-    width: 1501px;
-    height: 59px;
     background-color: #DEE2E6;
     border: 1px solid #DEE2E6;
+	padding:10px
 }
 
 .span-class{
-    width: 1223px;
-    height: 19px;
-    margin-top: 15px;
-    margin-left: 22px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: Microsoft YaHei;
     font-weight: 700;
     color: #3581A6;
@@ -836,7 +842,7 @@ export default {
 
 .divide-span{
     height: 18px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: Microsoft YaHei;
     font-weight: 400;
     color: #666666;
@@ -847,20 +853,17 @@ export default {
 
 .noDivideFont{
     height: 21px;
-    font-size: 20px;
+    font-size: 16px;
     font-family: Microsoft YaHei;
     font-weight: 400;
     color: #666666;
 }
 
-.two{
-    height: 34px;
-}
 
 .people-span{
     height: 19px;
     margin-right: 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: Microsoft YaHei;
     font-weight: 400;
     color: #666666;

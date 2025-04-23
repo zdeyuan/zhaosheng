@@ -14,15 +14,13 @@
 					<div>
 						<span class="title_span">宿舍号：</span>
 						<a-input class="search-text" v-model='dormitoryCode'></a-input>
-						<a-button class="icon_btn  search-button"  size="small" @click='getArrangeSusheList'>
+						<a-button type="primary" icon="search" style="margin-left: 10px;"  @click='getArrangeSusheList'>
 							<span class="flex_box">
-								<a-icon type="search" class="icon-img" />
 								搜索
 							</span>
 						</a-button>
-						<a-button class="icon_btn empty-button"  size="small">
+						<a-button type="danger" style="margin-left: 10px;" >
 							<span class="flex_box">
-								<img src='@/assets/img/clean.png' class="icon-img" />
 								清空
 							</span>
 						</a-button>
@@ -66,7 +64,7 @@
 	import {
 		Icon
 	} from 'ant-design-vue'
-	import { getFaculty } from '@/api/api'
+	import { getFaculty } from '@/api/enroll/api'
 	export default {
 		components: {
 			Icon
@@ -275,7 +273,7 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 
 	.pageContentBox {
 		padding: 30px;
@@ -463,7 +461,7 @@
 	}
 
 	/* 表格 */
-	.scanTable {
+	/* .scanTable {
 		margin: 5px auto;
 	}
 
@@ -509,5 +507,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
+	} */
 </style>

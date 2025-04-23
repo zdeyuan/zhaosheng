@@ -1,24 +1,22 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div  class='constbox'>
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">单扩招报名审核</span></div>
-			<hr class="right-hr" />
 			<div class="content-head">
 				<div>
 					<!-- 					<span class="head-span">招生季</span>
 					<a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" /> -->
 
-					<span class="head-span">专业部</span>
+					<span class="head-span">专业部：</span>
 					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange"
 						v-model="facultyId" />
 
-					<span class="head-span">专业</span>
+					<span class="head-span">专业：</span>
 					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId"
 						@popupVisibleChange='cascaderChange' />
 
-					<a-button class="icon_btn clear-button"  size="small" @click="clear">
+					<a-button type="danger" style="margin-left: 10px;" @click="clear">
 						<span class="flex_box">
-							<img src="@/assets/img/clean.png" class="icon-position" />
+							
 							清除
 						</span>
 					</a-button>
@@ -27,23 +25,20 @@
 
 			<div class="content-head">
 				<div>
-					<a-input class="condition-input" v-model="keyword" />
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-					<span class="head-span">是否审核</span>
-					<a-cascader class="condition select" :options="isAdmition" placeholder="全部"
+					<a-cascader class="condition select" style="width: 100px;" :options="keys" placeholder="姓名" v-model="keysVal" />
+					<a-input class="condition-input" style="width: 200px;"  placeholder="请输入" v-model="keyword" />
+					<span class="head-span">是否审核：</span>
+					<a-cascader class="condition select" style="width: 200px;" :options="isAdmition" placeholder="全部"
 						v-model="isAdmitionVal" />
 
-					<a-button class="icon_btn search-button " size="small" @click="search">
+					<a-button type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						<span class="flex_box">
-							<icon-font type="iconsousuo" style="color: #ffffff" />
 							搜索
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn  clear-button" size="small" @click="empty">
+					<a-button type="danger" style="margin-left: 10px;" @click="empty">
 						<span class="flex_box">
-							<icon-font type="iconqingkong1" style="color: #ffffff" />
 							清空
 						</span>
 					</a-button>
@@ -53,17 +48,16 @@
 
 			<div class="content-head">
 				<div>
-					<a-button class="icon_btn_type_2" style="background: #00BAD0" size="small"
+					<a-button type="primary" icon="plus" style="margin-right:10px;"
 						@click='visibleReport = true'>
 						<span class="flex_box">
-							<icon-font type="icontianjia" style="color: #ffffff" />
+							
 							批量审核
 						</span>
 					</a-button>
 
 
 					<a-modal v-model="visibleReport" title="提示" @ok="handleOkReport" :width="478">
-						<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img" /></div>
 						<div class="report-text">确认要批量审核吗?</div>
 						<template slot="footer">
 							<a-button key="back" @click="handleOkReport" class="btn"> 确定 </a-button>
@@ -72,33 +66,32 @@
 						</template>
 					</a-modal>
 
-					<a-button class="icon_btn refresh-button" size="small" @click='getStuList'>
+					<a-button type="primary"  icon="reload" style="margin-right:10px;" @click='getStuList'>
 						<span class="flex_box">
-							<img src="@/assets/img/shuaxin.png" class="icon-position" />
+							
 							刷新
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn_type_2" style="background: #00D09D" size="small" @click='batchPass'>
+					<a-button type="primary" icon="check-circle"  style="margin-right:10px;" @click='batchPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/nextBtn.png" class="icon-position" />
 							通过
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn_type_2" style="background: #FC8950" size="small" @click='batchNoPass'>
+					<a-button type="primary" icon="stop"  style="margin-right:10px;" @click='batchNoPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/overBtn.png" class="icon-position" />
+		
 							不通过
 						</span>
 					</a-button>
 				</div>
 			</div>
 			<div>
-				<a-table :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
+				<a-table :scroll="{ x: 1500, y: 300 }" :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
 					:pagination="pagination" @change="tableChange">
 					<span slot="operator" slot-scope="text, record">
-						<a class="text-btn-color2" style="border-bottom: 1px solid #66c3fd"
+						<a class="text-btn-color2" 
 							@click="showMsg(record)">查看</a>
 					</span>
 				</a-table>
@@ -270,56 +263,69 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
+			fixed: 'left',
+			width: 150
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			fixed: 'left',
+			width: 250
 		},
 		{
 			title: '毕业学校',
 			dataIndex: 'BYXX',
 			key: 'BYXX',
+			width: 150
 		},
 		{
 			title: '准考证号',
 			dataIndex: 'ZKZH',
 			key: 'ZKZH',
+			width: 250
 		},
 		{
 			title: '考生号',
 			dataIndex: 'KSH',
 			key: 'KSH',
+			width: 250
 		},
 		{
 			title: '是否审核',
 			dataIndex: 'isAdmit',
 			key: 'isAdmit',
+			width: 150
 		},
 		{
 			title: '是否通过',
 			dataIndex: 'isAdopt',
 			key: 'isAdopt',
+			width: 150
 		},
 		{
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
+			width: 150
 		},
 		{
 			title: '专业一',
 			dataIndex: 'zymcOne',
 			key: 'zymcOne',
+			width: 250
 		},
 		{
 			title: '专业二',
 			dataIndex: 'zymcTwo',
 			key: 'zymcTwo',
+			width: 250
 		},
 		{
 			title: '操作',
 			dataIndex: 'operator',
-			width: '10%',
+			fixed: 'right',
+			width: 200,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator',

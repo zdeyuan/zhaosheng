@@ -1,6 +1,6 @@
 <template>
-	<div class="oa-meet-page">
-		<div>
+	<div>
+<!-- 		<div>
 			<div :class="judget(1)" @click="content = 1">
 				拟录取
 			</div>
@@ -10,11 +10,16 @@
 			<div :class="judget(3)" @click="content = 3">
 				正式录取
 			</div>
-		</div>
+		</div> -->
+		<a-menu v-model="content" mode="horizontal">
+		    <a-menu-item key="1"> 拟录取 </a-menu-item>
+		    <a-menu-item key="2" > 预录取 </a-menu-item>
+			<a-menu-item key="3" > 正式录取 </a-menu-item>
+		</a-menu>
 		<div>
-			<proposed-admission v-if="content == 1"></proposed-admission>
-			<pre-admission v-if="content == 2"></pre-admission>
-			<full-admission v-if="content == 3"></full-admission>
+			<proposed-admission v-if="content == '1'"></proposed-admission>
+			<pre-admission v-if="content == '2'"></pre-admission>
+			<full-admission v-if="content == '3'"></full-admission>
 		</div>	
 	</div>	
 </template>
@@ -33,7 +38,7 @@ import FullAdmission from './admissionAssembly/fullAdmission.vue';
 		},
 		data() {
 			return {
-				content:1
+				content:['1']
 			};
 		},
 		methods:{
@@ -49,12 +54,12 @@ import FullAdmission from './admissionAssembly/fullAdmission.vue';
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 	.oa-meet-page{
 		position: relative; /**相对定位 */
 		width: 100%;
 		height: 100%;
 		padding: 30px;
-		background: rgb(233, 237, 246);
+		
 	}
 </style>

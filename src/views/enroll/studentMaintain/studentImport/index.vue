@@ -1,8 +1,6 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div  class='constbox'>
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">学生导入</span></div>
-			<hr class="right-hr" />
 			<a-row>
 				<a-col>
 					<div class="mailInset">

@@ -1,9 +1,7 @@
 
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">网上报名</span></div>
-      <hr class="right-hr" />
       <table class="scanTable top-div" style="text-align: left">
         <tr>
           <td colspan="4" class="tr-color">
@@ -58,7 +56,10 @@
             <div class="font-style">出生日期</div>
           </td>
           <td class="double">
-            <a-date-picker class="input-style-reply date-style-Apply" @change="onChange" v-model="ApplyObj.csrq" />
+			  <DatePickByCN
+			        v-model="ApplyObj.csrq"
+			        placeholder="请选择出生日期"
+			      />
           </td>
           <td class="td-div">
             <div class="font-style">政治面貌</div>
@@ -179,8 +180,8 @@
           </td>
           <td class="double">
             <a-select class="input-style-replyTwo" :options="addspecialty" placeholder="请选择" v-model="ApplyObj.specId" />
-            <a-button class="search-button" @click="clear">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="primary" icon="search" style="margin-left: 10px;" @click="clear">
+              
               清除
             </a-button>
           </td>
@@ -239,8 +240,8 @@
             <!-- 县级下拉框 -->
             <a-select class="input-style-reply" :options="county" placeholder="请选择县区" v-model="ApplyObj.countyId" />
 
-            <a-button class="search-button" @click="clearArea">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="primary" icon="search" style="margin-left: 10px;" @click="clearArea">
+              
               清除
             </a-button>
           </td>
@@ -875,7 +876,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tb {
   text-align: left;
 }
@@ -890,18 +891,6 @@ export default {
   color: #ffffff;
   line-height: 24px;
 }
-/* 字体样式1 */
-.font-style {
-  margin-left: 23px;
-  width: 123px;
-  height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #666666;
-  line-height: 24px;
-}
-
 /* 表行高样式 */
 .tr-style {
   height: 49px;
@@ -914,19 +903,15 @@ export default {
   background: #66c3fd;
 }
 .input-style-reply {
-  font-size: 18px;
   color: #666666;
   width: 300px;
-  height: 34px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
 }
 .input-style-replyTwo {
-  font-size: 18px;
   color: #666666;
   width: 200px;
-  height: 34px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
@@ -936,26 +921,11 @@ export default {
   width: 259px;
 }
 
-.btn {
-  width: 100px;
-  height: 40px;
-  background: #0098f8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #ffffff;
-}
 
 .applyBtn-div {
   width: 100%;
 }
 
-.btn-style {
-  width: 100px;
-  height: 40px;
-  margin-bottom: 33px;
-  margin-top: 30px;
-}
 
 .top-div {
   margin-top: 22px;
@@ -978,16 +948,6 @@ export default {
   font-family: Microsoft YaHei;
   font-weight: 700;
   color: #666666;
-  line-height: 24px;
-}
-
-.nonull-tip {
-  width: 94px;
-  height: 19px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #a83939;
   line-height: 24px;
 }
 

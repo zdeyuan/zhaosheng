@@ -1,14 +1,12 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">报名信息查询</span></div>
-      <hr class="right-hr" />
       <div class="content-head">
         <div>
-          <span class="head-span">招生季</span>
+          <span class="head-span">招生季：</span>
           <a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" />
 
-          <span class="head-span">专业部</span>
+          <span class="head-span">专业部：</span>
           <a-cascader
             class="condition"
             :options="faculty"
@@ -17,32 +15,23 @@
             v-model="facultyId"
           />
 
-          <span class="head-span">专业</span>
+          <span class="head-span">专业：</span>
           <a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" />
-
-          <a-button :size="size" class="clear-button" @click="clear">
-            <img src="@/assets/img/clean.png" class="icon-delete" />
-            清除
-          </a-button>
         </div>
       </div>
 
       <div class="content-head">
         <div>
-          <a-input class="condition-input" v-model="keyword" />
+          <a-cascader class="condition select" style="width: 100px;":options="keys" placeholder="姓名" v-model="keysVal" />
+		  <a-input class="condition-input" style="width: 150px;"  placeholder="请输入" v-model="keyword" />
+          <span class="head-span">是否录取：</span>
+          <a-cascader class="condition select" style="width: 150px;"  :options="isAdmition" placeholder="全部" v-model="isAdmitionVal" />
 
-          <a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-
-          <span class="head-span">是否录取</span>
-          <a-cascader class="condition select" :options="isAdmition" placeholder="全部" v-model="isAdmitionVal" />
-
-          <a-button :size="size" class="search-button" @click="search">
-            <icon-font type="iconsousuo" style="color: #ffffff" />
+          <a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
             搜索
           </a-button>
 
-          <a-button :size="size" class="empty-button" @click="empty">
-            <icon-font type="iconqingkong1" style="color: #ffffff" />
+          <a-button  type="danger" style="margin-left: 10px;" @click="empty">
             清空
           </a-button>
         </div>
@@ -50,19 +39,19 @@
 
       <div class="content-head">
         <div>
-          <a-button :size="size" class="applyQExport-button" @click="exportMessage">
-            <img src="@/assets/img/daochu.png" class="icon-position" />
+         <!-- <a-button  type="primary" style="margin-right:10px;" @click="exportMessage">
             导出
-          </a-button>
+          </a-button> -->
 
-          <a-button :size="size" class="refresh-button button-after" @click="refresh">
-            <img src="@/assets/img/shuaxin.png" class="icon-position" />刷新
+          <a-button  type="primary"  icon="reload" style="margin-right:10px;" @click="refresh">
+            刷新
           </a-button>
         </div>
       </div>
       <div>
         <a-table
           :columns="columns"
+		  :scroll="{ x: 1500 }"
           :data-source="data"
           :row-selection="rowSelection"
           :defaultCurrent="6"
@@ -70,7 +59,7 @@
           @change="tableChange"
         >
           <span slot="operator" slot-scope="text, record">
-            <a class = "text-btn-color2" style="border-bottom: 1px solid #66c3fd" @click="showMsg(record)">查看</a>
+            <a class = "text-btn-color2"  @click="showMsg(record)">查看</a>
           </span>
         </a-table>
       </div>
@@ -359,56 +348,69 @@ const columns = [
     title: '姓名',
     dataIndex: 'XM',
     key: 'XM',
+	fixed: 'left',
+	width: 150,
   },
   {
     title: '身份证号',
     dataIndex: 'SFZH',
     key: 'SFZH',
+	fixed: 'left',
+	width: 250,
   },
   {
     title: '所属专业部',
     dataIndex: 'YXMC',
     key: 'YXMC',
+	width: 150,
   },
   {
     title: '所属专业',
     dataIndex: 'ZYMC',
     key: 'ZYMC',
+	width: 150,
   },
   {
     title: '考试总分',
     dataIndex: 'KSZF',
     key: 'KSZF',
+	width: 150,
   },
   {
     title: '是否录取',
     dataIndex: 'isAdmit',
     key: 'isAdmit',
+	width: 150,
   },
   {
     title: '性别',
     dataIndex: 'XBM',
     key: 'XBM',
+	width: 150,
   },
   {
     title: '入学年份',
     dataIndex: 'RXNF',
     key: 'RXNF',
+	width: 150,
   },
   {
     title: '招生季',
     dataIndex: 'ZSJ',
     key: 'ZSJ',
+	width: 150,
   },
   {
     title: '学制',
     dataIndex: 'XZ',
     key: 'XZ',
+	width: 150,
   },
   {
     title: '操作',
     dataIndex: 'operator',
-    width: '10%',
+    fixed: 'right',
+    width: 200,
     key: 'operator',
     scopedSlots: {
       customRender: 'operator',

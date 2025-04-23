@@ -1,139 +1,35 @@
 <template>
-	<a-layout id="components-layout-demo-custom-trigger">
-		<a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-			<img class="logo" src="../../assets/timg.jpg"></img><span v-if="!collapsed" class="logo">招生管理系统</span>
-			</div>
+	<a-config-provider :locale="locale">
+		<div>
+			<head-bar class="head"></head-bar>
 			<left-bar class="left"></left-bar>
-		</a-layout-sider>
-		<a-layout>
-			<a-layout-header style="background: #fff; padding: 0">
-				<div class="headBar">
-					<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-						@click="() => (collapsed = !collapsed)" />
-					<div class="right">
-						<a-dropdown>
-							<span>
-								<a-icon type="swap" @click="e => e.preventDefault()" />切换系统
-							</span>
-							<a-menu slot="overlay">
-								<a-menu-item v-for="(item,index) in manage">
-									<a :href="item.appAddress+'?token='+user.token+'&appId='+item.id" target='_blank' >{{item.appName}}</a>
-								</a-menu-item>
-							</a-menu>
-						</a-dropdown>
-						<img src="../../assets/1.png" class="userlogo"></img>
-						<a-dropdown>
-							<a-icon type="down" @click="e => e.preventDefault()" />
-							<a-menu slot="overlay">
-<!-- 								<a-menu-item>
-									<a href="javascript:;">个人信息</a>
-								</a-menu-item>
-								<a-menu-item>
-									<a href="javascript:;">测试信息</a>
-								</a-menu-item> -->
-								<a-menu-item @click="handleLogout">
-									<a href="javascript:;">退出</a>
-								</a-menu-item>
-							</a-menu>
-						</a-dropdown>
-					</div>
-				</div>
-			</a-layout-header>
-			<a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '800px' }">
+			<div class="right">
 				<router-view></router-view>
-			</a-layout-content>
-		</a-layout>
-	</a-layout>
+			</div>
+		</div>
+	</a-config-provider>
 </template>
 
 <script>
-	// import headBar from '@/views/dorm/menu/headBar.vue'
+	import headBar from '@/views/enroll/menu/headBar.vue'
 	import leftBar from '@/views/enroll/menu/leftBar.vue'
-	// import leftBar from '@/components/menu/SideMenu.vue'
 	import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-	import {
-		mapActions
-	} from 'vuex'
+
 	export default {
 		data() {
 			return {
 				locale: zhCN,
-				collapsed: false,
-				manage:[],
-				url:'http://localhost:3000/',
-				user:''
 			}
 		},
 		components: {
-			// headBar,
+			headBar,
 			leftBar,
 		},
-		created() {
-			this.manage = JSON.parse(localStorage.getItem('manage'))
-			this.user = JSON.parse(localStorage.getItem('userInfo'))
-		},
-		methods:{
-			...mapActions(["Logout"]),
-			handleLogout() {
-				const that = this
-				this.$confirm({
-					title: '提示',
-					content: '真的要注销登录吗 ?',
-					onOk() {
-						return that.Logout({}).then(() => {
-							that.$router.push({
-								path: '/user/login'
-							});
-						}).catch(err => {
-							that.$message.error({
-								title: '错误',
-								description: err.message
-							})
-						})
-					},
-					onCancel() {},
-				});
-			},
-		}
 	}
 </script>
 
 <style>
-	#components-layout-demo-custom-trigger .trigger {
-		font-size: 18px;
-		line-height: 64px;
-		padding: 0 24px;
-		cursor: pointer;
-		transition: color 0.3s;
-	}
-	
-	#components-layout-demo-custom-trigger .trigger:hover {
-		color: #1890ff;
-	}
-	
-	#components-layout-demo-custom-trigger .logo {
-		color: white;
-		height: 32px;
-		background: rgba(255, 255, 255, 0.2);
-		margin: 13px;
-	}
-	
-	.headBar .right {
-		float: right;
-	}
-	
-	.right {
-		display: inline-block;
-	}
-	
-	.userlogo {
-		height: 32px;
-		background: rgba(255, 255, 255, 0.2);
-		margin: 13px;
-		width: 32px;
-		border-radius: 50%;
-	}
-	/* .head {
+	.head {
 		height: 79px;
 	}
 
@@ -147,9 +43,9 @@
 	.right {
 		position: absolute;
 		top: 80px;
-		left: 320px; */
+		left: 320px;
 		/* width: 1620px; */
-	/* } */
+	}
 
 	.flex-content {
 		display: flex;
@@ -243,7 +139,7 @@
 	.clear-button {
 		width: 88px;
 		height: 34px;
-		background: #E61A1A;
+		background: #0098f8;
 		border-radius: 5px;
 	}
 
@@ -259,14 +155,14 @@
 		height: 34px;
 		margin-right: 20px;
 		margin-left: 10px;
-		background: #1AE642;
+		background: #028be2;
 		border-radius: 5px;
 	}
 
 	.empty-button {
 		width: 88px;
 		height: 34px;
-		background: #E61A1A;
+		background: #fc8950;
 		border-radius: 5px;
 	}
 
@@ -280,7 +176,7 @@
 	.refresh-button {
 		width: 88px;
 		height: 34px;
-		background: #3a3aff;
+		background: #66c3fd;
 		border-radius: 5px;
 	}
 
@@ -289,7 +185,7 @@
 	.search-button:active,
 	.search-button:focus {
 		color: white;
-		background: #1AE642;
+		background: #028be2;
 	}
 
 	.empty-button,
@@ -297,7 +193,7 @@
 	.empty-button:active,
 	.empty-button:focus {
 		color: white;
-		background: #E61A1A;
+		background: #fc8950;
 	}
 
 	.content-button,
@@ -317,7 +213,7 @@
 	.refresh-button:active,
 	.refresh-button:focus {
 		color: white;
-		background-color: #3a3aff;
+		background-color: #66c3fd;
 	}
 
 	.clear-button,
@@ -329,24 +225,7 @@
 	.delete-button:active,
 	.delete-button:focus {
 		color: white;
-		background-color: #E61A1A;
-	}
-
-	/* 添加按钮底色 */
-	.tempAdd-button {
-	width: 88px;
-	height: 34px;
-	background: #3a3aff;
-	border-radius: 5px;
-	margin-right: 20px;
-	}
-
-	.tempAdd-button,
-	.tempAdd-button:hover,
-	.tempAdd-button:active,
-	.tempAdd-button:focus {
-	color: white;
-	background-color: #3a3aff;
+		background-color: #0098f8;
 	}
 
 	.ant-input {
@@ -354,29 +233,22 @@
 		height: 24px;
 	}
 
-	/* .ant-table-content {
+	.ant-table-content {
 		margin-top: 20px;
-	} */
+	}
 
-	/* .ant-table-thead tr th {
+	.ant-table-thead tr th {
 		background-color: #66c3fd;
-	} */
+	}
 
-	/* .ant-table-column-title {
+	.ant-table-column-title {
 		color: white;
 		font-size: 18px !important;
 		font-family: "MicrosoftYaHei";
 		/* font-weight: 700; */
-	/* }  */
+	}
 
-	/* .ant-input .ant-table-tbody tr td {
-		color: #999999;
-		font-size: 16px;
-		height: 16px;
-		font-family: 'Adobe Heiti Std';
-		font-weight: 400;
-	} */
-	.ant-input {
+	.ant-input .ant-table-tbody tr td {
 		color: #999999;
 		font-size: 16px;
 		height: 16px;
@@ -407,7 +279,7 @@
 	}
 
 	.button-after {
-		margin-left: 20px;
+		margin-left: 10px;
 	}
 
 	.condition {
@@ -530,9 +402,9 @@
 		text-align: right;
 	}
 
-	/* .ant-table-column-title {
+	.ant-table-column-title {
 		font-size: 20px;
-	} */
+	}
 
 	/*  .ant-table-pagination {
     position: absolute;
@@ -584,9 +456,9 @@
 		background-color: #f56c6c;
 	}
 
-	/* .ant-table-tbody a {
+	.ant-table-tbody a {
 		margin: 0 10px;
-	} */
+	}
 
 	.ant-menu-inline {
 		border: 0;
@@ -773,16 +645,6 @@
 	}
 
 	/* 字体样式1 */
-	.font-style {
-		margin-left: 23px;
-		width: 123px;
-		height: 18px;
-		font-size: 18px;
-		font-family: Microsoft YaHei;
-		font-weight: 700;
-		color: #666666;
-		line-height: 24px;
-	}
 
 	/* 表行高样式 */
 	.tr-style {
@@ -813,15 +675,6 @@
 		background: #f8f8f9;
 	}
 
-	.btn {
-		width: 100px;
-		height: 40px;
-		background: #0098f8;
-		border-radius: 5px;
-		font-size: 18px;
-		font-family: Microsoft YaHei;
-		color: #ffffff;
-	}
 
 	.btn-cancle {
 		width: 100px;
@@ -831,7 +684,7 @@
 		border-radius: 3px;
 		font-size: 18px;
 		font-family: Microsoft YaHei;
-		margin-left: 20px;
+		margin-left: 10px;
 		color: #ffffff;
 	}
 

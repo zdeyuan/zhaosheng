@@ -95,14 +95,14 @@
 		left: -68px;
 	}
 	.topImgs{
-		width: 370px;
+		width: 350px;
 		height: 56px;
 	}
 	.abs{
 		position: absolute;
 		top: 5px;
 		left: 30px;
-		font-size: 30px;
+		font-size: 25px;
 		font-weight: 400;
 		font-family: Microsoft YaHei;
 	}

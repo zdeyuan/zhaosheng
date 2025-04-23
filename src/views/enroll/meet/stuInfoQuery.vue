@@ -1,40 +1,28 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div  class='constbox'>
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">新生信息查询</span></div>
-			<hr class="right-hr">
 			<div class="content-head">
 
 				<div>
-				
-					<span class="head-span">专业部</span>
-					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange" 
-						v-model="facultyId" />
+					<span class="head-span">专业部：</span>
+					<j-select-zyb placeholder="请选择院系" v-model="facultyId"  :trigger-change="false" ></j-select-zyb>
 
-					<span class="head-span">专业</span>
-					<a-cascader class="condition" :options="specialty" placeholder="请选择" @change="getClazz" 
-						v-model="specialtyId" />
+					<span class="head-span">专业：</span>
+					<j-select-zy-by-zyb ref="zyByZyb" placeholder="请选择专业" v-model="specialtyId"  :trigger-change="false"></j-select-zy-by-zyb>
 				
-					<span class="head-span">班级</span>
-					<a-cascader class="condition" :options="clazz" placeholder="请选择" v-model="clazzId" />
-				
-					<a-button :size="size" class="clear-button" @click="clear">
-						<img src="@/assets/img/clean.png" class="icon-delete"/>
-						清除
-					</a-button>
-
-					<a-input class="condition-input stuInfo-input" v-model.trim="keyword" />
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-				
-					<a-button :size="size" class="search-button" @click="search">
-						<icon-font type="iconsousuo" style="color: #FFFFFF;"/>
+					<span class="head-span">班级：</span>
+					<j-select-banji-by-zy ref="banjiByZy" placeholder="请先选择专业"
+					                      v-model="clazzId"></j-select-banji-by-zy>
+					<div style="margin-bottom: 10px;"></div>
+					<a-cascader class="condition select" :options="keys" style="width: 100px;" placeholder="姓名" v-model="keysVal" />
+					<a-input class="condition-input" placeholder="请输入" style="width: 200px;" v-model.trim="keyword" />
+					<a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						搜索
 					</a-button>
 
-					<a-button :size="size" class="empty-button " @click="empty">
-						<icon-font type="iconqingkong1" style="color: #FFFFFF;"/>
+					<a-button style="margin-left: 10px;" type="danger"  icon="delete" @click="empty">
+						
 						清空
 					</a-button>
 
@@ -43,14 +31,14 @@
 
 			<div class="content-head">
 				<div>					
-		
-					 <a-button :size="size" class="export-button" @click="exportMessage">
-						<img src="@/assets/img/daochu.png" class="icon-position"/>
+		<!-- 
+					 <a-button  type="primary" style="margin-right: 10px;" @click="exportMessage">
+						
 						导出
-					</a-button>
+					</a-button> -->
 
-                    <a-button :size="size" class="refresh-button" @click="refresh">
-						<img src="@/assets/img/shuaxin.png" class="icon-position"/>
+                    <a-button  type="primary" icon="reload" style="margin-right: 10px;" @click="refresh">
+						
 						刷新
 					</a-button>
 				</div>
@@ -63,10 +51,10 @@
 					:row-selection="rowSelection" 
 					:defaultCurrent="6"
 					:pagination="pagination" 
-					
+					:scroll="{ x: 1500 }"
 					@change="tableChange">
 					<span slot="operator" slot-scope="text, record">
-						<a class = "text-btn-color2" style="border-bottom: 1px solid #66C3FD;" @click="showMsg(record)">查看</a>						
+						<a class = "text-btn-color2"  @click="showMsg(record)">查看</a>						
 					</span>
 										
 				</a-table>
@@ -195,7 +183,9 @@
 	import {
 		axios
 	} from "@/utils/request"
-
+	import JSelectBanjiByZy from '@/components/kwglbiz/JSelectBanjiByZy'
+	import JSelectZyb from '@/components/kwglbiz/JSelectZyb'
+	import JSelectZyByZyb from '@/components/kwglbiz/JSelectZyByZyb'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	});
@@ -204,52 +194,65 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
+			fixed: 'left',
+			width: 150,
+			
 		},
 		{
 			title: '学号',
 			dataIndex: 'XH',
 			key: 'XH',
+			fixed: 'left',
+			width: 120,
 		},
 		{
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
+			width: 80,
 		},
 		{
 			title: '学生状态',
 			dataIndex: 'XSDQZTM',
 			key: 'XSDQZTM',
+			width: 80,
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			width: 200,
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
+			width: 100,
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
+			width: 100,
 		},
 		{
 			title: '所属年级',
 			dataIndex: 'NJMC',
 			key: 'NJMC',
+			width: 100,
 		},
 		{
 			title: '所属班级',
 			dataIndex: 'XZBMC',
 			key: 'XZBMC',
+			width: 100,
 		},
 		
 		{
 			title: '操作',
 			dataIndex: 'operator',
-			width: '10%',
+			fixed: 'right',
+			width: 100,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator'
@@ -318,8 +321,6 @@
 		},
 		mounted() {			
 			this.getStuList();
-			
-			this.getFaculty();
 			this.addCondit();			
 		},
 		computed: {
@@ -332,10 +333,31 @@
                 };
             },
         },
+		watch:{
+				facultyId(val){
+					this.zybChange(val)
+				},
+				specialtyId(va){
+					this.zyChange()
+				}
+		},
 		components: {
 			IconFont,
+			JSelectZyByZyb,
+			JSelectZyb,
+			JSelectBanjiByZy,
 		},
 		methods: {
+			zybChange(code) {
+			  if (this.$refs.zyByZyb != null) {
+			    this.$refs.zyByZyb.initDictData(code)
+			  }
+			},
+			zyChange() {
+			  if (this.$refs.banjiByZy != null) {
+			    this.$refs.banjiByZy.initDictData(this.specialtyId)
+			  }
+			},
 			//start
 			showMsg(a) {
 
@@ -450,7 +472,7 @@
 						 "condit": this.condit,
 						 "currentPage": currentPage,
 						  //  ---------------林彬辉
-						 "isNum":1,
+						 "isNum":0,
 						//  ----------------
 						 "pageSize": pageSize
 
@@ -465,7 +487,6 @@
 					data.splice(0, data.length);
 					
 					if(res.result.list.length==0){
-						this.$message.warning("当前年份暂无学生！");
 						return;
 					}
 
@@ -609,7 +630,7 @@
 <style>
 
 .stuInfo-input{
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .export-button{

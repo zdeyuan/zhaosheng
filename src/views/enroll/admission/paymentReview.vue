@@ -1,49 +1,38 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div  class='constbox'>
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">缴费审核</span></div>
-			<hr class="right-hr" />
 			<div class="content-head">
 				<div>
 					<!-- 					<span class="head-span">招生季</span>
 					<a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" /> -->
-
-					<span class="head-span">专业部</span>
+					<span class="head-span">专业部：</span>
 					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange"
 						v-model="facultyId" />
 
-					<span class="head-span">专业</span>
+					<span class="head-span">专业：</span>
 					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId"
 						@popupVisibleChange='cascaderChange' />
-
-					<a-button class="icon_btn clear-button" size="small" @click="clear">
-						<span class="flex_box">
-							<img src="@/assets/img/clean.png" class="icon-position" />
-							清除
-						</span>
-					</a-button>
 				</div>
 			</div>
 
 			<div class="content-head">
 				<div>
-					<a-input class="condition-input" v-model="keyword" />
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-					<span class="head-span">是否审核</span>
+					
+					<a-cascader class="condition select" style="width:150px" :options="keys" placeholder="姓名" v-model="keysVal" />
+					<a-input class="condition-input" style="width: 200px;"  placeholder="请输入" v-model="keyword" />
+					<span class="head-span">审核状态：</span>
 					<a-cascader class="condition select" :options="isAdmition" placeholder="全部"
-						v-model="isAdmitionVal" />
-
-					<a-button class="icon_btn search-button" size="small" @click="search">
+						v-model="isAdmitionVal" style="width:150px"/>
+					<a-button type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						<span class="flex_box">
-							<icon-font type="iconsousuo" style="color: #ffffff" />
+							
 							搜索
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn clear-button" size="small" @click="empty">
+					<a-button type="danger" style="margin-left: 10px;" @click="empty">
 						<span class="flex_box">
-							<icon-font type="iconqingkong1" style="color: #ffffff" />
+							
 							清空
 						</span>
 					</a-button>
@@ -53,30 +42,30 @@
 
 			<div class="content-head">
 				<div>
-					<a-button class="icon_btn refresh-button" size="small" @click='getStuList'>
+					<a-button type="primary"  icon="reload" style="margin-right:10px;" @click='getStuList'>
 						<span class="flex_box">
-							<img src="@/assets/img/shuaxin.png" class="icon-position" />
+							
 							刷新
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn" style="background: #00D09D" size="small" @click='batchPass'>
+					<a-button type="primary" style="margin-right:10px;"  @click='batchPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/nextBtn.png" class="icon-position" />
+							
 							通过
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn" style="background: #FC8950" size="small" @click='(notPassShow = true)'>
+					<a-button type="danger" style="margin-right: 10px;" @click='(notPassShow = true)'>
 						<span class="flex_box">
-							<img src="@/assets/img/overBtn.png" class="icon-position" />
+							
 							不通过
 						</span>
 					</a-button>
 				</div>
 			</div>
 			<div>
-				<a-table :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
+				<a-table :scroll="{ x: 1500, y: 300 }" :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
 					:pagination="pagination" @change="tableChange">
 					<span slot="imgList" slot-scope="text, record">
 						<div style="position: relative; display: inline-block;" v-for='(val,key) in record.imgList'>
@@ -85,7 +74,7 @@
 						</div>	
 					</span>
 					<span slot="operator" slot-scope="text, record">
-						<a class="text-btn-color2" style="border-bottom: 1px solid #66c3fd"
+						<a class="text-btn-color2" 
 							@click="showMsg(record)">查看</a>
 					</span>
 				</a-table>
@@ -99,7 +88,7 @@
 					关闭
 				</a-button>
 			</template>
-			<a-input class="condition-input" v-model='reason'></a-input>
+			<!-- <a-input class="condition-input" style="width: 300px;"  placeholder="请输入" v-model='reason'></a-input> -->
 		</a-modal>
 		<!-- start -->
 		<a-modal v-model="visible" title="查看招生信息" on-ok="handleClose" :width="1073">
@@ -235,46 +224,57 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
+			fixed: 'left',
+			width: 150,
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			fixed: 'left',
+			width: 250,
 		},
 		{
 			title: '专业名称',
 			dataIndex: 'zymc',
 			key: 'zymc',
+			width: 150,
 		},
 		{
 			title: '班级名称',
 			dataIndex: 'xzbmc',
 			key: 'xzbmc',
+			width: 150,
 		},
 		{
 			title: '应缴费用',
 			dataIndex: 'feesPayable',
 			key: 'feesPayable',
+			width: 150,
 		},
 		{
 			title: '已缴费用',
 			dataIndex: 'paidExpenses',
 			key: 'paidExpenses',
+			width: 150,
 		},
 		{
 			title: '未缴费用',
 			dataIndex: 'unpaidExpenses',
 			key: 'unpaidExpenses',
+			width: 150,
 		},
 		{
 			title: '审核状态',
 			dataIndex: 'isCheck',
 			key: 'isCheck',
+			width: 150,
 		},
 		{
 			title:'缴费凭证',
 			dataIndex: 'imgList',
 			key: 'imgList',
+			width: 150,
 			scopedSlots: {
 				customRender: 'imgList',
 			},
@@ -282,7 +282,8 @@
 		{
 			title: '操作',
 			dataIndex: 'operator',
-			width: '10%',
+			fixed: 'right',
+			width: 200,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator',
@@ -611,8 +612,6 @@
 							}
 							this.pagination.current = currentPage
 							this.pagination.total = res.result.count
-						}else{
-							this.$message.warning('获取学生列表失败')
 						}
 					})
 					.catch((err) => {
@@ -745,7 +744,7 @@
     display: inline-block;
     width: 80px;
     height: 80px;
-    margin-left: 20px;
+    margin-left: 10px;
     border: 1px dashed #CCCCCC;
   }
   
@@ -753,7 +752,7 @@
 		display: inline-block;
 		width: 30px;
 		height: 30px;
-		margin-left: 20px;
+		margin-left: 10px;
 		border: 1px dashed #CCCCCC;
 	}
 	.x{

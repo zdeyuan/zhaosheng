@@ -179,7 +179,7 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 
 	.pageContentBox {
 		padding: 30px;
@@ -364,7 +364,7 @@
 	}
 
 	/* 表格 */
-	.scanTable {
+/* 	.scanTable {
 		margin: 5px auto;
 	}
 
@@ -410,5 +410,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
+	} */
 </style>

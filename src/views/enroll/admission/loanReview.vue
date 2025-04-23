@@ -1,46 +1,37 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div  class='constbox'>
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">贷款审核</span></div>
-			<hr class="right-hr" />
 			<div class="content-head">
 				<div>
 					<!-- 					<span class="head-span">招生季</span>
 					<a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" /> -->
 
-					<span class="head-span">专业部</span>
+					<span class="head-span">专业部：</span>
 					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange"
 						v-model="facultyId" />
 
-					<span class="head-span">专业</span>
+					<span class="head-span">专业：</span>
 					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId"
 						@popupVisibleChange='cascaderChange' />
-
-					<a-button class="icon_btn clear-button" size="small" @click="clear">
-						<span class="flex_box">
-							<img src="@/assets/img/clean.png" class="icon-position" />
-							清除
-						</span>
-					</a-button>
 				</div>
 			</div>
 
 			<div class="content-head">
 				<div>
-					<span class="head-span">是否审核</span>
+					<span class="head-span">是否审核：</span>
 					<a-cascader class="condition select" :options="isAdmition" placeholder="全部"
 						v-model="isAdmitionVal" />
 
-					<a-button class="icon_btn refresh-button" size="small" @click="search">
+					<a-button type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						<span class="flex_box">
-							<icon-font type="iconsousuo" style="color: #ffffff" />
+							
 							搜索
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn clear-button" size="small" @click="empty">
+					<a-button type="danger" style="margin-left: 10px;" @click="empty">
 						<span class="flex_box">
-							<icon-font type="iconqingkong1" style="color: #ffffff" />
+							
 							清空
 						</span>
 					</a-button>
@@ -50,31 +41,31 @@
 
 			<div class="content-head">
 				<div>
-					<a-button class="icon_btn refresh-button" size="small" @click='getStuList'>
+					<a-button type="primary" style="margin-right:10px;" icon="reload" @click='getStuList'>
 						<span class="flex_box">
-							<img src="@/assets/img/shuaxin.png" class="icon-position" />
+							
 							刷新
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn" style="background: #00D09D" size="small" @click='batchPass'>
+					<a-button type="primary" style="margin-right:10px;"  @click='batchPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/nextBtn.png" class="icon-position" />
+							
 							通过
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn" style="background: #FC8950" size="small"  @click='(notPassShow = true)'>
+					<a-button type="danger" style="margin-right: 10px;"  @click='(notPassShow = true)'>
 						<span class="flex_box">
-							<img src="@/assets/img/overBtn.png" class="icon-position" />
+							
 							不通过
 						</span>
 					</a-button>
 				</div>
 			</div>
 			<div>
-				<a-table :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
-					:pagination="pagination" @change="tableChange" :scroll="{ x: 1000 }" >
+				<a-table :columns="columns" :scroll="{ x: 1500, y: 300 }" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
+					:pagination="pagination" @change="tableChange" >
 					<span slot="imgList" slot-scope="text, record">
 						<div style="position: relative; display: inline-block;" v-for='(val,key) in record.imgList'>
 							<!-- <span class="x" @click="delectImg(key)">x</span> -->
@@ -82,7 +73,7 @@
 						</div>	
 					</span>
 					<span slot="operator" slot-scope="text, record">
-						<a class="text-btn-color2" style="border-bottom: 1px solid #66c3fd"
+						<a class="text-btn-color2" 
 							@click="showMsg(record)">查看</a>
 					</span>
 				</a-table>
@@ -96,7 +87,7 @@
 					关闭
 				</a-button>
 			</template>
-			<a-input class="condition-input" v-model='reason'></a-input>
+			<a-input class="condition-input" style="width: 300px;"  placeholder="请输入" v-model='reason'></a-input>
 		</a-modal>
 		<!-- start -->
 		<a-modal v-model="visible" title="查看招生信息" on-ok="handleClose" :width="1073">
@@ -248,59 +239,68 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
-      width: 100,
+            width: 150,
 			fixed: 'left'
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
-      width: 200,
+			width: 250,
 			fixed: 'left'
 		},
 		{
 			title: '专业名称',
 			dataIndex: 'zymc',
+			width: 150,
 			key: 'zymc',
 		},
 		{
 			title: '院系名称',
 			dataIndex: 'yxmc',
+			width: 150,
 			key: 'yxmc',
 		},
 		{
 			title: '开户行',
 			dataIndex: 'bank',
+			width: 150,
 			key: 'bank',
 		},
 		{
 			title: '高校账号名称',
 			dataIndex: 'bankName',
+			width: 150,
 			key: 'bankName',
 		},
 		{
 			title: '高校账号',
 			dataIndex: 'bankAccount',
+			width: 150,
 			key: 'bankAccount',
 		},
 		{
 			title: '贷款金额',
 			dataIndex: 'loanAmount',
+			width: 150,
 			key: 'loanAmount',
 		},
 		{
 			title: '借款合同编号',
 			dataIndex: 'contractNo',
+			width: 250,
 			key: 'contractNo',
 		},
 		{
 			title: '贷款状态',
 			dataIndex: 'isCheck',
+			width: 150,
 			key: 'isCheck',
 		},
 		{
 			title:'缴费凭证',
 			dataIndex: 'imgList',
+			width: 150,
 			key: 'imgList',
 			scopedSlots: {
 				customRender: 'imgList',
@@ -310,7 +310,7 @@
 			title: '操作',
 			dataIndex: 'operator',
 			fixed: 'right',
-      width: 100,
+            width: 150,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator',
@@ -767,7 +767,7 @@
     display: inline-block;
     width: 80px;
     height: 80px;
-    margin-left: 20px;
+    margin-left: 10px;
     border: 1px dashed #CCCCCC;
   }
   
@@ -775,7 +775,7 @@
   		display: inline-block;
   		width: 30px;
   		height: 30px;
-  		margin-left: 20px;
+  		margin-left: 10px;
   		border: 1px dashed #CCCCCC;
   	}
   	.x{

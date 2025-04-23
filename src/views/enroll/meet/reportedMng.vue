@@ -1,48 +1,37 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div  class='constbox'>
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">报到新生管理</span></div>
-			<hr class="right-hr">
 			<div class="content-head">
 
 				<div>
-					<span class="head-span">招生季</span>
+					<span class="head-span">招生季：</span>
 					<a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" 
 						v-model="quarterId" />
 				
-					<span class="head-span">专业部</span>
+					<span class="head-span">专业部：</span>
 					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange" 
 						v-model="facultyId" />
-				
-					<span class="head-span">专业</span>
+					<span class="head-span">专业：</span>
 					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" />
-				
-					<a-button :size="size" class="clear-button" @click="clear">
-						<img src="@/assets/img/clean.png" class="icon-delete"/>
-						清除
-					</a-button>
 				</div>		
 			</div>
 
 			<div class="content-head">
 				<div>					
-					<a-input class="condition-input" v-model.trim="keyword" :width="176"/>
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-				
-					<a-button :size="size" class="search-button" @click="search">
-						<icon-font type="iconsousuo" style="color: #FFFFFF;" />
+					<a-cascader style="width:150px" class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
+					<a-input class="condition-input" style="width: 200px;"  placeholder="请输入" v-model.trim="keyword" :width="176"/>
+					<a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						搜索
 					</a-button>
 
-					<a-button :size="size" class="empty-button " @click="empty">
-						<icon-font type="iconqingkong1" style="color: #FFFFFF;" />
+					<a-button  type="danger"  icon="delete" style="margin-left: 10px;" @click="empty">
+						
 						清空
 					</a-button>
 
-                    <a-button :size="size" class="refresh-button before-btn" @click="refresh">
-						<img src="@/assets/img/shuaxin.png" class="icon-position"/>
+                    <a-button  type="primary" icon="reload" style="margin-left: 10px;" @click="refresh">
+						
 						刷新
 					</a-button>
 				</div>
@@ -52,13 +41,14 @@
 				<a-table 					
 					:columns="columns" 
 					:data-source="data" 
+					:scroll="{ x: 1500 }"
 					:row-selection="rowSelection" 
 					:defaultCurrent="6"
 					:pagination="pagination" 
 					
 					@change="tableChange">
 					<span slot="operator" slot-scope="text, record">
-						<a class = "text-btn-color2" style="border-bottom: 1px solid #66C3FD;" @click="showMsg(record)">查看</a>						
+						<a class = "text-btn-color2"  @click="showMsg(record)">查看</a>						
 					</span>
 										
 				</a-table>
@@ -365,58 +355,71 @@
 	const columns = [{
 			title: '姓名',
 			dataIndex: 'XM',
+			fixed: 'left',
 			key: 'XM',
+			width: 150,
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
+			fixed: 'left',
 			key: 'SFZH',
+			width: 250,
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
+			width: 150,
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
+			width: 150,
 		},
 		{
 			title: '考试总分',
 			dataIndex: 'KSZF',
 			key: 'KSZF',
+			width: 150,
 		},
 		{
 			title: '是否录取',
 			dataIndex: 'isAdmit',
 			key: 'isAdmit',
+			width: 150,
 		},
 		{
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
+			width: 150,
 		},
 		{
 			title: '入学年份',
 			dataIndex: 'RXNF',
 			key: 'RXNF',
+			width: 150,
 		},
 		{
 			title: '招生季',
 			dataIndex: 'ZSJ',
 			key: 'ZSJ',
+			width: 150,
 		},
 		{
 			title: '学制',
 			dataIndex: 'XZ',
 			key: 'XZ',
+			width: 150,
 		},
 		{
 			title: '操作',
 			dataIndex: 'operator',
 			width: '10%',
-			key: 'operator',
+			fixed: 'right',
+			width: 200,
 			scopedSlots: {
 				customRender: 'operator'
 			},
@@ -724,17 +727,6 @@
   color: #FFFFFF;
   line-height: 24px;
 }
-/* 字体样式1 */
-.font-style{
-  margin-left: 23px;
-  width: 114px;
-  height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #666666;
-  line-height: 24px;
-}
 
 /* 表行高样式 */
 .tr-style{
@@ -748,7 +740,6 @@
 }
 
 .input-style{
-  font-size: 18px;
   width: 100%;
   height: 100%;
   background-color: #FFFFFF;
@@ -758,16 +749,6 @@
 .td-div{
   width: 259px; 
  
-}
-
-.btn{
-  width: 100px;
-  height: 40px;
-  background: #0098F8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #FFFFFF;
 }
 
 </style>

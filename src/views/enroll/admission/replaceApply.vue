@@ -1,10 +1,8 @@
 
 <template>
 
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">代报名</span></div>
-      <hr class="right-hr" />
       <table class="scanTable top-div" style="text-align: left">
         <tr>
           <td colspan="4" class="tr-color">
@@ -17,7 +15,7 @@
             <div class="font-style">姓名</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入姓名" v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
             <span
               class="nonull-tip"
               v-if="num != 0 && !(this.ApplyObj.xm != undefined && this.ApplyObj.xm.length > 0)"
@@ -28,7 +26,7 @@
             <div class="font-style">身份证号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入身份证号" v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
             <span
               class="nonull-tip"
               v-if="num != 0 && !(this.ApplyObj.sfzh != undefined && this.ApplyObj.sfzh.length > 0)"
@@ -42,13 +40,13 @@
             <div class="font-style">曾用名</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入曾用名" v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">性别</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" class="input-style-replyTwo">
               <a-radio :value="1"> 男 </a-radio>
               <a-radio :value="2"> 女 </a-radio>
             </a-radio-group>
@@ -59,14 +57,17 @@
             <div class="font-style">出生日期</div>
           </td>
           <td class="double">
-            <a-date-picker class="date-style-Apply input-style-reply" @change="onChange" v-model="ApplyObj.csrq" />
+			  <DatePickByCN
+			        v-model="ApplyObj.csrq"
+			        placeholder="请选择出生日期"
+			      />
           </td>
           <td class="td-div">
             <div class="font-style">政治面貌</div>
           </td>
           <td class="double">
             <!-- 政治面貌下拉框 -->
-            <a-select class="input-style-reply" :options="politic" placeholder="请选择" v-model="ApplyObj.zzmmm" />
+            <a-select class="input-style-replyTwo" :options="politic" placeholder="请选择政治面貌" v-model="ApplyObj.zzmmm" />
           </td>
         </tr>
 
@@ -75,14 +76,14 @@
             <div class="font-style">籍贯</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jg"></a-input>
+            <a-input class="input-style-reply" placeholder="请輸入籍贯" v-model.trim="ApplyObj.jg"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">民族</div>
           </td>
           <td class="double">
             <!-- 民族下拉框 -->
-            <a-select class="input-style-reply" :options="nation" placeholder="请选择" v-model="ApplyObj.mzm" />
+            <a-select class="input-style-replyTwo" :options="nation" placeholder="请选择民族" v-model="ApplyObj.mzm" />
           </td>
         </tr>
 
@@ -92,13 +93,13 @@
           </td>
           <td class="double">
             <!-- 健康状况下拉框 -->
-            <a-select class="input-style-reply" :options="healthy" placeholder="请选择" v-model="ApplyObj.jkzkm" />
+            <a-select class="input-style-replyTwo" :options="healthy" placeholder="请选择健康状况" v-model="ApplyObj.jkzkm" />
           </td>
           <td class="td-div">
             <div class="font-style">毕业学校</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.byxx"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入毕业学校" v-model.trim="ApplyObj.byxx"></a-input>
           </td>
         </tr>
 
@@ -108,13 +109,13 @@
           </td>
           <td class="double">
             <!-- 户口类别下拉框 -->
-            <a-select class="input-style-reply" :options="residence" placeholder="请选择" v-model="ApplyObj.hklbm" />
+            <a-select class="input-style-replyTwo" :options="residence" placeholder="请选择户口类别" v-model="ApplyObj.hklbm" />
           </td>
           <td class="td-div">
             <div class="font-style">是否低保</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" class="input-style-replyTwo">
               <a-radio :value="1"> 是 </a-radio>
               <a-radio :value="0"> 否 </a-radio>
             </a-radio-group>
@@ -126,7 +127,7 @@
             <div class="font-style">招生类型</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" class="input-style-replyTwo">
               <a-radio :value="1"> 统一招生 </a-radio>
               <a-radio :value="2"> 自主招生 </a-radio>
             </a-radio-group>
@@ -135,7 +136,7 @@
             <div class="font-style">准考证号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.zkzh"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入准考证号"  v-model.trim="ApplyObj.zkzh"></a-input>
           </td>
         </tr>
 
@@ -144,13 +145,13 @@
             <div class="font-style">考生号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.ksh"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入考生号"  v-model.trim="ApplyObj.ksh"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">考试总分</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入考试总分"  v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
           </td>
         </tr>
       </table>
@@ -168,7 +169,7 @@
           </td>
           <td class="double">
             <a-select
-              class="input-style-reply"
+              class="input-style-replyTwo"
               :options="addfaculty"
               placeholder="请选择"
               @change="addfacultyChange"
@@ -181,8 +182,7 @@
           </td>
           <td class="double">
             <a-select class="input-style-replyTwo" :options="addspecialty" placeholder="请选择" v-model="ApplyObj.specId" />
-            <a-button class="tableClean-button" @click="clearReplay">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="danger" style="margin-left: 10px;" @click="clearReplay">
               清除
             </a-button>
 			<span class="nonull-tip" v-if="num != 0 &&  this.ApplyObj.specId == ''">*必填项</span>
@@ -194,14 +194,14 @@
             <div class="font-style">学制</div>
           </td>
           <td class="double">
-            <a-select class="input-style-reply" :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
+            <a-select class="input-style-replyTwo" :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
             <span class="nonull-tip" v-if="num != 0 && this.ApplyObj.xz == undefined">*必填项</span>
           </td>
           <td class="td-div">
             <div class="font-style">就读方式</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" class="input-style-replyTwo">
               <a-radio :value="1"> 住校 </a-radio>
               <a-radio :value="2"> 走读 </a-radio>
             </a-radio-group>
@@ -223,7 +223,7 @@
           <td colspan="3" class="double">
             <!-- 省份下拉框 -->
             <a-select
-              class="input-style-reply"
+              class="input-style-replyTwo"
               :options="province"
               placeholder="请选择省份"
               @change="cityChange"
@@ -232,7 +232,7 @@
 
             <!-- 市级下拉框 -->
             <a-select
-              class="input-style-reply"
+              class="input-style-replyTwo"
               :options="city"
               placeholder="请选择市区"
               @change="countyChange"
@@ -240,9 +240,8 @@
             />
 
             <!-- 县级下拉框 -->
-            <a-select class="input-style-reply" :options="county" placeholder="请选择县区" v-model="ApplyObj.countyId" />
-            <a-button class="tableClean-button" @click="clearArea">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-select class="input-style-replyTwo" :options="county" placeholder="请选择县区" v-model="ApplyObj.countyId" />
+            <a-button type="danger" style="margin-left: 10px; position: relative; top: -3px;"  @click="clearArea">
               清除
             </a-button>
 			<span class="nonull-tip" v-if="num != 0 &&  this.ApplyObj.countyId == ''">*必填项</span>
@@ -254,13 +253,13 @@
             <div class="font-style">家庭邮编</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入家庭邮编"  v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">家庭联系电话</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入家庭联系电话"  v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input>
             <span
               class="nonull-tip"
               v-if="num != 0 && !(this.ApplyObj.jtlxdh != undefined && this.ApplyObj.jtlxdh.length > 0)"
@@ -273,7 +272,7 @@
             <div class="font-style">详细家庭地址</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入详细家庭地址"  v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input>
             <span
               class="nonull-tip"
               v-if="num != 0 && !(this.ApplyObj.jtdz != undefined && this.ApplyObj.jtdz.length > 0)"
@@ -284,7 +283,7 @@
             <div class="font-style">学生联系电话</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入学生联系电话"  v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -293,13 +292,13 @@
             <div class="font-style">电子邮箱</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入电子邮箱"  v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">即时通讯号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
+            <a-input class="input-style-reply" placeholder="请输入即时通讯号"  v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -314,7 +313,7 @@
             <div class="font-style">特长</div>
           </td>
           <td colspan="3" class="double">
-            <textarea class="input-style-reply" v-model="ApplyObj.tc" style="height:100%;width:100%;font-size: 18px;color: #666666;margin:0"></textarea>
+            <textarea class="input-style-reply"  v-model="ApplyObj.tc" style="height:100%;width:100%;font-size: 18px;color: #666666;margin:0"></textarea>
           </td>
         </tr>
       </table>
@@ -870,7 +869,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tb {
   text-align: left;
 }
@@ -883,17 +882,6 @@ export default {
   font-weight: 700;
   margin-left: 23px;
   color: #ffffff;
-  line-height: 24px;
-}
-/* 字体样式1 */
-.font-style {
-  margin-left: 23px;
-  width: 123px;
-  height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #666666;
   line-height: 24px;
 }
 
@@ -909,36 +897,24 @@ export default {
   background: #66c3fd;
 }
 .input-style-reply {
-  font-size: 18px;
   color: #666666;
-  width: 300px;
-  height: 34px;
+  width: 250px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
 }
 .input-style-replyTwo {
-  font-size: 18px;
   color: #666666;
-  width: 180px;
-  height: 34px;
+  width: 200px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
 }
 
+
+
 .td-div {
   width: 259px;
-}
-
-.btn {
-  width: 100px;
-  height: 40px;
-  background: #0098f8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #ffffff;
 }
 
 .applyBtn-div {
@@ -977,16 +953,6 @@ export default {
   font-family: Microsoft YaHei;
   font-weight: 700;
   color: #666666;
-  line-height: 24px;
-}
-
-.nonull-tip {
-  width: 94px;
-  height: 19px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #a83939;
   line-height: 24px;
 }
 

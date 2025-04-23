@@ -1,56 +1,53 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div style=" padding:20px; ">
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">成绩公示</span></div>
-			<hr class="right-hr">
 			<div class="content-head">
-
-				<div>
-				
-					<span class="head-span">准考证号</span>
-					 <!-- 准考证号输入框 -->
-                    <a-input class="input-style-replyTwo"  v-model="zkzh"  placeholder="请输入"></a-input>
-
-					<span class="head-span">姓名</span>
-					 <!-- 姓名输入框 -->
-                    <a-input class="input-style-replyTwo"  v-model="stuName" placeholder="请输入"></a-input>
-				
-					<span class="head-span">学年</span>
-					<a-cascader class="condition" :options="grade" placeholder="请选择" v-model="gradeId" />
-    
-                    <span class="head-span">学期</span>
-					<a-cascader class="condition" :options="semester" placeholder="请选择" v-model="semesterId" />
-				
-					<a-button :size="size" class="search-button" @click="search">
-						<icon-font type="iconsousuo" style="color: #FFFFFF;"/>
-						搜索
-					</a-button>
-
-					<a-button :size="size" class="empty-button " @click="empty">
-						<icon-font type="iconqingkong1" style="color: #FFFFFF;"/>
-						清空
-					</a-button>
-
-				</div>		
+				<div class="top">
+					<div  class="top">
+						<span class="head-span">准考证号：</span>
+						 <!-- 考生号输入框 -->
+						<a-input class="condition" style="width: 200px;" v-model="zkzh"  placeholder="请输入"></a-input>
+					</div>
+					<div class="top">
+						<span class="head-span">姓名：</span>
+						 <!-- 姓名输入框 -->
+						<a-input class="condition" style="width: 200px;" v-model="stuName" placeholder="请输入"></a-input>
+					</div>
+				</div>	
+					<div class="top" style="margin-top:10px;">
+						<div style="display:flex">
+							<span class="head-span">学年：</span>
+							 <j-select-grade placeholder="请选择年级" v-model="gradeId"></j-select-grade>
+						</div>
+						<div style="display:flex">
+							<span class="head-span">学期：</span>
+							<j-select-xueqi placeholder="请选择学期" v-model="semesterId"></j-select-xueqi>
+						</div>
+						<a-button  type="primary" icon="search" style="margin-right: 10px;" @click="search">
+							搜索
+						</a-button>
+						<a-button  style="margin-right: 10px;" type="danger"  icon="delete" @click="empty">
+							清空
+						</a-button>
+					</div>
 			</div>
 
 			<div class="content-head">
 				<div>					
-		
-				<a-button class="icon_btn" style="background: #00d09d" size="small" @click="showUpload">
+				<!-- <a-button type="primary" style="margin-right:10px;" @click="showUpload">
 						<span class="flex_box">
-							<icon-font type="iconfanhui" style="color: #ffffff" />
+							
 							导入
 						</span>
-					</a-button>
+					</a-button> -->
 					
-					<a-button class="icon_btn" style="background: #00d09d" size="small" @click="exportMessage">
+					<!-- <a-button type="primary" style="margin-right:10px;" @click="exportMessage">
 						<span class="flex_box">
-							<img src="@/assets/img/daochu.png" class="icon-position"/>
+							
 								导出
 						</span>
-					</a-button>
+					</a-button> -->
           <!-- 导入 弹窗 -->
           <a-modal v-model="upload" title="导入" @ok="uploadCancel" @cancel="uploadCancel" :width="1073">
             <table class="import-tr">
@@ -62,7 +59,7 @@
                   <div class="pad-style">导入excel文件一定要严格按照规定的格式，注意有选择的数据内容 允许类型：<br> "xls和xlsx"(文件总大小不能超过20MB)</div>
                 </td>
               </tr>
-              <!-- style="margin-left: 20px; margin-top: 5px; margin-buttom: 5px;" -->
+              <!-- style="margin-left: 10px; margin-top: 5px; margin-buttom: 5px;" -->
               <tr>
                 <td class="left-td">选择导入文件</td>
                 <td class="right-td">
@@ -76,7 +73,7 @@
                     @change="handleImportExcel"
                   >
                     <a-button class="choose-file-btn">
-                      <icon-font type="icontianjia" style="color: #ffffff" />选择文件
+                      选择文件
                     </a-button>
                   </a-upload>
                 </td>
@@ -115,10 +112,10 @@
 					:row-selection="rowSelection" 
 					:defaultCurrent="6"
 					:pagination="pagination" 
-					
+					:scroll="{ x: 1500, y: 300 }"
 					@change="tableChange">
 					<span slot="operator" slot-scope="text, record">
-						<a class = "text-btn-color2" style="border-bottom: 1px solid #66C3FD;" @click="showMsg(record)">查看</a>						
+						<a class = "text-btn-color2"  @click="showMsg(record)">查看</a>						
 					</span>
 										
 				</a-table>
@@ -146,7 +143,8 @@
 	import {
 		axios
 	} from "@/utils/request"
-
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
+	import JSelectXueqi from '@/components/kwglbiz/JSelectXueqi'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	});
@@ -155,55 +153,68 @@
 			title: '排名',
 			dataIndex: 'RANKING',
 			key: 'RANKING',
+			fixed: 'left',
+			width: 150,
 		},
 		{
 			title: '姓名',
 			dataIndex: 'STUNAME',
 			key: 'STUNAME',
+			fixed: 'left',
+			width: 150,
 		},
 		{
 			title: '准考证号',
 			dataIndex: 'ZKZH',
 			key: 'ZKZH',
+			width: 250,
 		},
 		{
 			title: '学年',
 			dataIndex: 'GRADE',
 			key: 'GRADE',
+			width: 150,
 		},
 		{
 			title: '学期',
 			dataIndex: 'SEMESTER',
 			key: 'SEMESTER',
+			width: 150,
 		},
 		{
 			title: '院系',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
+			width: 150,
 		},
 		{
 			title: '专业',
 			dataIndex: 'ZYMC',
+			width: 150,
 			key: 'ZYMC',
 		},
 		{
 			title: '科目一',
 			dataIndex: 'SUBJECTS1',
+			width: 150,
 			key: 'SUBJECTS1',
 		},
 		{
 			title: '科目二',
 			dataIndex: 'SUBJECTS2',
+			width: 150,
 			key: 'SUBJECTS2',
 		},
         {
 			title: '科目三',
 			dataIndex: 'SUBJECTS3',
+			width: 150,
 			key: 'SUBJECTS3',
 		},
         {
 			title: '总分',
 			dataIndex: 'SCORE',
+			width: 150,
 			key: 'SCORE',
 		},
 		
@@ -275,8 +286,6 @@
 			};
 		},
 		mounted() {			
-			this.getGrade();
-			this.getSemester();	
 			this.getScoreList();		
 		},
 		computed: {
@@ -295,6 +304,8 @@
         },
 		components: {
 			IconFont,
+			JSelectGrade,
+			JSelectXueqi,
 		},
 		methods: {
 			getModel(){
@@ -330,44 +341,6 @@
             uploadCancel() {
             this.upload = false
             },
-			getGrade() {
-				
-				axios({
-					url: 'enroll/divideClassMng/getGrade',
-					method: 'post',
-					params: {}
-
-				}).then(res => {
-
-					for (let grade of res.result) {
-						this.grade.push({
-							value: grade.njdm,
-							label: grade.njmc
-						})
-					}
-				}).catch(err => {
-					this.$message.warning("获取年级失败");
-				})
-			},
-			getSemester() {
-				
-				axios({
-					url: 'enroll/admission/getSemesterList',
-					method: 'post',
-					params: {}
-
-				}).then(res => {
-
-					for (let semester of res.result) {
-						this.semester.push({
-							value: semester.id,
-							label: semester.xqmc
-						})
-					}
-				}).catch(err => {
-					this.$message.warning("获取学期失败");
-				})
-			},
 			search(){
 				this.currentPage = 1;
 				this.curGrade = this.gradeId.length == 0 ? '' : this.gradeId[0];
@@ -422,7 +395,6 @@
             			return
           			}
 					if(res.result.list.length==0){
-						this.$message.warning("暂无成绩公示信息！");
 						return;
 					}
 					for (let score of res.result.list) {
@@ -467,7 +439,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 .import-tr{
   width: 1030px;
 }
@@ -495,7 +467,7 @@ line-height: 24px;
 }
 
 .pad-style{
-  margin-left: 20px; 
+  margin-left: 10px; 
   margin-top: 5px; 
   margin-bottom: 5px;
 }
@@ -521,10 +493,10 @@ line-height: 28px;
 	height: 34px;
 	background: #00D09D;
 	border-radius: 5px;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 .stuInfo-input{
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .export-button{
@@ -543,10 +515,8 @@ line-height: 28px;
     background-color: #00D09D;
 }
 .input-style-replyTwo {
-  font-size: 18px;
   color: #666666;
   width: 200px;
-  height: 34px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
@@ -566,4 +536,14 @@ line-height: 28px;
 		margin-right: 20px;
 		height: 34px;
 	}
+	.top {
+			display: flex;
+			align-items: center;
+		}
+		.head-span {
+			margin: 0 10px;
+			width:80px;
+			line-height:40px;
+			text-align:right;
+		}
 </style>

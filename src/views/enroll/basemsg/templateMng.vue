@@ -1,19 +1,17 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">通知书模板管理</span></div>
-      <hr class="right-hr" />
       <div class="content-head">
         <div>
-          <span class="head-span">模板名称</span>
-          <a-input class="temp-input" v-model.trim="tempName" />
-          <a-button :size="size" class="search-button" @click="search">
-            <icon-font type="iconsousuo" style="color: #ffffff" />
+          <span class="head-span">模板名称：</span>
+          <a-input style="width: 300px;" placeholder="请输入模板名称" v-model.trim="tempName" />
+          <a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
+           
             搜索
           </a-button>
 
-          <a-button :size="size" class="empty-button" @click="empty">
-            <icon-font type="iconqingkong1" style="color: #ffffff" />
+          <a-button  type="danger" style="margin-left: 10px;" @click="empty">
+            
             清空
           </a-button>
         </div>
@@ -21,13 +19,12 @@
 
       <div class="content-head">
         <div>
-          <a-button :size="size" class="tempAdd-button" @click="showAddModel()">
-            <icon-font type="icontianjia" style="color: #ffffff" />
+          <a-button type="primary" icon="plus" @click="showAddModel()">
+            
             添加
           </a-button>
 
-          <a-button :size="size" class="start-button" @click="showModalAdmit">
-            <img src="@/assets/img/start.png" class="icon-position" />
+          <a-button  type="primary" icon="plus" style="margin-left: 10px;" @click="showModalAdmit">
             启用
           </a-button>
           <a-modal v-model="visibleReport" title="提示" @ok="handleOkStart" :width="478">
@@ -35,7 +32,6 @@
            <a-button key="back"  @click="handleOkStart" class="btn">确定 </a-button>
            <a-button key="submit" type="primary"  @click="closeStart"  class="btn-cancle"> 取消 </a-button>
           </template>
-            <div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img" /></div>
             <div class="start-text">确认要启用吗?</div>
           </a-modal>
 
@@ -48,12 +44,11 @@
             取消
           </a-button>
           </template>
-            <div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img" /></div>
             <div class="delete-text">确认执行删除?</div>
           </a-modal>
 
-          <a-button :size="size" class="refresh-button button-after" @click="refresh">
-            <img src="@/assets/img/shuaxin.png" class="icon-position" />
+          <a-button  type="primary"  icon="reload" style="margin-left: 10px;" @click="refresh">
+            
             刷新
           </a-button>
         </div>
@@ -109,8 +104,8 @@
 
           <tr class="tr-style">
             <td colspan="2">
-              <a-button :size="size" class="print-btn" @click="modelDesign"> 模板设计 </a-button>
-              <a-button :size="size" class="print-btn" @click="modelPriview"> 打印预览 </a-button>
+              <a-button  class="print-btn" @click="modelDesign"> 模板设计 </a-button>
+              <a-button  class="print-btn" @click="modelPriview"> 打印预览 </a-button>
             </td>
           </tr>
           <tr class="tr-style">
@@ -128,7 +123,7 @@
               <div class="font-style">是否启用</div>
             </td>
             <td class="temp-td-div">
-              <a-radio-group v-model="entityObj.status" @change="onChangestatus" class="input-style-reply">
+              <a-radio-group v-model="entityObj.status" @change="onChangestatus" >
                 <a-radio :value="1" class="radio-style"> <span>启用</span> </a-radio>
                 <a-radio :value="0" class="radio-style"><span> 禁用</span> </a-radio>
               </a-radio-group>
@@ -188,8 +183,8 @@
 
           <tr class="tr-style">
             <td colspan="2">
-              <a-button :size="size" class="print-btn" @click="modelDesign"> 模板设计 </a-button>
-              <a-button :size="size" class="print-btn" @click="modelPriview"> 打印预览 </a-button>
+              <a-button  class="print-btn" @click="modelDesign"> 模板设计 </a-button>
+              <a-button  class="print-btn" @click="modelPriview"> 打印预览 </a-button>
             </td>
           </tr>
           <tr class="tr-style">
@@ -231,9 +226,9 @@
           @change="tableChange"
         >
           <span slot="operator" slot-scope="text, record">
-            <a style="border-bottom: 1px solid #66c3fd" @click="showMsgEdit(record)" class="a-edit-color text-btn-color3">编辑</a>
-            |
-            <a style="border-bottom: 1px solid #66c3fd" @click="showMsgDelete(record)" class="a-del-color text-btn-color4">删除</a>
+            <a  @click="showMsgEdit(record)">编辑</a>
+            <a-divider type="vertical" />
+            <a  @click="showMsgDelete(record)" class=" text-btn-color4">删除</a>
           </span>
         </a-table>
       </div>
@@ -865,7 +860,7 @@ LODOP.SET_PRINT_STYLEA(0,"LetterSpacing",8);`,
 }
 </script>
 <style >
-/* .tempAdd-button {
+.tempAdd-button {
   width: 88px;
   height: 34px;
   background: #00bad0;
@@ -879,7 +874,7 @@ LODOP.SET_PRINT_STYLEA(0,"LetterSpacing",8);`,
 .tempAdd-button:focus {
   color: white;
   background-color: #00bad0;
-} */
+}
 
 .temp-input {
   width: 203px;

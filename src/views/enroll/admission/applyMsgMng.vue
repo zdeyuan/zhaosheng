@@ -1,17 +1,15 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
 
     <!-- 页面主体部分 -->
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">报名信息管理</span></div>
-      <hr class="right-hr" />
       <div class="content-head">
         <!-- 第一行操作栏 -->
         <div>
-          <span class="head-span">招生季</span>
+          <span class="head-span">招生季：</span>
           <a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" />
 
-          <span class="head-span">专业部</span>
+          <span class="head-span">专业部：</span>
           <a-cascader
             class="condition"
             :options="faculty"
@@ -20,33 +18,27 @@
             v-model="facultyId"
           />
 
-          <span class="head-span">专业</span>
+          <span class="head-span">专业：</span>
           <a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" />
-
-          <a-button :size="size" class="clear-button" @click="clear">
-            <img src="@/assets/img/clean.png" class="icon-delete"/>
-            清除
-          </a-button>
         </div>
       </div>
 
         <!-- 第二行操作栏 -->
       <div class="content-head">
         <div>
-          <a-input class="condition-input" v-model="keyword" />
+       
+          <a-cascader class="condition select" style="width: 100px;" :options="keys" placeholder="姓名" v-model="keysVal" />
+		     <a-input class="condition-input" style="width: 200px;"  placeholder="请输入" v-model="keyword" />
+          <span class="head-span">是否录取：</span>
+          <a-cascader class="condition select" style="width: 150px;" :options="isAdmition" placeholder="全部" v-model="isAdmitionVal" />
 
-          <a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-
-          <span class="head-span">是否录取</span>
-          <a-cascader class="condition select" :options="isAdmition" placeholder="全部" v-model="isAdmitionVal" />
-
-          <a-button :size="size" class="search-button" @click="search">
-            <icon-font type="iconsousuo" style="color: #ffffff" />
+          <a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
+           
             搜索
           </a-button>
 
-          <a-button :size="size" class="empty-button" @click="empty">
-            <icon-font type="iconqingkong1" style="color: #ffffff" />
+          <a-button  type="danger" style="margin-left: 10px;" @click="empty">
+            
             清空
           </a-button>
         </div>
@@ -55,12 +47,11 @@
         <!-- 第三行操作栏 -->
       <div class="content-head">
         <div>
-          <a-button :size="size" class="tempAdd-button" @click="showAdd()">
-            <icon-font type="icontianjia" style="color: #ffffff" />
+          <a-button  type="primary" icon="plus" style="margin-right:10px;" @click="showAdd()">
             添加
           </a-button>
-          <a-button :size="size" class="content-button button-after" @click="showModalAdmit">
-            <img src="@/assets/img/hook.png" class="icon-position"/>
+          <a-button  type="primary" icon="plus" style="margin-right:10px;" @click="showModalAdmit">
+            
             批量录取
           </a-button>
 
@@ -69,18 +60,17 @@
            <a-button key="back"  @click="handleOkReport" class="btn"> 确定 </a-button>
            <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle"> 取消 </a-button>
            </template>	
-					<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img"/></div>					
       		<div class="report-text">确认要批量录取吗?</div>						
     			</a-modal>
 
-          <a-button :size="size" class="search-report-button button-after" @click="showModalAdmitBySearch">
-            <img src="@/assets/img/hook.png" class="icon-position"/>
+         <!-- <a-button  type="primary" style="margin-right:10px;" @click="showModalAdmitBySearch">
             按搜索条件批量录取
-          </a-button>
-          <a-button :size="size" class="delete-button button-after" @click="showUpload">
-            <icon-font type="iconfanhui" style="color: #ffffff" />
+          </a-button> -->
+		  
+          <!-- <a-button  type="primary" style="margin-right:10px;" @click="showUpload">
+            
             导入
-          </a-button>
+          </a-button> -->
           <!-- 导入 弹窗 -->
           <a-modal v-model="upload" title="导入" @ok="uploadCancel" @cancel="uploadCancel" :width="1073">
             <table class="import-tr">
@@ -92,21 +82,22 @@
                   <div class="pad-style">导入excel文件一定要严格按照规定的格式，注意有选择的数据内容 允许类型：<br> "xls和xlsx"(文件总大小不能超过20MB)</div>
                 </td>
               </tr>
-              <!-- style="margin-left: 20px; margin-top: 5px; margin-buttom: 5px;" -->
+              <!-- style="margin-left: 10px; margin-top: 5px; margin-buttom: 5px;" -->
               <tr>
                 <td class="left-td">选择导入文件</td>
                 <td class="right-td">
                   <a-upload                  
                     class="pad-style"
                     name="file"
+					:scroll="{ x: 1500, y: 300 }"
                     :showUploadList="false"
                     :multiple="false"
                     :headers="tokenHeader"
                     :action="importExcelUrl"
                     @change="handleImportExcel"
                   >
-                    <a-button class="choose-file-btn">
-                      <icon-font type="icontianjia" style="color: #ffffff" />选择文件
+                    <a-button type="primary">
+                      选择文件
                     </a-button>
                   </a-upload>
                 </td>
@@ -135,26 +126,24 @@
 
           </a-modal>
 
-          <a-button
-            :size="size"
-            class="applyexport-button"
+         <!-- <a-button
+		  style="margin-right:10px;"
+            type="primary"
             @click="exportMessage"
           >
-           <img src="@/assets/img/daochu.png" class="icon-position"/>
 						导出
-          </a-button>
+          </a-button> -->
           
           <a-modal v-model="visibleReportBySearch" title="提示" @ok="handleOkReportBySearch" :width="478">
             <template slot="footer">		
             <a-button key="back"  @click="handleOkReportBySearch" class="btn">确定</a-button>
             <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
              </template>	
-						<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img"/></div>
       			<div class="report-search-text">共{{this.reportCount}}条数据，确认要按条件批量录取吗?</div>					
     			</a-modal>
 
-          <a-button :size="size" class="delete-button button-after" @click="showModalDelete">
-            <img src="@/assets/img/clean.png" class="icon-delete"/>
+          <a-button  type="danger"  icon="delete" style="margin-right:10px;" @click="showModalDelete">
+            
             删除
           </a-button>
           	<a-modal v-model="visibleDelete" title="提示" @ok="handleOkDelete" :width="478"> 
@@ -162,12 +151,10 @@
               <a-button key="back"  @click="handleOkDelete" class="btn"> 确定</a-button>
               <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
               </template>	
-						<div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img"/></div>					
       			<div class="delete-text">确认执行删除?</div>
     				</a-modal>
 
-          <a-button :size="size" class="refresh-button button-after" @click="refresh">
-            <img src="@/assets/img/shuaxin.png" class="icon-position"/>
+          <a-button  type="primary"  icon="reload" style="margin-right:10px;" @click="refresh">
             刷新
           </a-button>
         </div>
@@ -178,13 +165,16 @@
         <a-table
           :columns="columns"
           :data-source="data"
+		   :scroll="{ x: 1500 }"
           :row-selection="rowSelection"
           :defaultCurrent="6"
           :pagination="pagination"
           @change="tableChange">
           <span slot="operator" slot-scope="text, record">
-            <a class = "text-btn-color3" style="border-bottom: 1px solid #66c3fd" @click="showEdit(record)">编辑</a>
-            <a class = "text-btn-color2" style="border-bottom: 1px solid #66c3fd" @click="showMsg(record)">查看</a>
+			   <a class = "text-btn-color2"  @click="showMsg(record)">查看</a>
+			   <a-divider type="vertical" />
+            <a class = "text-btn-color3"  @click="showEdit(record)">编辑</a>
+           
           </span>
         </a-table>
       </div>
@@ -479,7 +469,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
+            <a-input  v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">身份证号
@@ -487,7 +477,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
+            <a-input  v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
           </td>
         </tr>
 
@@ -496,13 +486,13 @@
             <div class="font-style">曾用名</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
+            <a-input  v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">性别</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" >
               <a-radio :value="1"> 男 </a-radio>
               <a-radio :value="2"> 女 </a-radio>
             </a-radio-group>
@@ -513,14 +503,17 @@
             <div class="font-style">出生日期</div>
           </td>
           <td class="double">
-            <a-date-picker class="input-style-reply" @change="onChangeDate" v-model="ApplyObj.csrq" />
+			  <DatePickByCN
+			        v-model="ApplyObj.csrq"
+			        placeholder="请选择出生日期"
+			      />
           </td>
           <td class="td-div">
             <div class="font-style">政治面貌</div>
           </td>
           <td class="double">
             <!-- 政治面貌下拉框 -->
-            <a-select class="input-style-reply" :options="politic" placeholder="请选择" v-model="ApplyObj.zzmmm" />
+            <a-select  :options="politic" placeholder="请选择" v-model="ApplyObj.zzmmm" />
           </td>
         </tr>
 
@@ -529,14 +522,14 @@
             <div class="font-style">籍贯</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jg"></a-input>
+            <a-input  v-model.trim="ApplyObj.jg"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">民族</div>
           </td>
           <td class="double">
             <!-- 民族下拉框 -->
-            <a-select class="input-style-reply" :options="nation" placeholder="请选择" v-model="ApplyObj.mzm" />
+            <a-select  :options="nation" placeholder="请选择" v-model="ApplyObj.mzm" />
           </td>
         </tr>
 
@@ -546,13 +539,13 @@
           </td>
           <td class="double">
             <!-- 健康状况下拉框 -->
-            <a-select class="input-style-reply" :options="healthy" placeholder="请选择" v-model="ApplyObj.jkzkm" />
+            <a-select  :options="healthy" placeholder="请选择" v-model="ApplyObj.jkzkm" />
           </td>
           <td class="td-div">
             <div class="font-style">毕业学校</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.byxx"></a-input>
+            <a-input  v-model.trim="ApplyObj.byxx"></a-input>
           </td>
         </tr>
 
@@ -562,13 +555,13 @@
           </td>
           <td class="double">
             <!-- 户口类别下拉框 -->
-            <a-select class="input-style-reply" :options="residence" placeholder="请选择" v-model="ApplyObj.hklbm" />
+            <a-select  :options="residence" placeholder="请选择" v-model="ApplyObj.hklbm" />
           </td>
           <td class="td-div">
             <div class="font-style">是否低保</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" >
               <a-radio :value="1"> 是 </a-radio>
               <a-radio :value="0"> 否 </a-radio>
             </a-radio-group>
@@ -580,7 +573,7 @@
             <div class="font-style">招生类型</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" >
               <a-radio :value="1"> 统一招生 </a-radio>
               <a-radio :value="2"> 自主招生 </a-radio>
             </a-radio-group>
@@ -589,7 +582,7 @@
             <div class="font-style">准考证号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.zkzh"></a-input>
+            <a-input  v-model.trim="ApplyObj.zkzh"></a-input>
           </td>
         </tr>
 
@@ -598,13 +591,13 @@
             <div class="font-style">考生号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.ksh"></a-input>
+            <a-input  v-model.trim="ApplyObj.ksh"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">考试总分</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
+            <a-input  v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
           </td>
         </tr>
       </table>
@@ -622,7 +615,7 @@
           </td>
           <td class="double">
             <a-select
-              class="input-style-reply"
+              
               :options="addfaculty"
               placeholder="请选择"
               @change="addfacultyChange"
@@ -634,8 +627,8 @@
           </td>
           <td class="double">
             <a-select class="input-style-replyTwo" :options="addspecialty" placeholder="请选择" v-model="ApplyObj.specId" />
-            <a-button class="tableClean-button" @click="clearReplay">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="danger" style="margin-left: 10px;" @click="clearReplay">
+              
               清除
             </a-button>
           </td>
@@ -648,13 +641,13 @@
             </div>
           </td>
           <td class="double">
-            <a-select class="input-style-reply" :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
+            <a-select  :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
           </td>
           <td class="td-div">
             <div class="font-style">就读方式</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" >
               <a-radio :value="1"> 住校 </a-radio>
               <a-radio :value="2"> 走读 </a-radio>
             </a-radio-group>
@@ -695,8 +688,8 @@
             <!-- 县级下拉框 -->
             <a-select class="input-style-replyTwo" :options="county" placeholder="请选择县区" v-model="ApplyObj.countyId" />
 
-            <a-button class="tableClean-button" @click="clearArea">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="danger" style="margin-left: 10px;" @click="clearArea">
+              
               清除
             </a-button>
           </td>
@@ -707,7 +700,7 @@
             <div class="font-style">家庭邮编</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
+            <a-input  v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style font-style">家庭联系电话
@@ -715,7 +708,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input> 
+            <a-input  v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input> 
           </td>
         </tr>
         <tr class="tr-style">
@@ -725,13 +718,13 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input> 
+            <a-input  v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input> 
           </td>
           <td class="td-div">
             <div class="font-style">学生联系电话</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
+            <a-input  v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -740,13 +733,13 @@
             <div class="font-style">电子邮箱</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
+            <a-input  v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">即时通讯号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
+            <a-input  v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -761,7 +754,7 @@
             <div class="font-style">特长</div>
           </td>
           <td colspan="3" class="double">
-            <a-input class="input-style-reply" v-model="ApplyObj.tc"></a-input>
+            <a-input  v-model="ApplyObj.tc"></a-input>
           </td>
         </tr>
       </table>
@@ -794,7 +787,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
+            <a-input  v-model.trim="ApplyObj.xm" v-on:blur="nameBule()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">身份证号
@@ -802,7 +795,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
+            <a-input  v-model.trim="ApplyObj.sfzh" v-on:blur="idCheck()"></a-input>
           </td>
         </tr>
 
@@ -811,13 +804,13 @@
             <div class="font-style">曾用名</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
+            <a-input  v-model.trim="ApplyObj.cym" v-on:blur="oldNameBule()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">性别</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.xbm" @change="onChangeSex" >
               <a-radio :value="1"> 男 </a-radio>
               <a-radio :value="2"> 女 </a-radio>
             </a-radio-group>
@@ -828,14 +821,17 @@
             <div class="font-style">出生日期</div>
           </td>
           <td class="double">
-            <a-date-picker class="input-style-reply" @change="onChangeDate" v-model="ApplyObj.csrq" />
+			  <DatePickByCN
+			        v-model="ApplyObj.csrq"
+			        placeholder="请选择出生日期"
+			      />
           </td>
           <td class="td-div">
             <div class="font-style">政治面貌</div>
           </td>
           <td class="double">
             <!-- 政治面貌下拉框 -->
-            <a-select class="input-style-reply" :options="politic" placeholder="请选择" v-model="ApplyObj.zzmmm" />
+            <a-select  :options="politic" placeholder="请选择" v-model="ApplyObj.zzmmm" />
           </td>
         </tr>
 
@@ -844,14 +840,14 @@
             <div class="font-style">籍贯</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jg"></a-input>
+            <a-input  v-model.trim="ApplyObj.jg"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">民族</div>
           </td>
           <td class="double">
             <!-- 民族下拉框 -->
-            <a-select class="input-style-reply" :options="nation" placeholder="请选择" v-model="ApplyObj.mzm" />
+            <a-select  :options="nation" placeholder="请选择" v-model="ApplyObj.mzm" />
           </td>
         </tr>
 
@@ -861,13 +857,13 @@
           </td>
           <td class="double">
             <!-- 健康状况下拉框 -->
-            <a-select class="input-style-reply" :options="healthy" placeholder="请选择" v-model="ApplyObj.jkzkm" />
+            <a-select  :options="healthy" placeholder="请选择" v-model="ApplyObj.jkzkm" />
           </td>
           <td class="td-div">
             <div class="font-style">毕业学校</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.byxx"></a-input>
+            <a-input  v-model.trim="ApplyObj.byxx"></a-input>
           </td>
         </tr>
 
@@ -877,13 +873,13 @@
           </td>
           <td class="double">
             <!-- 户口类别下拉框 -->
-            <a-select class="input-style-reply" :options="residence" placeholder="请选择" v-model="ApplyObj.hklbm" />
+            <a-select  :options="residence" placeholder="请选择" v-model="ApplyObj.hklbm" />
           </td>
           <td class="td-div">
             <div class="font-style">是否低保</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.sfdb" @change="onChangezslx" >
               <a-radio :value="1"> 是 </a-radio>
               <a-radio :value="0"> 否 </a-radio>
             </a-radio-group>
@@ -895,7 +891,7 @@
             <div class="font-style">招生类型</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.zslx" @change="onChangezslx" >
               <a-radio :value="1"> 统一招生 </a-radio>
               <a-radio :value="2"> 自主招生 </a-radio>
             </a-radio-group>
@@ -904,7 +900,7 @@
             <div class="font-style">准考证号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.zkzh"></a-input>
+            <a-input  v-model.trim="ApplyObj.zkzh"></a-input>
           </td>
         </tr>
 
@@ -913,13 +909,13 @@
             <div class="font-style">考生号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.ksh"></a-input>
+            <a-input  v-model.trim="ApplyObj.ksh"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">考试总分</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
+            <a-input  v-model.trim="ApplyObj.kszf" v-on:blur="numCheck()"></a-input>
           </td>
         </tr>
       </table>
@@ -937,7 +933,7 @@
           </td>
           <td class="double">
             <a-select
-              class="input-style-reply"
+              
               :options="addfaculty"
               placeholder="请选择"
               @change="addfacultyChange"
@@ -949,8 +945,8 @@
           </td>
           <td class="double">
             <a-select class="input-style-replyTwo" :options="addspecialty" placeholder="请选择" v-model="ApplyObj.specId" />
-            <a-button class="tableClean-button" @click="clearReplay">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="danger" style="margin-left: 10px;" @click="clearReplay">
+              
               清除
             </a-button>
           </td>
@@ -963,13 +959,13 @@
             </div>
           </td>
           <td class="double">
-            <a-select class="input-style-reply" :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
+            <a-select  :options="xuzhi" placeholder="请选择学制" v-model="ApplyObj.xz" />
           </td>
           <td class="td-div">
             <div class="font-style">就读方式</div>
           </td>
           <td class="double">
-            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" class="input-style-reply">
+            <a-radio-group v-model="ApplyObj.jdfs" @change="onChangejdfs" >
               <a-radio :value="1"> 住校 </a-radio>
               <a-radio :value="2"> 走读 </a-radio>
             </a-radio-group>
@@ -1010,8 +1006,8 @@
             <!-- 县级下拉框 -->
             <a-select class="input-style-replyTwo" :options="county" placeholder="请选择县区" v-model="ApplyObj.countyId" />
 
-            <a-button class="tableClean-button" @click="clearArea">
-              <img src="@/assets/img/clean.png" class="icon-img" />
+            <a-button type="danger" style="margin-left: 10px;" @click="clearArea">
+              
               清除
             </a-button>
           </td>
@@ -1022,7 +1018,7 @@
             <div class="font-style">家庭邮编</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
+            <a-input  v-model.trim="ApplyObj.jtyb" v-on:blur="checkCode()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style font-style">家庭联系电话
@@ -1030,7 +1026,7 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input> 
+            <a-input  v-model.trim="ApplyObj.jtlxdh" v-on:blur="phone()"></a-input> 
           </td>
         </tr>
         <tr class="tr-style">
@@ -1040,13 +1036,13 @@
             </div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input> 
+            <a-input  v-model.trim="ApplyObj.jtdz" v-on:blur="adressCheck()"></a-input> 
           </td>
           <td class="td-div">
             <div class="font-style">学生联系电话</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
+            <a-input  v-model.trim="ApplyObj.xslxdh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -1055,13 +1051,13 @@
             <div class="font-style">电子邮箱</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
+            <a-input  v-model.trim="ApplyObj.dzxx" v-on:blur="email()"></a-input>
           </td>
           <td class="td-div">
             <div class="font-style">即时通讯号</div>
           </td>
           <td class="double">
-            <a-input class="input-style-reply" v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
+            <a-input  v-model.trim="ApplyObj.jstxh" v-on:blur="phone()"></a-input>
           </td>
         </tr>
 
@@ -1076,7 +1072,7 @@
             <div class="font-style">特长</div>
           </td>
           <td colspan="3" class="double">
-            <a-input class="input-style-reply" v-model="ApplyObj.tc"></a-input>
+            <a-input  v-model="ApplyObj.tc"></a-input>
           </td>
         </tr>
       </table>
@@ -1103,56 +1099,69 @@ const columns = [
     title: '姓名',
     dataIndex: 'XM',
     key: 'XM',
+	fixed: 'left',
+	width: 150,
   },
   {
     title: '身份证号',
     dataIndex: 'SFZH',
     key: 'SFZH',
+	fixed: 'left',
+	width: 250,
   },
   {
     title: '所属专业部',
     dataIndex: 'YXMC',
     key: 'YXMC',
+	width: 150,
   },
   {
     title: '所属专业',
     dataIndex: 'ZYMC',
     key: 'ZYMC',
+	width: 150,
   },
   {
     title: '考试总分',
     dataIndex: 'KSZF',
     key: 'KSZF',
+	width: 150,
   },
   {
     title: '是否录取',
     dataIndex: 'isAdmit',
     key: 'isAdmit',
+	width: 150,
   },
   {
     title: '性别',
     dataIndex: 'XBM',
     key: 'XBM',
+	width: 150,
   },
   {
     title: '入学年份',
     dataIndex: 'RXNF',
     key: 'RXNF',
+	width: 150,
   },
   {
     title: '招生季',
     dataIndex: 'ZSJ',
     key: 'ZSJ',
+	width: 150,
   },
   {
     title: '学制',
     dataIndex: 'XZ',
     key: 'XZ',
+	width: 150,
   },
   {
     title: '操作',
     dataIndex: 'operator',
-    width: '10%',
+    fixed: 'right',
+    width: 200,
     key: 'operator',
     scopedSlots: {
       customRender: 'operator',
@@ -1423,13 +1432,14 @@ export default {
     },
     //清除
     clear() {
-      this.quarterId = []
-      this.facultyId = []
-      this.specialty = []
-      this.specialtyId = []
+     
     },
     //清空
     empty() {
+	  this.quarterId = []
+	  this.facultyId = []
+	  this.specialty = []
+	  this.specialtyId = []
       this.keyword = ''
       this.keysVal = []
       this.isAdmitionVal = []
@@ -2451,7 +2461,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 
 .import-tr{
   width: 1030px;
@@ -2481,7 +2491,7 @@ line-height: 24px;
 }
 
 .pad-style{
-  margin-left: 20px; 
+  margin-left: 10px; 
   margin-top: 5px; 
   margin-bottom: 5px;
 }
@@ -2556,12 +2566,11 @@ border-radius: 5px;
 
 
 } */
-
+/* 
 .input-style-reply {
   font-size: 18px;
   color: #666666;
   width: 300px;
-  height: 34px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
@@ -2570,11 +2579,10 @@ border-radius: 5px;
   font-size: 18px;
   color: #666666;
   width: 200px;
-  height: 34px;
   background-color: #ffffff;
   border: 0;
   margin-left: 5px;
-}
+} */
 /* 
 .td-div {
   width: 259px;
@@ -2633,7 +2641,7 @@ border-radius: 5px;
 	height: 34px;
 	background: #00D09D;
 	border-radius: 5px;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .applyexport-button,

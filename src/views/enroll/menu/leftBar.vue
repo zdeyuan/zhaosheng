@@ -6,31 +6,19 @@
       <a-menu-item key="this.$message.success" class="left-menu-click">提醒</a-menu-item>
     </a-menu> -->
 		<!-- <hr class="top-hr"> -->
-		<!-- <div style="height: 4vh;"></div> -->
-		<a-menu :defaultSelectedKeys="['1']" :defaultOpenKeys="[]" :openKeys='openKeysMsg'
-			mode="inline" v-if='Loging == false' @click="handleClick" @openChange="onOpenChange" theme="dark">
+		<div style="height: 4vh;"></div>
+		<a-menu style="width: 320px" :defaultSelectedKeys="['1']" :defaultOpenKeys="[]" :openKeys='openKeysMsg'
+			mode="inline" v-if='Loging == false' @click="handleClick" @openChange="onOpenChange">
 			<a-menu-item key="sub0">
 				<router-link to="/enroll/index">
-					<a-icon type="pie-chart" />
 					<span class="homePage">首页</span>
 				</router-link>
 			</a-menu-item>
 			<a-sub-menu key="sub1" @titleClick="titleClick" v-if="judgeShowMenuTop('/enroll/planMng')">
 				<span slot="title">
-					<a-icon type="desktop" />
 					<span>招生计划</span>
 				</span>
-				<a-menu-item>
-					<router-link to="/enroll/planMng">
-						<img src="@/assets/img/planMng.png" class="icon-img" />招生计划管理
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/planQuery">
-						<img src="@/assets/img/planQuery.png" class="icon-img" />招生计划查询
-					</router-link>
-				</a-menu-item>
-<!-- 				<a-col :span="12" v-if="judgeShowMenu('/enroll/planMng')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/planMng')">
 					<router-link to="/enroll/planMng">
 						<a-tag color="#E9EDF6" :class="ascertain == 1 ? 'menu-item item-1 up' : 'menu-item item-1'"
 							@click='changeSelected(1)'>
@@ -47,65 +35,14 @@
 							招生计划查询
 						</a-tag>
 					</router-link>
-				</a-col> -->
+				</a-col>
 			</a-sub-menu>
 
 			<a-sub-menu key="sub2" @titleClick="titleClick" v-if="judgeShowMenuTop('/enroll/replaceApply')">
 				<span slot="title">
-					<a-icon type="inbox" />
 					<span>录取管理</span>
 				</span>
-				<a-menu-item>
-					<router-link to="/enroll/replaceApply">
-						<img src="@/assets/img/replace.png" class="icon-img" />代报名
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/applyCheck">
-						<img src="@/assets/img/applyCheck.png" class="icon-img" />网上报名审核
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/singleExpandCheck">
-						<img src="@/assets/img/applyCheck.png" class="icon-img" />单扩报名审核
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/applyMsgMng">
-						<img src="@/assets/img/applyMng.png" class="icon-img" />报名信息管理
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/applyMsgQuery">
-						<img src="@/assets/img/applyQuery.png" class="icon-img" />报名信息查询
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/admissionPrint">
-						<img src="@/assets/img/admissionPrint.png" class="icon-img" />录取通知打印
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/admissionList">
-						<img src="@/assets/img/replace.png" class="icon-img" />录取名单
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/showResults">
-						<img src="@/assets/img/replace.png" class="icon-img" />成绩公示
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/paymentReview">
-						<img src="@/assets/img/replace.png" class="icon-img" />缴费审核
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/loanReview">
-						<img src="@/assets/img/replace.png" class="icon-img" />贷款审核
-					</router-link>
-				</a-menu-item>
-<!-- 				<a-col :span="12" v-if="judgeShowMenu('/enroll/replaceApply')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/replaceApply')">
 					<router-link to="/enroll/replaceApply">
 						<a-tag color="#E9EDF6" :class="ascertain == 3 ? 'menu-item item-1 up' : 'menu-item item-1'"
 							@click='changeSelected(3)'>
@@ -158,7 +95,7 @@
 							录取通知打印
 						</a-tag>
 					</router-link>
-				</a-col> -->
+				</a-col>
 <!-- 				<a-col :span="12" v-if="judgeShowMenu('/enroll/onlineApply')">
 					<router-link to="/enroll/onlineApply">
 						<a-tag color="#E9EDF6" :class="ascertain == 28 ? 'menu-item item-2 up' : 'menu-item item-2'"
@@ -168,7 +105,7 @@
 						</a-tag>
 					</router-link>
 				</a-col> -->
-<!-- 				<a-col :span="12" v-if="judgeShowMenu('/enroll/admissionList')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/admissionList')">
 					<router-link to="/enroll/admissionList">
 						<a-tag color="#E9EDF6" :class="ascertain == 6622 ? 'menu-item item-2 up' : 'menu-item item-2'"
 							@click='changeSelected(6622)'>
@@ -203,55 +140,14 @@
 							贷款审核
 						</a-tag>
 					</router-link>
-				</a-col> -->
+				</a-col>
 			</a-sub-menu>
 
 			<a-sub-menu key="sub3" @titleClick="titleClick" v-if="judgeShowMenuTop('/enroll/reportMng')">
 				<span slot="title">
-					<a-icon type="mail" />
 					<span>迎新管理</span>
 				</span>
-				<a-menu-item>
-					<router-link to="/enroll/reportMng">
-						<img src="@/assets/img/replace.png" class="icon-img" />新生报到管理
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/reportedMng">
-						<img src="@/assets/img/reported.png" class="icon-img" />报到新生管理
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/divideClassMng">
-						<img src="@/assets/img/class.png" class="icon-img" />学生分班管理
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/stuInfoQuery">
-						<img src="@/assets/img/new.png" class="icon-img" />新生信息查询
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/printReport">
-						<img src="@/assets/img/reportPrint.png" class="icon-img" />打印报到卡
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/createNum">
-						<img src="@/assets/img/num.png" class="icon-img" />编制学号
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/reportMessage">
-						<img src="@/assets/img/num.png" class="icon-img" />新生报到信息
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/reportStatistics">
-						<img src="@/assets/img/num.png" class="icon-img" />报道情况统计
-					</router-link>
-				</a-menu-item>
-				<!-- <a-col :span="12" v-if="judgeShowMenu('/enroll/reportMng')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/reportMng')">
 					<router-link to="/enroll/reportMng">
 						<a-tag color="#E9EDF6" :class="ascertain == 8 ? 'menu-item item-1 up' : 'menu-item item-1'"
 							@click='changeSelected(8)'>
@@ -323,36 +219,15 @@
 							报道情况统计
 						</a-tag>
 					</router-link>
-				</a-col> -->
+				</a-col>
 
 			</a-sub-menu>
 
 			<a-sub-menu key="sub4" @titleClick="titleClick" v-if="judgeShowMenuTop('/enroll/templateMng')">
 				<span slot="title">
-					<a-icon type="carry-out" />
 					<span>基础设置</span>
 				</span>
-				<a-menu-item>
-					<router-link to="/enroll/templateMng">
-						<img src="@/assets/img/model.png" class="icon-img" />通知书模板
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/curYearSet">
-						<img src="@/assets/img/year.png" class="icon-img" />招生年份设置
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/curSeasonSet">
-						<img src="@/assets/img/quarter.png" class="icon-img" />招生季设置
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/numRuleSet">
-						<img src="@/assets/img/numCreate.png" class="icon-img" />学号生成设置
-					</router-link>
-				</a-menu-item>
-				<!-- <a-col :span="12" v-if="judgeShowMenu('/enroll/templateMng')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/templateMng')">
 					<router-link to="/enroll/templateMng">
 						<a-tag color="#E9EDF6" :class="ascertain == 16 ? 'menu-item item-1 up' : 'menu-item item-1'"
 							@click='changeSelected(16)'>
@@ -388,7 +263,7 @@
 						</a-tag>
 					</router-link>
 				</a-col>
- -->
+
 			</a-sub-menu>
 
 			<!-- 			<a-sub-menu key="sub5" @titleClick="titleClick">
@@ -442,25 +317,9 @@
 
 			<a-sub-menu key="sub5" @titleClick="titleClick" v-if="judgeShowMenuTop('/enroll/studentImport')">
 				<span slot="title">
-					<a-icon type="appstore" />
 					<span>学生信息维护</span>
 				</span>
-				<a-menu-item>
-					<router-link to="/enroll/studentImport">
-						<img src="@/assets/img/major.png" class="icon-img" />学生导入
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/presortClass">
-						<img src="@/assets/img/major.png" class="icon-img" />预分班
-					</router-link>
-				</a-menu-item>
-				<a-menu-item>
-					<router-link to="/enroll/presortDormitory">
-						<img src="@/assets/img/major.png" class="icon-img" />预分宿舍
-					</router-link>
-				</a-menu-item>
-<!-- 				<a-col :span="12" v-if="judgeShowMenu('/enroll/studentImport')">
+				<a-col :span="12" v-if="judgeShowMenu('/enroll/studentImport')">
 					<router-link to="/enroll/studentImport">
 						<a-tag color="#E9EDF6" :class="ascertain == 21 ? 'menu-item item-1 up' : 'menu-item item-1'"
 							@click='changeSelected(21)'>
@@ -486,7 +345,7 @@
 							预分宿舍
 						</a-tag>
 					</router-link>
-				</a-col> -->
+				</a-col>
 				<!-- 				<a-col :span="12">
 					<router-link to="/enroll/reportMessage">
 						<a-tag color="#E9EDF6" :class="ascertain == 14 ? 'menu-item item-1 up' : 'menu-item item-1'"
@@ -589,7 +448,7 @@
 </script>
 
 <style>
-/* 	.loging {
+	.loging {
 		text-align: center;
 		margin-top: 300px;
 	}
@@ -610,14 +469,14 @@
 		color: #999999;
 		position: relative;
 		left: -9px;
-	} */
+	}
 
 	.leftBarBox .icon-img {
 		width: 20px;
 		height: 20px;
 	}
 
-	/* .leftBarBox .ant-menu {
+	.leftBarBox .ant-menu {
 		height: 0px !important;
 	}
 
@@ -664,7 +523,7 @@
 	.menu-item:hover {
 		cursor: pointer;
 		border: 1px dashed #8FB4FB;
-	} */
+	}
 
 	/* 	.item-1 {
 		margin-left: 15px;
@@ -674,7 +533,7 @@
 		margin-left: 10px;
 	} */
 
-	/* .ant-menu-submenu-title {
+	.ant-menu-submenu-title {
 		height: 20px !important;
 		line-height: 20px !important;
 		font-weight: 14px !important;
@@ -705,5 +564,5 @@
 
 	.up {
 		color: #4e89f8;
-	} */
+	}
 </style>

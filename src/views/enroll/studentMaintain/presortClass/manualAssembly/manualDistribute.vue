@@ -1,12 +1,10 @@
 <template>
-	<div style="background: #e9edf6;">
+	<div>
 		<div class="pageContentBox">
-			<div class="headTop">预分班><span class="notTop">手动分班</span></div>
-			<hr class="right-hr" />
 			<a-row>
 				<a-col :span='24'>
 					<div class="content-head-type2">
-						<div>
+						<div style="margin-bottom: 10px;">
 							<span class="title_span">所属年级：</span>
 							<a-cascader class="condition" :options="grade"  v-model='gradeId' placeholder="请选择年级" />
 							<span class="title_span">院系：</span>
@@ -19,15 +17,13 @@
 						<div>
 							<span class="title_span">招生类型：</span>
 							<a-cascader class="condition" :options="stuType" v-model='stuTypeId' placeholder="请选择招生类型" />
-							<a-button class="icon_btn  search-button" size="small" @click='getFenbanShow'>
+							<a-button type="primary" icon="search" style="margin-left: 10px;"  @click='getFenbanShow'>
 								<span class="flex_box">
-									<a-icon type="search" class="icon-img" />
 									搜索
 								</span>
 							</a-button>
-							<a-button class="icon_btn  empty-button" size="small" @click = 'empty'>
+							<a-button type="danger" style="margin-left: 10px;"  @click = 'empty'>
 								<span class="flex_box">
-									<img src='@/assets/img/clean.png' class="icon-img" />
 									清空
 								</span>
 							</a-button>
@@ -36,34 +32,31 @@
 				</a-col>
 				<a-col :span='24'>
 					<div style="margin-top: 10px;">
-					<a-button class="icon_btn" style="background: #00D09D" size="small" @click="handleExportXls('新生信息')">
+					<!-- <a-button type="primary" style="margin-right:10px;"  @click="handleExportXls('新生信息')">
 						<span class="flex_box">
-							<img src="@/assets/img/daochu.png" class="icon-position" />
+							
 							导出
 						</span>
-					</a-button>
-					<a-button class="icon_btn" style="background: #00D09D" size="small">
+					</a-button> -->
+					<a-button type="primary" style="margin-right:10px;" >
 						<span class="flex_box">
-							<img src="@/assets/img/print@2x.png" class="icon-position" />
 							打印
 						</span>
 					</a-button>
-					<a-button class="icon_btn_type_2" style="background: #00BAD0" size="small" @click='(classShow = true),(classType = 2)'>
+					<a-button type="primary" style="margin-right:10px;" @click='(classShow = true),(classType = 2)'>
 						<span class="flex_box">
-							<img src="@/assets/img/orderClass.png" class="icon-position" />
 							指定班级
 						</span>
 					</a-button>
-					<a-button class="icon_btn refresh-button" size="small" @click='getFenbanShow'>
+					<a-button type="primary"  icon="reload" @click='getFenbanShow'>
 						<span class="flex_box">
-							<img src="@/assets/img/shuaxin.png" class="icon-position" />
 							刷新
 						</span>
 					</a-button>
 					</div>
 				</a-col>
 			</a-row>
-			<a-table :columns="columns" :data-source="tableData" :defaultCurrent="6" :pagination="pagination"
+			<a-table :scroll="{ x: 1500, y: 300 }" :columns="columns" :data-source="tableData" :defaultCurrent="6" :pagination="pagination"
 				:rowKey="(record) => record.id" @change="tableChange" style="margin-top: 10px"
 				:row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
 				<div slot="statuId" slot-scope="id, record">
@@ -91,7 +84,7 @@
 						</div>
 					</a-col>
 					<a-col :span='14'>
-						<a-cascader class="condition" :options="grade"  v-model='gradeId2' placeholder="请选择年级" @change='classListChange'/>
+						<j-select-grade placeholder="请选择年级" v-model="gradeId" @change="classListChange"></j-select-grade>
 					</a-col>
 					<a-col :span='7'>
 						<div class="choiceTop">
@@ -143,7 +136,6 @@
 			        <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
 			        </template>
 			
-			    <div class="delete-img-bg"><img src="@/assets/img/ai215@2x.png" class="delete-img" /></div>
 			    <div class="delete-text">确认执行退班?</div>
 			</a-modal>
 		</div>
@@ -158,7 +150,8 @@
 	import {
 		Icon
 	} from 'ant-design-vue'
-	import { getFaculty } from '@/api/api'
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
+	import { getFaculty } from '@/api/enroll/api'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	})
@@ -168,7 +161,8 @@
 	export default {
 		mixins: [EduListMixin],
 		components: {
-			IconFont
+			IconFont,
+			JSelectGrade
 		},
 		data() {
 			return {
@@ -239,40 +233,49 @@
 						dataIndex: 'id',
 						key: 'id',
 						align: 'center',
+						fixed: 'left',
+						width: 150,
 					},
 					{
 						title: '姓名',
 						dataIndex: 'xm',
 						key: 'xm',
 						align: 'center',
+						fixed: 'left',
+						width: 150,
 					},
 					{
 						title: '学号',
 						dataIndex: 'xh',
 						key: 'xh',
+						width: 250,
 						align: 'center',
 					},
 					{
 						title: '所属年级',
 						dataIndex: 'njmc',
 						key: 'njmc',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '入学年份',
 						dataIndex: 'njdm',
 						key: 'njdm',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '招生类型',
 						dataIndex: 'enrollType',
 						key: 'enrollType',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '录取批次',
 						dataIndex: 'luqu',
+						width: 150,
 						key: 'luqu',
 						align: 'center',
 					},
@@ -280,24 +283,28 @@
 						title: '录取校区',
 						dataIndex: 'xqmc',
 						key: 'xqmc',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '录取专业',
 						dataIndex: 'zymc',
 						key: 'zymc',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '分配班级',
 						dataIndex: 'xzbmc',
 						key: 'xzbmc',
+						width: 150,
 						align: 'center',
 					},
 					{
 						title: '分配状态',
 						dataIndex: 'statuId',
 						key: 'statuId',
+						width: 150,
 						align: 'center',
 						scopedSlots: {
 							customRender: 'statuId'
@@ -308,6 +315,8 @@
 						title: '操作',
 						dataIndex: 'X',
 						key: 'cId',
+						fixed: 'right',
+						width: 200,
 						scopedSlots: {
 							customRender: 'action'
 						},
@@ -396,7 +405,6 @@
 			// 字典接口整合，开始时调用
 			getSearchList(){
 				this.getFacultyList()
-				this.getGrade()
 			},
 			// 院系点击时判断
 			specialtyChange(e){
@@ -593,9 +601,9 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 
-	.condition,
+	/* .condition,
 	.choiceTop {
 		margin-bottom: 15px;
 	}
@@ -649,7 +657,7 @@
 		width: 91px;
 		height: 17px;
 		margin-right: 15px;
-	}
+	} */
 
 	.page {
 		margin: 71px auto;
@@ -754,7 +762,7 @@
 		margin: 5px auto;
 	}
 
-	.single,
+	/* .single,
 	.double,
 	.long {
 		border: 1px solid #e5e5e5;
@@ -801,5 +809,5 @@
 	.delete-img{
 		width: 60px;
 		height: 60px;
-	}
+	} */
 </style>

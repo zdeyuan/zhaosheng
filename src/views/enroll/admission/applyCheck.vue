@@ -1,23 +1,21 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div class='constbox'>
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">网上报名审核</span></div>
-			<hr class="right-hr" />
 			<div class="content-head">
 				<div>
-					<span class="head-span">招生季</span>
+					<span class="head-span">招生季：</span>
 					<a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" />
 
-					<span class="head-span">专业部</span>
+					<span class="head-span">专业部：</span>
 					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange"
 						v-model="facultyId" />
 
-					<span class="head-span">专业</span>
-					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" @click='cascaderChange'/>
+					<span class="head-span">专业：</span>
+					<a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId"
+						@click='cascaderChange' />
 
-					<a-button class="icon_btn clear-button" size="small" @click="clear">
+					<a-button type="danger" style="margin-left: 10px;" @click="clear">
 						<span class="flex_box">
-							<img src="@/assets/img/clean.png" class="icon-position" />
 							清除
 						</span>
 					</a-button>
@@ -26,49 +24,45 @@
 
 			<div class="content-head">
 				<div>
-					<a-input class="condition-input" v-model="keyword" />
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-					<span class="head-span">是否审核</span>
-					<a-cascader class="condition select" :options="isAdmition" placeholder="全部"
+					<a-cascader class="condition select" style="width: 150px;" :options="keys" placeholder="姓名"
+						v-model="keysVal" />
+					<a-input class="condition-input" style="width: 200px;" placeholder="请输入" v-model="keyword" />
+					<span class="head-span">是否审核：</span>
+					<a-cascader class="condition select" style="width: 150px;" :options="isAdmition" placeholder="全部"
 						v-model="isAdmitionVal" />
 
-					<a-button class=" search-button icon_btn"  size="small" @click="search">
+					<a-button type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						<span class="flex_box">
-							<icon-font type="iconsousuo" style="color: #ffffff" />
 							搜索
 						</span>
 					</a-button>
 
-					<a-button class="icon_btn clear-button" size="small" @click="empty">
+					<a-button type="danger" style="margin-left: 10px;" @click="empty">
 						<span class="flex_box">
-							<icon-font type="iconqingkong1" style="color: #ffffff" />
 							清空
 						</span>
 					</a-button>
-					
+
 				</div>
 			</div>
 
 			<div class="content-head">
 				<div>
-<!-- 					<a-button class="icon_btn_type_2" style="background: #00D09D" size="small">
+					<!-- 					<a-button type="primary"  icon="reload" icon="check-circle">
 						<span class="flex_box">
-							<img src="@/assets/img/daochu.png" class="icon-position" />
+							
 							批量导出
 						</span>
 					</a-button> -->
-					
-					<a-button class="icon_btn_type_2" style="background: #00BAD0" size="small" @click='batchExamine'>
+
+					<a-button type="primary" icon="plus" style="margin-right:10px;" @click='batchExamine'>
 						<span class="flex_box">
-							<icon-font type="icontianjia" style="color: #ffffff" />
 							批量审核
 						</span>
 					</a-button>
-					
-					
+
+
 					<a-modal v-model="visibleReport" title="提示" @ok="handleOkReport" :width="478">
-						<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img" /></div>
 						<div class="report-text">确认要批量审核吗?</div>
 						<template slot="footer">
 							<a-button key="back" @click="handleOkReport" class="btn"> 确定 </a-button>
@@ -77,35 +71,37 @@
 						</template>
 					</a-modal>
 
-					<a-button class="icon_btn refresh-button" size="small">
+					<a-button type="primary" icon="reload" @click="search">
 						<span class="flex_box">
-							<img src="@/assets/img/shuaxin.png" class="icon-position" />
+
 							刷新
 						</span>
 					</a-button>
-					
-<!-- 					<a-button class="icon_btn_type_2" style="background: #00D09D" size="small" @click='batchPass'>
+
+					<!-- 					<a-button type="primary"  icon="reload" icon="check-circle" @click='batchPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/nextBtn.png" class="icon-position" />
+							
 							通过
 						</span>
 					</a-button>
 					
-					<a-button class="icon_btn_type_2" style="background: #FC8950" size="small" @click='batchNoPass'>
+					<a-button type="primary" icon="stop"  style="margin-right:10px;" @click='batchNoPass'>
 						<span class="flex_box">
-							<img src="@/assets/img/overBtn.png" class="icon-position" />
+							
 							不通过
 						</span>
 					</a-button> -->
 				</div>
 			</div>
 			<div>
-				<a-table :columns="columns" :data-source="data" :row-selection="rowSelection" :defaultCurrent="6"
-					:pagination="pagination" @change="tableChange">
-					<span slot="operator" slot-scope="text, record">
-						<a class="text-btn-color2" style="border-bottom: 1px solid #66c3fd"
-							@click="showMsg(record)">查看</a>
-					</span>
+				<a-table :columns="columns" :scroll="{ x: 1500 }" :data-source="data" :row-selection="rowSelection"
+					:defaultCurrent="6" :pagination="pagination" @change="tableChange">
+					<div slot="operator" slot-scope="text, record">
+						<a class="text-btn-color2" @click="showMsg(record)">查看</a>
+						<!-- <a-divider type="vertical" />
+						<a class="text-btn-color2" @click="batchExamine([record.id])">审核</a> -->
+					</div>
+
 				</a-table>
 			</div>
 		</div>
@@ -399,56 +395,69 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
+			fixed: 'left',
+			width: 100,
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			fixed: 'left',
+			width: 200,
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
+			width: 100,
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
+			width: 100,
 		},
 		{
 			title: '考试总分',
 			dataIndex: 'KSZF',
 			key: 'KSZF',
+			width: 100,
 		},
 		{
 			title: '是否审核',
 			dataIndex: 'isAdmit',
 			key: 'isAdmit',
+			width: 100,
 		},
 		{
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
+			width: 90,
 		},
 		{
 			title: '入学年份',
 			dataIndex: 'RXNF',
 			key: 'RXNF',
+			width: 100,
 		},
 		{
 			title: '招生季',
 			dataIndex: 'ZSJ',
 			key: 'ZSJ',
+			width: 100,
 		},
 		{
 			title: '学制',
 			dataIndex: 'XZ',
 			key: 'XZ',
+			width: 100,
 		},
 		{
 			title: '操作',
 			dataIndex: 'operator',
-			width: '10%',
+			fixed: 'right',
+			width: 150,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator',
@@ -538,88 +547,88 @@
 		},
 		methods: {
 			// 批量审核接口
-			batchExamine(){
+			batchExamine() {
 				var ids = ''
-				for(var i = 0 ; i < this.selectedRowKeys.length; i++){
+				for (var i = 0; i < this.selectedRowKeys.length; i++) {
 					console.log(this.selectedRowKeys[i])
-					if(i == 0){
-						ids+=this.selectedRowKeys[i]
-					}else{
-						ids+=','+this.selectedRowKeys[i]
+					if (i == 0) {
+						ids += this.selectedRowKeys[i]
+					} else {
+						ids += ',' + this.selectedRowKeys[i]
 					}
 				}
 				axios({
-				   url: '/enroll/ApplyCheck/batchCheck',
-				   method: 'post',
-				   params: {
-						ids:ids
-				   },
-				 }).then((res)=>{
-					if(res.code == '200'){
+					url: '/enroll/ApplyCheck/batchCheck',
+					method: 'post',
+					params: {
+						ids: ids
+					},
+				}).then((res) => {
+					if (res.code == '200') {
 						this.$message.success(res.result)
 						this.selectedRowKeys = []
 						this.getStuList()
-					}else{
+					} else {
 						this.$message.warning('批量审核失败')
 					}
 				})
 			},
-			batchPass(){
+			batchPass() {
 				var ids = ''
-				for(var i = 0 ; i < this.selectedRowKeys.length; i++){
+				for (var i = 0; i < this.selectedRowKeys.length; i++) {
 					console.log(this.selectedRowKeys[i])
-					if(i == 0){
-						ids+=this.selectedRowKeys[i]
-					}else{
-						ids+=','+this.selectedRowKeys[i]
+					if (i == 0) {
+						ids += this.selectedRowKeys[i]
+					} else {
+						ids += ',' + this.selectedRowKeys[i]
 					}
 				}
 				axios({
-				   url: '/enroll/ApplyCheck/batchPass',
-				   method: 'post',
-				   params: {
-						ids:ids
-				   },
-				 }).then((res)=>{
-					if(res.code == '200'){
+					url: '/enroll/ApplyCheck/batchPass',
+					method: 'post',
+					params: {
+						ids: ids
+					},
+				}).then((res) => {
+					if (res.code == '200') {
 						this.$message.success(res.result)
 						this.selectedRowKeys = []
 						this.getStuList()
-					}else{
+					} else {
 						this.$message.warning('批量通过失败')
 					}
 				})
 			},
-			batchNoPass(){
+			batchNoPass() {
 				var ids = ''
-				for(var i = 0 ; i < this.selectedRowKeys.length; i++){
+				for (var i = 0; i < this.selectedRowKeys.length; i++) {
 					console.log(this.selectedRowKeys[i])
-					if(i == 0){
-						ids+=this.selectedRowKeys[i]
-					}else{
-						ids+=','+this.selectedRowKeys[i]
+					if (i == 0) {
+						ids += this.selectedRowKeys[i]
+					} else {
+						ids += ',' + this.selectedRowKeys[i]
 					}
 				}
 				axios({
-				   url: '/enroll/ApplyCheck/batchNoPass',
-				   method: 'post',
-				   params: {
-						ids:ids
-				   },
-				 }).then((res)=>{
-					if(res.code == '200'){
+					url: '/enroll/ApplyCheck/batchNoPass',
+					method: 'post',
+					params: {
+						ids: ids
+					},
+				}).then((res) => {
+					if (res.code == '200') {
 						this.$message.success(res.result)
 						this.selectedRowKeys = []
 						this.getStuList()
-					}else{
+					} else {
 						this.$message.warning('批量不通过失败')
 					}
 				})
 			},
-			
-			
-			cascaderChange(e){
-				if(this.facultyId.length < 1){
+
+
+			cascaderChange(e) {
+				if (this.facultyId.length < 1) {
 					this.$message.warning('请先选择专业部！')
 				}
 				console.log(e)
@@ -786,10 +795,10 @@
 
 							for (let stu of res.result.list) {
 								let sex = stu.xbm == 1 ? '男' : '女'
-								let isAdmit = stu.isCheck == 1 ? '已审核' : 
-											  stu.isCheck == 0 ? '未审核' : 
-											  stu.isCheck == 2 ? '待审核': 
-											  stu.isCheck == 3 ? '未通过' : '错误'
+								let isAdmit = stu.isCheck == 1 ? '已审核' :
+									stu.isCheck == 0 ? '未审核' :
+									stu.isCheck == 2 ? '待审核' :
+									stu.isCheck == 3 ? '未通过' : '错误'
 								data.push({
 									key: stu.id,
 									XM: stu.xm,
@@ -928,11 +937,11 @@
 		width: 88px;
 		height: 34px;
 	}
-	
+
 	.icon_btn_type_2 {
 		color: #ffffff;
 		font-size: 16px;
 		margin-right: 20px;
 		height: 34px;
 	}
-</style>	
+</style>

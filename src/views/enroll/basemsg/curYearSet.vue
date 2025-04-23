@@ -1,26 +1,24 @@
 <template>
   <!-- 必须有一层父元素 -->
- <div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+ <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">当前招生年份设置</span></div>
-      <hr class="right-hr" />
       <div class="content-head">
         <div>
           <!-- 内容区 -->
 
-          <a-button class="tempAdd-button" @click="infoupda()"> 
-            <icon-font type="icontianjia" style="color: #ffffff" />添加 
+          <a-button type="primary" icon="plus"  @click="infoupda()"> 
+            添加 
           </a-button>
 
           <!-- 传入需要进行设置的年份参数 -->
-          <a-button class="set-year-btn button-after" @click="batchReport()">
-            <!-- <icon-font type="icontianjia" style="color: #ffffff" /> -->
-            <img src="@/assets/img/hook.png" class="icon-position"/>
+          <a-button type="primary" style="margin-left: 10px;" @click="batchReport()">
+            <!--  -->
+            
             设为当前年份
           </a-button>
 
-          <a-button type="primary" @click="noSelect" class="button-after refresh-button"> 
-            <img src="@/assets/img/shuaxin.png" class="icon-position"/>刷新 
+          <a-button type="primary" icon="reload" style="margin-left: 10px;" @click="noSelect"> 
+            刷新 
           </a-button>
         </div>
       </div>
@@ -50,12 +48,26 @@
                  <div class="font-style-year">年份代码</div>
               </td>
           <td colspan="2" class="double-year">
-               <a-input
+			  <DatePickByCN
+			     v-model="xnfdm"
+			        placeholder="请选择年份代码"
+				  mode="year"
+			      />
+			  <!-- <a-date-picker
+			    :open="open"
+			    @openChange="openChange"
+			    @panelChange="panelChange"
+			    mode="year"
+			    :value="xnfdm"
+			    format="YYYY"
+			    valueFormat="YYYY"
+			  /> -->
+               <!-- <a-input
                 default-value=""
                 v-model="xnfdm"
                 oninput = "value=value.replace(/[^\d]/g,'')"
                 /><font class="tip-year">必须为年份，如2015</font>
-              </td>
+              --></td> 
             </tr>
            <tr class="tr-style-year">
               <td class="td-div-left" style="width:130px">
@@ -75,7 +87,6 @@
               <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
               </template>
 
-          <div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img" /></div>
           <div class="delete-text">确认执行删除?</div>
         </a-modal>
 
@@ -89,11 +100,7 @@
                  <div class="font-style-year">年份代码</div>
               </td>
           <td colspan="2" class="double-year">
-               <a-input
-            default-value=""
-            v-model="nfdm"
-          oninput = "value=value.replace(/[^\d]/g,'')"
-          /><font class="tip-year">必须为年份，如2015</font>
+			  <DatePickByCN   v-model="nfdm"   placeholder="请选择年份代码"  mode="year"/>
               </td>
             </tr>
        <tr class="tr-style-year">
@@ -142,7 +149,7 @@ const columns = [
 export default {
   data() {
     return {
-  
+	  open: false,
       iscur: '',
       nfdm: '',
       xnfdm: '',
@@ -207,6 +214,17 @@ export default {
 		IconFont,
 	},
   methods: {
+	  openChange(status) {
+	    if (status) {
+	      this.open = true;
+	    } else {
+	      this.open = false;
+	    }
+	  },
+	  panelChange(value) {
+	     this.xnfdm=value ? value.format('YYYY') : '';;
+	     this.open = false;
+	  },
       addCancel(){
       this.addtable = false;
     },
@@ -495,7 +513,7 @@ return
 
 <style>
 
-.td-div-left{
+/* .td-div-left{
    width: 259px;
 height: 48px;
 background: #F8F8F9;
@@ -587,7 +605,7 @@ border-radius: 5px;
   background-color: #66C3FD;
 }
 
-/* .ant-table-thead > tr > th{
+.ant-table-thead > tr > th{
 	 background-color: #66C3FD!important;
 } */
 

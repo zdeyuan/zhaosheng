@@ -1,30 +1,25 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">招生计划查询</span></div>
-      <hr class="right-hr" />
 
       <div class="content-head">
         <div>
-<!--          <a-button :size="size" class="tempAdd-button" @click="showAdd()">
-            <icon-font type="icontianjia" style="color: #ffffff" />
+<!--          <a-button type="primary" icon="plus" @click="showAdd()">
+            
             添加
           </a-button>
 
-          <a-button :size="size" class="clear-button" @click="clear">
-            <img src="@/assets/img/clean.png" class="icon-delete" />
+          <a-button  type="danger"  icon="delete" style="margin-right:10px;" @click="clear">
+            
             删除
           </a-button> -->
 
-          <a-button :size="size" class="refresh-button button-after" @click="refresh">
-            <img src="@/assets/img/shuaxin.png" class="icon-position" />
-            刷新
-          </a-button>
+        
           <!-- 下拉框条件部分 -->
-          <span class="head-span palnTitle">招生季</span>
+          <span class="head-span palnTitle">招生季：</span>
           <a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" />
 
-          <span class="head-span">专业部</span>
+          <span class="head-span">专业部：</span>
           <a-cascader
             class="condition"
             :options="faculty"
@@ -33,17 +28,20 @@
             v-model="facultyId"
           />
 
-          <span class="head-span">专业</span>
+          <span class="head-span">专业：</span>
           <a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" @click='cascaderChange1'/>
-          <a-button :size="size" class="search-button" @click="search">
-            <icon-font type="iconsousuo" style="color: #ffffff" />
+          <a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
+           
             搜索
           </a-button>
 
-          <a-button :size="size" class="empty-button" @click="empty">
-            <icon-font type="iconqingkong1" style="color: #ffffff" />
+          <a-button  type="danger" style="margin-left: 10px;" @click="empty">
+            
             清空
           </a-button>
+		  <a-button  type="primary"  icon="reload" @click="refresh">
+		    刷新
+		  </a-button>
         </div>
       </div>
       <div>
@@ -53,6 +51,7 @@
           :row-selection="{ onChange: onSelectChange, selectedRowKeys }"
           :defaultCurrent="6"
           :pagination="myPageData"
+		  :scroll="{ x: 1500, y: 300 }"
         >
           <span slot="action" slot-scope="text, record">
             <a class = "text-btn-color2" href="javascript:;" @click="infoClick(text, record)">查看</a>
@@ -63,8 +62,6 @@
               <a-button key="back"  @click="Delete" class="btn"> 确定</a-button>
               <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
               </template>
-
-          <div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img" /></div>
           <div class="delete-text">确认执行删除?</div>
         </a-modal>
         <!--  -->
@@ -93,8 +90,8 @@
                 />
                 <!-- 专业的下拉框 -->
                 <a-cascader class="planMng-select" :options="county" placeholder="请选择" v-model="countyId" @click='cascaderChange'/>
-                <a-button class="search-button" @click="clearArea">
-                  <img src="@/assets/img/clean.png" class="icon-img" />
+                <a-button type="primary" icon="search" style="margin-left: 10px;" @click="clearArea">
+                  
                   清除
                 </a-button>
               </td>
@@ -156,8 +153,8 @@
                 >
                 
 				    <!--    <a-button> <a-icon type="upload" /> 选择文件 </a-button> -->
-				    <a-button :size="size" class="tempAdd-button" >
-                  <icon-font type="icontianjia" style="color: #ffffff" />
+				    <a-button type="primary" icon="plus" >
+                  
                   添加
                   </a-button>
                 </a-upload>
@@ -225,8 +222,8 @@
         </a-button>
 		  
       </template>
-	 	<div ref="print" id="printContent">
-          <table class="scanTable " style="text-align:left">
+	 	<div>
+          <table class="scanTable " style="text-align:left" ref="print" id="printContent">
            
 			
         <tr class="tr-style">
@@ -352,7 +349,7 @@
 
          <tr class="tr-style">
           <td class=" td-div">
-            <div class="font-style-queryPlan">毕业后去向及备注</div>
+            <div class="font-style">毕业后去向及备注</div>
           </td>
           <td class="double">
             <a-input read-only class=" input-style" v-model="remark_Print"></a-input>
@@ -395,50 +392,63 @@ const columns = [
     title: '所属专业',
     dataIndex: 'ZYMC',
     // key:'name',
+	fixed: 'left',
+	width: 150,
   },
   {
     title: '招生季年份',
     dataIndex: 'ZSNF',
+	fixed: 'left',
+	width: 150,
     // key:'age'
   },
   {
     title: '招生季',
     dataIndex: 'name',
+	width: 150,
     // key:'age'
   },
   {
     title: '学制',
     dataIndex: 'XZMC',
+	width: 150,
     // key:'age'
   },
   {
     title: '班级数',
     dataIndex: 'BJS',
     // key:'age'
+	width: 150,
   },
   {
     title: '男生人数',
     dataIndex: 'NANSRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '女生人数',
     dataIndex: 'NVSRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '总人数',
     dataIndex: 'ZRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '发布时间',
     dataIndex: 'create_time',
+	width: 250,
     // key:'age'
   },
   {
     title: '操作',
     key: 'action',
+	fixed: 'right',
+	width: 200,
     scopedSlots: { customRender: 'action' },
   },
 ]
@@ -1136,7 +1146,7 @@ console.log("this.quarterId")
 </script>
 
 <style>
-/* 添加按钮底色
+/* 添加按钮底色 */
 .tempAdd-button {
   width: 88px;
   height: 34px;
@@ -1151,7 +1161,7 @@ console.log("this.quarterId")
 .tempAdd-button:focus {
   color: white;
   background-color: #00bad0;
-} */
+}
 .tb {
   text-align: left;
 }
@@ -1167,17 +1177,6 @@ console.log("this.quarterId")
   font-weight: 700;
   margin-left: 23px;
   color: #ffffff;
-  line-height: 24px;
-}
-/* 字体样式1 */
-.font-style {
-  margin-left: 23px;
-  width: 114px;
-  height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #666666;
   line-height: 24px;
 }
 /* 字体样式1 */
@@ -1218,15 +1217,6 @@ console.log("this.quarterId")
   width: 259px;
 }
 
-.btn {
-  width: 100px;
-  height: 40px;
-  background: #0098f8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #ffffff;
-}
 
 textarea.planMng{
 width: 512px;
@@ -1262,6 +1252,6 @@ margin-right: 8px;
 }
 
 .palnTitle{
-  margin-left: 20px;
+  margin-left: 10px;
 }
 </style>

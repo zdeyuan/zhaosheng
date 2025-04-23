@@ -1,32 +1,32 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div  class='constbox'>
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">报到情况统计</span></div>
-			<hr class="right-hr">
 			<div class="content-head">
 
 				<div>
-					<span class="head-span">学校</span>
-					<a-cascader class="condition" :options="school" placeholder="请选择学校" />
+					<span class="head-span">学校：</span>
+					<a-cascader class="condition" :options="school" v-model="schoolId" placeholder="请选择学校" />
 				
-					<span class="head-span">院系</span>
-					<a-cascader class="condition" :options="faculty" placeholder="请选择学院系" @change="facultyChange" v-model="facultyId" />
-				
-					<span class="head-span">班级</span>
-					<a-cascader class="condition" :options="clazz" placeholder="请选择班级" v-model="clazzId" />
+					<j-select-zyb placeholder="请选择院系" v-model="facultyId"  :trigger-change="false" ></j-select-zyb>
 					
-					<span class="head-span">日期</span>
+					<span class="head-span">专业：</span>
+					<j-select-zy-by-zyb ref="zyByZyb" placeholder="请选择专业" v-model="specialtyId"  :trigger-change="false"></j-select-zy-by-zyb>
+									
+					<span class="head-span">班级：</span>
+					<j-select-banji-by-zy ref="banjiByZy" placeholder="请先选择专业"
+					                      v-model="clazzId"></j-select-banji-by-zy>
+					
+					<span class="head-span">日期：</span>
 					<!-- <a-cascader class="condition" :options="schoolDate" placeholder="请选择日期"  /> -->
-            		<a-date-picker class="input-style-reply date-style-Apply" @change="onChangeDate" v-model="curDate" placeholder="请选择日期"  />
-					
-					<a-button  class="search-button" @click="search">
-						<!-- <a-icon type="plus" /> -->
-						<icon-font type="iconsousuo" style="color: #FFFFFF;"/>
+					<DatePickByCN
+					   v-model="curDate"
+					  placeholder="请选择日期"
+					    />
+					<a-button  type="primary" icon="search" style="margin-top: 10px;" @click="search">
 						搜索
 					</a-button>
-					<a-button  class="empty-button clear-button" style = 'margin-left: 20px;' @click="clean" >
-						<img src="@/assets/img/clean.png" class="icon-delete"/>
+					<a-button  type="danger" style="margin-left: 10px;"  @click="clean" >
 						清空
 					</a-button>
 				</div>
@@ -44,6 +44,9 @@
 import statistics from './components/statistics.vue'
 import { Icon } from 'ant-design-vue'
 import {axios} from "@/utils/request"
+import JSelectBanjiByZy from '@/components/kwglbiz/JSelectBanjiByZy'
+	import JSelectZyb from '@/components/kwglbiz/JSelectZyb'
+	import JSelectZyByZyb from '@/components/kwglbiz/JSelectZyByZyb'
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 })
@@ -57,7 +60,10 @@ export default{
 			this.getStatistics();
 		},
 	components:{
-		statistics
+		statistics,
+		JSelectZyByZyb,
+		JSelectZyb,
+		JSelectBanjiByZy
 	},	
 	data ( ) {
 		
@@ -82,7 +88,7 @@ export default{
 			//专业部的下拉框数据
       		faculty: [],
       		facultyId: [],
-			
+			schoolId:'',
     		//班级的下拉框数据
 			clazz: [],
 			clazzId: [],
@@ -93,7 +99,7 @@ export default{
 			getSchool(){
 				this.school.push({
 					value:0,
-					label:'鹰潭职业技术学院',
+					label:'',
 				})
 
 			},
@@ -155,17 +161,15 @@ export default{
 			// },
 			search(){			
 						
-				this.curFaculty = this.facultyId.length == 0 ? 0 : this.facultyId[0];
+				// this.curFaculty = this.facultyId;
 				
-				this.curClazz = this.clazzId.length == 0 ? 0 : this.clazzId[0];
+				// this.curClazz = this.clazzId.length == 0 ? 0 : this.clazzId[0];
 
-				console.log(this.curFaculty+this.curClazz+"serch")
 				this.getStatistics();
 
 			},
 			getStatistics(){
 				this.statisticsData = [];
-				console.log("."+this.curDate+"weixiugai ")
 				if (this.curDate == null) {
 					this.curDate = '';
 					console.log("curdate=null");
@@ -176,17 +180,16 @@ export default{
 				} else {
 				let d = new Date(this.curDate)
 				let youWant = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
-				this.curDate = youWant
+					this.curDate = youWant
 				}
 				
-				console.log("."+this.curDate+"xiugaihou")
 				axios({
 					url: 'enroll/reportStatistics/getStatistics',
 					method: 'post',
 					params: {
-						"school":this.school[0].value,
-						"facultyId": this.curFaculty,
-						"classId":this.curClazz,
+						"school":this.schoolId,
+						"facultyId": this.facultyId.length==0?0:this.facultyId,
+						"classId":this.clazzId.length==0?0:this.clazzId,
 						"dateTime":this.curDate,
 					}
 				}).then(res => {
@@ -243,7 +246,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 	.statisticsBox{
 		text-align: center;
 		margin: 50px 0;
@@ -253,12 +256,11 @@ export default{
 		height: 34px;
 	}
 	.input-style-reply {
-	font-size: 18px;
-	color: #666666;
-	width: 300px;
-	height: 34px;
-	background-color: #ffffff;
-	border: 0;
-	margin-left: 5px;
+		color: #666666;
+		width: 300px;
+		height: 34px;
+		background-color: #ffffff;
+		border: 0;
+		margin-left: 5px;
 	}
 </style>

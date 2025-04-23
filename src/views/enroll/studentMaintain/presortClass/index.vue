@@ -1,16 +1,20 @@
 <template>
 	<div class="oa-meet-page">
-		<div>
+		<!-- <div>
 			<div :class="judget(1)" @click="content = 1">
 				手动分班
 			</div>
 			<div :class="judget(2)" @click="content = 2">
 				自动分班
 			</div>
-		</div>
+		</div> -->
+		<a-menu v-model="content" mode="horizontal">
+		    <a-menu-item key="1" > 手动分班 </a-menu-item>
+			<a-menu-item key="2" > 自动分班 </a-menu-item>
+		</a-menu>
 		<div>
-			<manual-distribute v-if="content == 1"></manual-distribute>
-			<auto-assembly v-if="content == 2"></auto-assembly>
+			<manual-distribute v-if="content == '1'"></manual-distribute>
+			<auto-assembly v-if="content == '2'"></auto-assembly>
 		</div>	
 	</div>	
 </template>
@@ -27,7 +31,7 @@
 		},
 		data() {
 			return {
-				content:1
+				content:['1']
 			};
 		},
 		methods:{
@@ -43,12 +47,12 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 	.oa-meet-page{
 		position: relative; /**相对定位 */
 		width: 100%;
 		height: 100%;
 		padding: 30px;
-		background: rgb(233, 237, 246);
+		
 	}
 </style>

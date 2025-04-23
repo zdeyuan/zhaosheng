@@ -1,5 +1,5 @@
 <template>
-	<div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+	<div  class='constbox'>
 		<div class="pageContentBox">
 			<top :designate='designate'></top>
 			<hr class="right-hr" />
@@ -40,7 +40,7 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 	.pageContentBox{
 		padding: 30px;
 	}

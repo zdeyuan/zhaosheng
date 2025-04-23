@@ -1,141 +1,135 @@
 <template>
-	<div style="background:#E9EDF6; padding:30px">
+	<div style="padding:20px">
 
 		<div class="pageContentBox">
-			<div class="headTop">录取名单 > <span class="notTop">预录取</span></div>
-			<hr class="right-hr">
-			<div class="content-head">
-				<div>
-					<span class="head-span">考生号</span>
-					 <!-- 考生号输入框 -->
-                    <a-input class="input-style-replyTwo"  v-model="ksh"  placeholder="请输入"></a-input>
-
-					<span class="head-span">姓名</span>
-					 <!-- 姓名输入框 -->
-                    <a-input class="input-style-replyTwo"  v-model="stuName" placeholder="请输入"></a-input>
-				
-					<span class="head-span">学年</span>
-					<a-cascader class="condition" :options="grade" placeholder="请选择" v-model="gradeId" />
-    
-                    <span class="head-span">学期</span>
-					<a-cascader class="condition" :options="semester" placeholder="请选择" v-model="semesterId" />
-				
-					<a-button :size="size" class="search-button" @click="search">
-						<icon-font type="iconsousuo" style="color: #FFFFFF;"/>
-						搜索
-					</a-button>
-
-					<a-button :size="size" class="empty-button " @click="empty">
-						<icon-font type="iconqingkong1" style="color: #FFFFFF;"/>
-						清空
-					</a-button>
-
-				</div>		
-			</div>
-
-			<div class="content-head">
-				<div>					
-		
-				<a-button class="icon_btn" style="background: #00d09d" size="small" @click="showUpload">
-						<span class="flex_box">
-							<icon-font type="iconfanhui" style="color: #ffffff" />
-							导入
-						</span>
-					</a-button>
-					
-					<a-button class="icon_btn" style="background: #00d09d" size="small" @click="exportMessage">
-						<span class="flex_box">
-							<img src="@/assets/img/daochu.png" class="icon-position"/>
-								导出
-						</span>
-					</a-button>
-          <!-- 导入 弹窗 -->
-          <a-modal v-model="upload" title="导入" @ok="uploadCancel" @cancel="uploadCancel" :width="1073">
-            <table class="import-tr">
-              <tr>
-                <td class="left-td">
-                  文件要求
-                </td>
-                <td class="right-td">
-                  <div class="pad-style">导入excel文件一定要严格按照规定的格式，注意有选择的数据内容 允许类型：<br> "xls和xlsx"(文件总大小不能超过20MB)</div>
-                </td>
-              </tr>
-              <!-- style="margin-left: 20px; margin-top: 5px; margin-buttom: 5px;" -->
-              <tr>
-                <td class="left-td">选择导入文件</td>
-                <td class="right-td">
-                  <a-upload                  
-                    class="pad-style"
-                    name="file"
-                    :showUploadList="false"
-                    :multiple="false"
-                    :headers="tokenHeader"
-                    :action="importExcelUrl"
-                    @change="handleImportExcel"
-                  >
-                    <a-button class="choose-file-btn">
-                      <icon-font type="icontianjia" style="color: #ffffff" />选择文件
-                    </a-button>
-                  </a-upload>
-                </td>
-              </tr>
-              <tr>
-                <td class="left-td">导入模版</td>
-                <td class="right-td">
-                  <font class="orange-font pad-style">导入文件请务必使用导入时专有数据模版</font>
-                  <a class = "text-btn-color1" style="font-size: 18px; margin-left: 5px" @click="getModel()">点击下载</a>
-				  <!-- <a class = "text-btn-color1" style="font-size: 18px; margin-left: 5px" href="https://digital-school-xx0422.oss-cn-shenzhen.aliyuncs.com/importModel/enrollApplyModel.xls">点击下载</a> -->
-                </td>
-              </tr>
-              
-            </table><br>
-
-            <div class="pointout-apply-div">
-            <br />
-              <div class="font-apply-div">
-                温馨提示：<br />            
-                ①姓名和身份证号必须唯一，身份证号如果已经存在则更新，不存在则新增; <br/>
-                ②导入时默认录取状态字段值为未录取，已报到的不能更新; <br/>
-                ③*专业部名称、专业名称、学制、层次、户口所在省市和县区，必须参照系统中的设置，否则将直接导致导入失败; <br/>
-                ④层次、户口类别、健康状况、政治面貌必须参照数据字典数据，否则导入无效。<br/>
-                <br>
-              </div>
-            </div>
-
-          </a-modal>
+			<div class="top">
+				<div class="top">
+					<span class="head-span">考生号：</span>
+					<!-- 考生号输入框 -->
+					<a-input class="condition" style="width: 200px;" v-model="ksh" placeholder="请输入"></a-input>
+				</div>
+				<div class="top">
+					<span class="head-span">姓名：</span>
+					<!-- 姓名输入框 -->
+					<a-input class="condition" style="width: 200px;" v-model="stuName" placeholder="请输入"></a-input>
 				</div>
 			</div>
-
-			<div>
-				<a-table 					
-					:columns="columns" 
-					:data-source="data" 
-					:row-selection="rowSelection" 
-					:defaultCurrent="6"
-					:pagination="pagination" 
-					
-					@change="tableChange">
-					<span slot="operator" slot-scope="text, record">
-						<a class = "text-btn-color2" style="border-bottom: 1px solid #66C3FD;" @click="showMsg(record)">查看</a>						
-					</span>
-										
-				</a-table>
+			<div class="top" style="margin-top:10px;">
+				<div style="display:flex">
+					<span class="head-span">学年：</span>
+					<j-select-grade placeholder="请选择年级" v-model="gradeId"></j-select-grade>
+				</div>
+				<div style="display:flex">
+					<span class="head-span">学期：</span>
+					<j-select-xueqi placeholder="请选择学期" v-model="semesterId"></j-select-xueqi>
+				</div>
+				<a-button type="primary" icon="search" style="margin-right: 10px;" @click="search">
+					搜索
+				</a-button>
+				<a-button style="margin-right: 10px;" type="danger" icon="delete" @click="empty">
+					清空
+				</a-button>
 			</div>
 		</div>
+
+		<div class="content-head">
+			
+			<div>
+				<a-button type="primary" style="margin-right:10px;" @click="search">
+					<span class="flex_box">
+						刷新
+					</span>
+				</a-button>
+				<a-button type="primary" style="margin-right:10px;" @click="showUpload">
+					<!-- <span class="flex_box">
+
+						导入
+					</span> -->
+				</a-button>
+
+				<!-- <a-button type="primary" style="margin-right:10px;" @click="exportMessage">
+					<span class="flex_box">
+
+						导出
+					</span>
+				</a-button> -->
+				<!-- 导入 弹窗 -->
+				<a-modal v-model="upload" title="导入" @ok="uploadCancel" @cancel="uploadCancel" :width="1073">
+					<table class="import-tr">
+						<tr>
+							<td class="left-td">
+								文件要求
+							</td>
+							<td class="right-td">
+								<div class="pad-style">导入excel文件一定要严格按照规定的格式，注意有选择的数据内容 允许类型：<br>
+									"xls和xlsx"(文件总大小不能超过20MB)</div>
+							</td>
+						</tr>
+						<!-- style="margin-left: 10px; margin-top: 5px; margin-buttom: 5px;" -->
+						<tr>
+							<td class="left-td">选择导入文件</td>
+							<td class="right-td">
+								<a-upload class="pad-style" name="file" :showUploadList="false" :multiple="false"
+									:headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+									<a-button class="choose-file-btn">
+										选择文件
+									</a-button>
+								</a-upload>
+							</td>
+						</tr>
+						<tr>
+							<td class="left-td">导入模版</td>
+							<td class="right-td">
+								<font class="orange-font pad-style">导入文件请务必使用导入时专有数据模版</font>
+								<a class="text-btn-color1" style="font-size: 18px; margin-left: 5px"
+									@click="getModel()">点击下载</a>
+								<!-- <a class = "text-btn-color1" style="font-size: 18px; margin-left: 5px" href="https://digital-school-xx0422.oss-cn-shenzhen.aliyuncs.com/importModel/enrollApplyModel.xls">点击下载</a> -->
+							</td>
+						</tr>
+
+					</table><br>
+
+					<div class="pointout-apply-div">
+						<br />
+						<div class="font-apply-div">
+							温馨提示：<br />
+							①姓名和身份证号必须唯一，身份证号如果已经存在则更新，不存在则新增; <br />
+							②导入时默认录取状态字段值为未录取，已报到的不能更新; <br />
+							③*专业部名称、专业名称、学制、层次、户口所在省市和县区，必须参照系统中的设置，否则将直接导致导入失败; <br />
+							④层次、户口类别、健康状况、政治面貌必须参照数据字典数据，否则导入无效。<br />
+							<br>
+						</div>
+					</div>
+
+				</a-modal>
+			</div>
+		</div>
+
+		<div>
+			<a-table :columns="columns" :data-source="data" :defaultCurrent="6" :pagination="pagination"
+				:scroll="{ x: 1500, y: 300 }" @change="tableChange">
+				<span slot="operator" slot-scope="text, record">
+					<a class="text-btn-color2" @click="showMsg(record)">查看</a>
+				</span>
+
+			</a-table>
+		</div>
+	</div>
 	</div>
 </template>
 
 <script>
-    import {
-    	EduListMixin
-  	} from '@/mixins/EduListMixin';
+	import {
+		EduListMixin
+	} from '@/mixins/EduListMixin';
 	import {
 		Icon
 	} from 'ant-design-vue';
 	import {
 		axios
 	} from "@/utils/request"
-
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
+	import JSelectXueqi from '@/components/kwglbiz/JSelectXueqi'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_vvis3tohqh.js',
 	});
@@ -144,73 +138,86 @@
 			title: '考生号',
 			dataIndex: 'KSH',
 			key: 'KSH',
+			fixed: 'left',
+			width: 250,
 		},
 		{
 			title: '姓名',
 			dataIndex: 'STUNAME',
 			key: 'STUNAME',
+			fixed: 'left',
+			width: 150,
 		},
 		{
 			title: '学年',
 			dataIndex: 'GRADE',
 			key: 'GRADE',
+			width: 150,
 		},
 		{
 			title: '学期',
 			dataIndex: 'SEMESTER',
 			key: 'SEMESTER',
+			width: 150,
 		},
-        {
+		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			width: 250,
 		},
 		{
 			title: '中学名称',
 			dataIndex: 'ZXMC',
 			key: 'ZXMC',
+			width: 150,
 		},
 		{
 			title: '预录取专业',
 			dataIndex: 'YLQZY',
 			key: 'YLQZY',
+			width: 150,
 		},
-        {
+		{
 			title: '总分',
 			dataIndex: 'SCORE',
 			key: 'SCORE',
+			width: 150,
 		},
 		{
 			title: '科目一',
 			dataIndex: 'SUBJECTS1',
 			key: 'SUBJECTS1',
+			width: 150,
 		},
 		{
 			title: '科目二',
 			dataIndex: 'SUBJECTS2',
 			key: 'SUBJECTS2',
+			width: 150,
 		},
-        {
+		{
 			title: '科目三',
 			dataIndex: 'SUBJECTS3',
 			key: 'SUBJECTS3',
+			width: 150,
 		},
-       
-    ];
+
+	];
 	let data = [];
 
 
 
 	export default {
-        mixins: [EduListMixin],// 引入模块
+		mixins: [EduListMixin], // 引入模块
 		data() {
 			return {
-				
+
 				url: {
-        			list: 'enroll/stuInfoQuery/exportModel',
-          			exportXlsUrl: 'enroll/admission/exportPreAdmission',
-              		importExcelUrl: 'enroll/admission/preAdmissionImport',
-        		},
+					list: 'enroll/stuInfoQuery/exportModel',
+					exportXlsUrl: 'enroll/admission/exportPreAdmission',
+					importExcelUrl: 'enroll/admission/preAdmissionImport',
+				},
 				pagination: {
 					current: 0,
 					pageSize: 8,
@@ -219,7 +226,7 @@
 					showTotal: (total, range) => {
 						return '显示' + range[0] + '到' + range[1] + '条, 共' + total + '条记录'
 					},
-					showQuickJumper: true,					
+					showQuickJumper: true,
 					total: 0
 				},
 				selectedRowKeys: [],
@@ -238,83 +245,83 @@
 				/* 下拉框数据 */
 				//年级
 				grade: [],
-            	gradeId: [],
+				gradeId: [],
 
 				//学期
-				semester:[],
-				semesterId:[],
+				semester: [],
+				semesterId: [],
 
 				//
 				// 数据
-				curGrade:'',
-				curSemester:'',
+				curGrade: '',
+				curSemester: '',
 				//输入框数据
-				stuName:'',
-				
-				ksh:'',//考生号
+				stuName: '',
+
+				ksh: '', //考生号
 				condit: '',
 				/* 按条件搜索报到的数量 */
 				reportCount: 0,
 				/* 弹出框属性 */
-                upload: false,
+				upload: false,
 				visible: false,
 				loading: false,
 				/* 弹窗对象 */
-				entityObj:{},
-				
+				entityObj: {},
+
 			};
 		},
 		mounted() {
-			this.getSemester();
-			this.getGrade();
 			this.getFullAdmission();
 		},
-		computed:{
+		computed: {
 			// 拼接导入
-			importExcelUrl: function () {
-			return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
+			importExcelUrl: function() {
+				return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
 			}
 		},
 		components: {
 			IconFont,
+			JSelectGrade,
+			JSelectXueqi,
 		},
 		methods: {
-			getModel(){
-				this.url.exportXlsUrl='enroll/admission/getPreTemplate';
+			getModel() {
+				this.url.exportXlsUrl = 'enroll/admission/getPreTemplate';
 				this.handleExportXls('预录取导入模板');
-				this.url.exportXlsUrl='enroll/admission/exportPreAdmission';
+				this.url.exportXlsUrl = 'enroll/admission/exportPreAdmission';
 			},
-			exportMessage(){
+			exportMessage() {
 				if (this.semesterId.length != 0) {
-					for(let s of this.semester){
+					for (let s of this.semester) {
 						if (s.value == this.semesterId[0]) {
 							this.curSemester = s.label;
 						}
 					}
-				}else{
+				} else {
 					this.curSemester = '';
 				}
 				this.curGrade = this.gradeId.length == 0 ? '' : this.gradeId[0];
 				var conditions = {
-						"KSH": this.ksh,
-						 "XM": this.stuName,
-						 "XN": this.curGrade,
-						 "XQ": this.curSemester,
-						 };
+					"KSH": this.ksh,
+					"XM": this.stuName,
+					"XN": this.curGrade,
+					"XQ": this.curSemester,
+				};
 				var conditStr = JSON.stringify(conditions)
-				
-				this.handleExportXls("预录取名单",conditStr)
+
+				this.handleExportXls("预录取名单", conditStr)
 			},
-            showUpload() {
-            this.upload = true
-            },
-            //关闭导入弹窗
-            uploadCancel() {
-            this.upload = false
-            },
+			showUpload() {
+				this.upload = true
+			},
+			//关闭导入弹窗
+			uploadCancel() {
+				this.upload = false
+			},
 			//获取年级
 			getGrade() {
-				
+
 				axios({
 					url: 'enroll/divideClassMng/getGrade',
 					method: 'post',
@@ -334,7 +341,7 @@
 			},
 			//获取学期
 			getSemester() {
-				
+
 				axios({
 					url: 'enroll/admission/getSemesterList',
 					method: 'post',
@@ -352,7 +359,7 @@
 					this.$message.warning("获取学期失败");
 				})
 			},
-			search(){
+			search() {
 				this.currentPage = 1;
 				// if (this.gradeId.length != 0) {
 				// 	for(let g of this.grade){
@@ -362,12 +369,12 @@
 				// 	}
 				// }
 				if (this.semesterId.length != 0) {
-					for(let s of this.semester){
+					for (let s of this.semester) {
 						if (s.value == this.semesterId[0]) {
 							this.curSemester = s.label;
 						}
 					}
-				}else{
+				} else {
 					this.curSemester = '';
 				}
 				this.curGrade = this.gradeId.length == 0 ? '' : this.gradeId[0];
@@ -375,7 +382,7 @@
 				this.getFullAdmission();
 			},
 			tableChange(pagination) {
-				
+
 				this.pagination.current = pagination.current;
 				this.pagination.pageSize = pagination.pageSize;
 
@@ -386,53 +393,52 @@
 
 			},
 			//预录取列表获取
-			getFullAdmission(){
+			getFullAdmission() {
 				let currentPage = this.currentPage;
 				let pageSize = this.pageSize;
-				
-				console.log("huoquxinxi"+this.zkzh+this.stuName+this.curGrade+this.curSemester);
+
+				console.log("huoquxinxi" + this.zkzh + this.stuName + this.curGrade + this.curSemester);
 				axios({
 					url: 'enroll/admission/getPreAdmissionList',
 					method: 'post',
 					params: {
-						 "KSH": this.ksh,
-						 "XM": this.stuName,
-						 "XN": this.curGrade,
-						 "XQ": this.curSemester,
-						 "currentPage": currentPage,
-						 "pageSize": pageSize
+						"KSH": this.ksh,
+						"XM": this.stuName,
+						"XN": this.curGrade,
+						"XQ": this.curSemester,
+						"currentPage": currentPage,
+						"pageSize": pageSize
 					}
 				}).then(res => {
-					
+
 					data.splice(0, data.length);
 					// var enty = res.result.list[1].id;
 					console.log(res);
 					// console.log(res.result.list.length+"enty" +enty)
 					if (res.code == 500) {
-            			this.$message.warning(res.message)
-            			return
-          			}
-					if(res.result.list.length==0){
-						this.$message.warning("暂无拟录预名单信息！");
+						this.$message.warning(res.message)
+						return
+					}
+					if (res.result.list.length == 0) {
 						return;
 					}
 					for (let score of res.result.list) {
-						
+
 						data.push({
 							key: score.id,
-							ZXMC:score.zxmc,
-							SFZH:score.sfzh,
-                            STUNAME: score.xm,							
+							ZXMC: score.zxmc,
+							SFZH: score.sfzh,
+							STUNAME: score.xm,
 							KSH: score.ksh,
-                            GRADE: score.xn,
+							GRADE: score.xn,
 							SEMESTER: score.xq,
 							YXMC: score.faculty,
 							YLQZY: score.prepmajor,
-                            SUBJECTS1: score.km1,							
+							SUBJECTS1: score.km1,
 							SUBJECTS2: score.km2,
 							SUBJECTS3: score.km3,
-                            SCORE: score.zf,							
-							
+							SCORE: score.zf,
+
 						})
 					}
 					this.pagination.current = currentPage;
@@ -441,67 +447,69 @@
 					this.$message.warning("获取预录取列表失败");
 				})
 			},
-			empty(){
+			empty() {
 				this.ksh = '';
-				this.curGrade='';
-				this.curSemester='';
-				this.stuName='';
+				this.curGrade = '';
+				this.curSemester = '';
+				this.stuName = '';
 				this.gradeId = [];
 				this.semesterId = [];
 			}
-        },
+		},
 	};
 </script>
 
 <style>
-.import-tr{
-  width: 1030px;
-}
-.left-td{
-  background-color: #f5f5f5;
-  width: 100px;
-  height: 50px;
-  border: 1px solid #e5e5e5;
-font-size: 18px;
-font-family: Microsoft YaHei;
-font-weight: 700;
-color: #666666;
-line-height: 24px;
-}
+	.import-tr {
+		width: 1030px;
+	}
 
-.right-td{
-  border: 1px solid #e5e5e5;
-font-size: 18px;
-font-family: Microsoft YaHei;
-font-weight: 700;
-color: #666666;
-line-height: 24px;
-  width: 230px;
-  height: 50px;
-}
+	.left-td {
+		background-color: #f5f5f5;
+		width: 100px;
+		height: 50px;
+		border: 1px solid #e5e5e5;
+		font-size: 18px;
+		font-family: Microsoft YaHei;
+		font-weight: 700;
+		color: #666666;
+		line-height: 24px;
+	}
 
-.pad-style{
-  margin-left: 20px; 
-  margin-top: 5px; 
-  margin-bottom: 5px;
-}
+	.right-td {
+		border: 1px solid #e5e5e5;
+		font-size: 18px;
+		font-family: Microsoft YaHei;
+		font-weight: 700;
+		color: #666666;
+		line-height: 24px;
+		width: 230px;
+		height: 50px;
+	}
 
-.orange-font{
-  height: 20px;
-font-size: 18px;
-font-family: Microsoft YaHei;
-font-weight: 700;
-color: #FC8950;
-line-height: 28px;
-}
+	.pad-style {
+		margin-left: 10px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
 
-.choose-file-btn,
-.choose-file-btn:hover,
-.choose-file-btn:active,
-.choose-file-btn:focus {
-  color: white;
-  background-color: #00bad0;
-}
+	.orange-font {
+		height: 20px;
+		font-size: 18px;
+		font-family: Microsoft YaHei;
+		font-weight: 700;
+		color: #FC8950;
+		line-height: 28px;
+	}
+
+	.choose-file-btn,
+	.choose-file-btn:hover,
+	.choose-file-btn:active,
+	.choose-file-btn:focus {
+		color: white;
+		background-color: #00bad0;
+	}
+
 	.dorm-modify-top {
 		width: 500px;
 		height: 40px;
@@ -534,44 +542,44 @@ line-height: 28px;
 	}
 
 
-    /*  */
-     .applyexport-button{
-	width: 88px;
-	height: 34px;
-	background: #00D09D;
-	border-radius: 5px;
-	margin-left: 20px;
-}
-.stuInfo-input{
-	margin-left: 20px;
-}
+	/*  */
+	.applyexport-button {
+		width: 88px;
+		height: 34px;
+		background: #00D09D;
+		border-radius: 5px;
+		margin-left: 10px;
+	}
 
-.export-button{
-	width: 88px;
-	height: 34px;
-	background: #00D09D;
-	border-radius: 5px;
-	margin-right: 20px;
-}
+	.stuInfo-input {
+		margin-left: 10px;
+	}
 
-.export-button,
-.export-button:hover,
-.export-button:active,
-.export-button:focus {
-    color: white;
-    background-color: #00D09D;
-}
-.input-style-replyTwo {
-  font-size: 18px;
-  color: #666666;
-  width: 200px;
-  height: 34px;
-  background-color: #ffffff;
-  border: 0;
-  margin-left: 5px;
-}
+	.export-button {
+		width: 88px;
+		height: 34px;
+		background: #00D09D;
+		border-radius: 5px;
+		margin-right: 20px;
+	}
 
-.icon_btn {
+	.export-button,
+	.export-button:hover,
+	.export-button:active,
+	.export-button:focus {
+		color: white;
+		background-color: #00D09D;
+	}
+
+	.input-style-replyTwo {
+		color: #666666;
+		width: 200px;
+		background-color: #ffffff;
+		border: 0;
+		margin-left: 5px;
+	}
+
+	.icon_btn {
 		color: #ffffff;
 		font-size: 16px;
 		margin-right: 20px;
@@ -584,5 +592,17 @@ line-height: 28px;
 		font-size: 16px;
 		margin-right: 20px;
 		height: 34px;
+	}
+
+	.top {
+		display: flex;
+		align-items: center;
+	}
+
+	.head-span {
+		margin: 0 10px;
+		width: 60px;
+		line-height: 40px;
+		text-align: right;
 	}
 </style>

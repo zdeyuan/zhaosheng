@@ -1,8 +1,6 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">学号生成规则设置</span></div>
-      <hr class="right-hr" />
 
       <div class="xhRuleDiv">
         <table class="xhrule-tb">
@@ -91,7 +89,9 @@
           </tr>
           
         </table>
-        <a-button class="save-btn" @click="saveNumRule">保存</a-button>
+		<div style="text-align: center; margin: 10px;">
+        <a-button type="primary" @click="saveNumRule">保存</a-button>
+		</div>
         <div class="pointout-div">
           <br />
           <div class="font-div">
@@ -288,7 +288,6 @@ export default {
 <style>
 
 .noNull-style{
-  font-size: 18px;
   font-family: Microsoft YaHei;
   font-weight: 700;
   color: #a83939;
@@ -305,7 +304,6 @@ export default {
 .font-div {
   width: 1223px;
   height: 29px;
-  font-size: 18px;
   font-family: Microsoft YaHei;
   font-weight: 700;
   color: #3581a6;
@@ -332,23 +330,17 @@ export default {
 
 .td-style {
   width: 375.5px;
-  font-size: 20px;
-  font-family: Adobe Heiti Std;
-  font-weight: 400;
   text-align: center;
   color: #ffffff;
 }
 
 .td-class,.td-class-radio {
   height: 18px;
-  font-size: 18px;
-  font-family: Adobe Heiti Std;
-  font-weight: 400;
   color: #999999;
 }
 
 .td-class {
-  text-indent: 165px;
+	text-align:center;
 }
 
 .td-class-radio {
@@ -363,7 +355,6 @@ export default {
   padding-right: 8px;
   padding-left: 8px;
   height: 19px;
-  font-size: 18px;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #666666;

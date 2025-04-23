@@ -1,45 +1,29 @@
 <template>
-	<div style="background:#E9EDF6; padding:20px; margin-top:20px;">
+	<div  class='constbox'>
 		
 		<div class="pageContentBox">
-			<div class="headTop"><span class="notTop">编制学号</span></div>
-			<hr class="right-hr">
 			<div class="content-head">
 
 				<div>
-				
-					<span class="head-span">专业部</span>
-					<a-cascader class="condition" :options="faculty" placeholder="请选择" @change="facultyChange" 
-						v-model="facultyId" />
-
-					<span class="head-span">专业</span>
-					<a-cascader class="condition" :options="specialty" placeholder="请选择" @change="getClazz" 
-						v-model="specialtyId" />
-				
-					<span class="head-span">班级</span>
-					<a-cascader class="condition" :options="clazz" placeholder="请选择" v-model="clazzId" />
-				
-					<a-button :size="size" class="clear-button" @click="clear">
-						<img src="@/assets/img/clean.png" class="icon-delete"/>
-						清除
-					</a-button>
+					<span class="head-span">专业部：</span>
+					<j-select-zyb placeholder="请选择院系" v-model="facultyId"  :trigger-change="false" ></j-select-zyb>
+					<span class="head-span">专业：</span>
+					<j-select-zy-by-zyb ref="zyByZyb" placeholder="请选择专业" v-model="specialtyId"  :trigger-change="false"></j-select-zy-by-zyb>
+					<span class="head-span">班级：</span>
+					<j-select-banji-by-zy ref="banjiByZy" placeholder="请先选择专业"
+					                      v-model="clazzId"></j-select-banji-by-zy>
 
 				</div>		
 			</div>
 
 			<div class="content-head">
 				<div>
-					<a-input class="condition-input stuInfo-input" v-model.trim="keyword" />
-
-					<a-cascader class="condition select" :options="keys" placeholder="姓名" v-model="keysVal" />
-				
-					<a-button :size="size" class="search-button" @click="search">
-						<icon-font type="iconsousuo" style="color: #FFFFFF;"/>
+					<a-cascader class="condition select" style="width:100px;" :options="keys" placeholder="姓名" v-model="keysVal" />
+					<a-input class="condition-input" style="width:200px;" placeholder="请输入" v-model.trim="keyword" />
+					<a-button  type="primary" icon="search" style="margin-left: 10px;" @click="search">
 						搜索
 					</a-button>
-
-					<a-button :size="size" class="empty-button " @click="empty">
-						<icon-font type="iconqingkong1" style="color: #FFFFFF;"/>
+					<a-button  type="danger"  icon="delete" style="margin-left: 10px;" @click="empty">
 						清空
 					</a-button>
 				</div>
@@ -48,8 +32,8 @@
 			<div class="content-head">
 				<div>					
 		
-					<a-button :size="size" class="create-button" @click="showModalCreate">
-						<img src="@/assets/img/hook.png" class="icon-position"/>
+					<a-button  type="primary" style="margin-right: 10px;" @click="showModalCreate">
+						
 						批量编制学号
 					</a-button>
 					<a-modal v-model="visibleCreate" title="提示" @ok="handleOkCreate" :width="478"> 
@@ -57,25 +41,23 @@
                         <a-button key="back"  @click="handleOkCreate" class="btn"> 确定</a-button>
                         <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
                         </template>	
-						<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img"/></div>					   					
 						<div class="create-text">确认要批量编制学号吗?</div>
     				</a-modal>
 					
-					<a-button :size="size" class="search-create-button button-after" @click="showModalCreateBySearch">
-						<img src="@/assets/img/hook.png" class="icon-position"/>
+					<!-- <a-button  type="primary" style="margin-right: 10px;" @click="showModalCreateBySearch">
+						
 						按搜索条件批量编制学号
-					</a-button>
+					</a-button> -->
 					<a-modal v-model="visibleCreateBySearch" title="提示" @ok="handleOkCreateBySearch" :width="478">
 						<template slot="footer">		
                         <a-button key="back"  @click="handleOkCreateBySearch" class="btn"> 确定</a-button>
                         <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
                         </template>	
-						<div class="img-bg"><img src="@/assets/img/duihao.png" class="duihao-img"/></div>
 					    <div class="create-search-text">共{{this.createCount}}条数据，确认要进行按条件批量编制学号吗?</div>						
     				</a-modal>
 
-                    <a-button :size="size" class="refresh-button" @click="refresh">
-						<img src="@/assets/img/shuaxin.png" class="icon-position"/>
+                    <a-button  type="primary" style="margin-right: 10px;" @click="refresh">
+						
 						刷新
 					</a-button>
 				</div>
@@ -88,10 +70,10 @@
 					:row-selection="rowSelection" 
 					:defaultCurrent="6"
 					:pagination="pagination" 
-					
+					:scroll="{ x: 1500}"
 					@change="tableChange">
 					<span slot="operator" slot-scope="text, record">
-						<a class = "text-btn-color2" style="border-bottom: 1px solid #66C3FD;" @click="showMsg(record)">查看</a>						
+						<a class = "text-btn-color2"  @click="showMsg(record)">查看</a>						
 					</span>
 										
 				</a-table>
@@ -216,7 +198,9 @@
 	import {
 		axios
 	} from "@/utils/request"
-
+	import JSelectBanjiByZy from '@/components/kwglbiz/JSelectBanjiByZy'
+	import JSelectZyb from '@/components/kwglbiz/JSelectZyb'
+	import JSelectZyByZyb from '@/components/kwglbiz/JSelectZyByZyb'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	});
@@ -225,6 +209,8 @@
 			title: '姓名',
 			dataIndex: 'XM',
 			key: 'XM',
+			fixed: 'left',
+			width: 150,
 		},
 		// ----------林彬辉
 		// {
@@ -237,36 +223,44 @@
 			title: '性别',
 			dataIndex: 'XBM',
 			key: 'XBM',
+			fixed: 'left',
+			width: 150,
 		},
 		{
 			title: '学生状态',
 			dataIndex: 'XSDQZTM',
 			key: 'XSDQZTM',
+			width: 150,
 		},
 		{
 			title: '身份证号',
 			dataIndex: 'SFZH',
 			key: 'SFZH',
+			width: 250,
 		},
 		{
 			title: '所属专业部',
 			dataIndex: 'YXMC',
 			key: 'YXMC',
+			width: 150,
 		},
 		{
 			title: '所属专业',
 			dataIndex: 'ZYMC',
 			key: 'ZYMC',
+			width: 150,
 		},
 		{
 			title: '所属年级',
 			dataIndex: 'NJMC',
 			key: 'NJMC',
+			width: 150,
 		},
 		{
 			title: '所属班级',
 			dataIndex: 'XZBMC',
 			key: 'XZBMC',
+			width: 150,
 		},
 		{
 			title: '学生联系电话',
@@ -275,12 +269,14 @@
 			// ------------林彬辉
 			dataIndex: 'XSLXDH',
 			key: 'XSLXDH',
+			width: 250,
 			// --------
 		},
 		{
 			title: '操作',
 			dataIndex: 'operator',
-			width: '10%',
+			fixed: 'right',
+			width: 200,
 			key: 'operator',
 			scopedSlots: {
 				customRender: 'operator'
@@ -360,8 +356,19 @@
                 };
             },
         },
+		watch:{
+				facultyId(val){
+					this.zybChange(val)
+				},
+				specialtyId(va){
+					this.zyChange()
+				}
+		},
 		components: {
 			IconFont,
+			JSelectZyByZyb,
+			JSelectZyb,
+			JSelectBanjiByZy,
 		},
 		methods: {
 			//start
@@ -572,7 +579,6 @@
 					data.splice(0, data.length);
 					
 					if(res.result.list.length==0){
-						this.$message.warning("当前年份暂无学生！");
 						return;
 					}
 
@@ -692,19 +698,14 @@
 <style>
 
 .stuInfo-input{
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 .create-text{
   width: 190px;
   height: 19px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
   color: #666666;
   line-height: 24px;
-  margin-top: 20px;
-  margin-left: 122px;
 }
 
 .create-search-text{

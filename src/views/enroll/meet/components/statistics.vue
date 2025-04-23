@@ -55,7 +55,7 @@ export default {
 				bottom: '1%'
 		    },
 			title:{
-				text:'鹰潭职业技术学院报道情况统计',
+				text:'学院报道情况统计',
 				color:'#333333',
 				left: 'center',
 			},

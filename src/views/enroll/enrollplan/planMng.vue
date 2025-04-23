@@ -1,30 +1,15 @@
 <template>
-  <div style="background: #e9edf6; padding: 20px; margin-top: 20px">
+  <div  class='constbox'>
     <div class="pageContentBox">
-      <div class="headTop"><span class="notTop">招生计划管理</span></div>
-      <hr class="right-hr" />
 
       <div class="content-head">
         <div>
-          <a-button :size="size" class="tempAdd-button" @click="showAdd()">
-            <icon-font type="icontianjia" style="color: #ffffff" />
-            添加
-          </a-button>
-
-          <a-button :size="size" class="clear-button" @click="clear">
-            <img src="@/assets/img/clean.png" class="icon-delete" />
-            删除
-          </a-button>
-
-          <a-button :size="size" class="refresh-button button-after" @click="refresh">
-            <img src="@/assets/img/shuaxin.png" class="icon-position" />
-            刷新
-          </a-button>
+         
           <!-- 下拉框条件部分 -->
-          <span class="head-span palnTitle">招生季</span>
+          <span class="head-span palnTitle">招生季：</span>
           <a-cascader class="condition" :options="quarter" placeholder="默认当前招生季" v-model="quarterId" />
 
-          <span class="head-span">专业部</span>
+          <span class="head-span">专业部：</span>
           <a-cascader
             class="condition"
             :options="faculty"
@@ -33,17 +18,28 @@
             v-model="facultyId"
           />
 
-          <span class="head-span">专业</span>
+          <span class="head-span">专业：</span>
           <a-cascader class="condition" :options="specialty" placeholder="请选择" v-model="specialtyId" @click='cascaderChange'/>
-          <a-button :size="size" class="search-button" @click="search">
-            <icon-font type="iconsousuo" style="color: #ffffff" />
+          <a-button  type="primary" icon="search" @click="search">
             搜索
           </a-button>
 
-          <a-button :size="size" class="empty-button" @click="empty">
-            <icon-font type="iconqingkong1" style="color: #ffffff" />
+          <a-button  type="danger" style="margin-left: 10px;" @click="empty">
             清空
           </a-button>
+		  <div style="margin-top:10px;">
+			  <a-button type="primary" icon="plus" style="margin-right:10px;" @click="showAdd()">
+			    添加
+			  </a-button>
+			  
+			  <a-button  type="danger"  icon="delete" style="margin-right:10px;" @click="clear">
+			    删除
+			  </a-button>
+			  
+			  <a-button  type="primary"  icon="reload" style="margin-right:10px;" @click="refresh">
+			    刷新
+			  </a-button>
+		  </div>
         </div>
       </div>
       <div>
@@ -53,6 +49,7 @@
           :row-selection="{ onChange: onSelectChange, selectedRowKeys }"
           :defaultCurrent="6"
           :pagination="myPageData"
+		  :scroll="{ x: 1500, y: 300 }"
         >
           <span slot="action" slot-scope="text, record">
             <a class = "text-btn-color3" href="javascript:;" @click="infoClick(text, record)">编辑</a>
@@ -66,7 +63,6 @@
               <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
               </template>
 
-          <div class="delete-img-bg"><img src="@/assets/img/shanchu1@2x.png" class="delete-img" /></div>
           <div class="delete-text">确认执行删除?</div>
         </a-modal>
         <!--  -->
@@ -77,7 +73,7 @@
           :width="1073"
         >
           <template slot="footer">
-            <a-button key="back" @click="handleCancel" class="btn"> 确定 </a-button>
+            <a-button key="back" type="primary" @click="handleCancel" > 确定 </a-button>
             <a-button key="submit" type="primary" @click="handleOk" class="btn-cancle"> 关闭 </a-button>
           </template>
           <table class="scanTable" style="text-align: left">
@@ -95,8 +91,8 @@
                 />
                 <!-- 专业的下拉框 -->
                 <a-cascader class="planMng-select" :options="county" placeholder="请选择" v-model="countyId" />
-                <a-button class="search-button" @click="clearArea">
-                  <img src="@/assets/img/clean.png" class="icon-img" />
+                <a-button type="primary" icon="search" style="margin-left: 10px;" @click="clearArea">
+                  
                   清除
                 </a-button>
               </td>
@@ -158,14 +154,14 @@
                 > -->
                 
 				    <!--    <a-button> <a-icon type="upload" /> 选择文件 </a-button> -->
-				    <!-- <a-button :size="size" class="tempAdd-button" >
-                  <icon-font type="icontianjia" style="color: #ffffff" />
+				    <!-- <a-button type="primary" icon="plus" >
+                  
                   添加
                   </a-button>
                 </a-upload> -->
                 <a-upload name="file" :multiple="true" :showUploadList='false' :beforeUpload='beforeUpload' @change='customRequest' :action='actionImgUrl' :headers="uploadHeaders" >
-					    	  <a-button :size="size" class="tempAdd-button" >
-                  <icon-font type="icontianjia" style="color: #ffffff" />
+					    	  <a-button type="primary" icon="plus" >
+                  
                   添加
                   </a-button>
 					      </a-upload>
@@ -174,7 +170,7 @@
 
             <tr class="tr-style">
               <td class="td-div">
-                <div class="font-style-planMng">专业对考生的要求：</div>
+                <div class="font-style">专业对考生的要求：</div>
               </td>
               <td colspan="3" class="double">
                 <a-textarea  :rows="4" v-model="ksyq" class="planMng"/>
@@ -192,7 +188,7 @@
 
             <tr class="tr-style">
               <td class="td-div">
-                <div class="font-style-planMng">主要专业课程：</div>
+                <div class="font-style">主要专业课程：</div>
               </td>
               <td colspan="3" class="double">
                 <a-textarea  :rows="4" v-model="zykc" class="planMng"/>
@@ -209,7 +205,7 @@
             </tr>
             <tr class="tr-style">
               <td class="td-div">
-                <div class="font-style-planMng">毕业后去向及备注：</div>
+                <div class="font-style">毕业后去向及备注：</div>
               </td>
               <td colspan="3" class="double">
                 <a-textarea  :rows="4" v-model="byqx" class="planMng"/>
@@ -237,50 +233,63 @@ const columns = [
     title: '所属专业',
     dataIndex: 'ZYMC',
     // key:'name',
+	fixed: 'left',
+	width: 150,
   },
   {
     title: '招生年份',
     dataIndex: 'ZSNF',
     // key:'age'
+	fixed: 'left',
+	width: 150,
   },
   {
     title: '招生季',
     dataIndex: 'name',
+	width: 150,
     // key:'age'
   },
   {
     title: '学制',
     dataIndex: 'XZMC',
+	width: 150,
     // key:'age'
   },
   {
     title: '班级数',
     dataIndex: 'BJS',
+	width: 150,
     // key:'age'
   },
   {
     title: '男生人数',
     dataIndex: 'NANSRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '女生人数',
     dataIndex: 'NVSRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '总人数',
     dataIndex: 'ZRS',
+	width: 150,
     // key:'age'
   },
   {
     title: '发布时间',
     dataIndex: 'create_time',
+	width: 250,
     // key:'age'
   },
   {
     title: '操作',
     key: 'action',
+	fixed: 'right',
+	width: 200,
     scopedSlots: { customRender: 'action' },
   },
 ]
@@ -1195,11 +1204,11 @@ console.log('选中后编辑时候的长度',this.selectedRowKeys.length)
 </script>
 
 <style>
-/* 添加按钮底色
+/* 添加按钮底色 */
 .tempAdd-button {
   width: 88px;
   height: 34px;
-  background: #3a3aff;
+  background: #00bad0;
   border-radius: 5px;
   margin-right: 20px;
 }
@@ -1209,8 +1218,8 @@ console.log('选中后编辑时候的长度',this.selectedRowKeys.length)
 .tempAdd-button:active,
 .tempAdd-button:focus {
   color: white;
-  background-color: #3a3aff;
-} */
+  background-color: #00bad0;
+}
 .tb {
   text-align: left;
 }
@@ -1224,17 +1233,6 @@ console.log('选中后编辑时候的长度',this.selectedRowKeys.length)
   font-weight: 700;
   margin-left: 23px;
   color: #ffffff;
-  line-height: 24px;
-}
-/* 字体样式1 */
-.font-style {
-  margin-left: 23px;
-  width: 114px;
-  height: 18px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  font-weight: 700;
-  color: #666666;
   line-height: 24px;
 }
 /* 字体样式1 */
@@ -1264,15 +1262,6 @@ console.log('选中后编辑时候的长度',this.selectedRowKeys.length)
   width: 259px;
 }
 
-.btn {
-  width: 100px;
-  height: 40px;
-  background: #0098f8;
-  border-radius: 5px;
-  font-size: 18px;
-  font-family: Microsoft YaHei;
-  color: #ffffff;
-}
 
 textarea.planMng{
 width: 512px;
@@ -1308,6 +1297,6 @@ margin-right: 8px;
 }
 
 .palnTitle{
-  margin-left: 20px;
+  margin-left: 10px;
 }
 </style>

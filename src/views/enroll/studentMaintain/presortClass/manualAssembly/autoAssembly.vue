@@ -1,8 +1,6 @@
 <template>
-	<div style="background: #e9edf6;">
+	<div>
 		<div class="pageContentBox">
-			<div class="headTop">预分班><span class="notTop">自动分班</span></div>
-			<hr class="right-hr" />
 			<a-row>
 				<a-col :span='24'>
 					<div class="tipsBox">
@@ -25,7 +23,7 @@
 										</div>
 									</a-col>
 									<a-col :span='14'>
-										<a-cascader class="condition" :options="grade"  v-model='gradeId' placeholder="请选择年级" @change='classListChange'/>
+										<j-select-grade placeholder="请选择年级" v-model="gradeId"></j-select-grade>
 									</a-col>
 									<a-col :span='7'>
 										<div class="choiceTop">
@@ -45,7 +43,7 @@
 									</a-col>
 									<a-col :span='7'>
 										<div class="choiceTop">
-											录取专业方向
+											专业方向
 										</div>
 									</a-col>
 									<a-col :span='14'>
@@ -99,7 +97,7 @@
 					</div>
 				</a-col>
 				<a-col :span='16'>
-					<a-table :columns="columns" :data-source="tableDataStu" :defaultCurrent="6" :pagination="pagination"
+					<a-table :scroll="{ x: 1500, y: 300 }" :columns="columns" :data-source="tableDataStu" :defaultCurrent="6" :pagination="pagination"
 						:rowKey="(record) => record.id" @change="tableChange" style="margin-top: 10px">
 						<div slot="action" slot-scope="id, record">
 							<!-- <a href="javascript:;" style="color: #028be2">指定班级</a> -->
@@ -116,7 +114,6 @@
 			        <a-button key="submit" type="primary"  @click="closePop"  class="btn-cancle">取消</a-button>
 			        </template>
 			
-			    <div class="delete-img-bg"><img src="@/assets/img/ai215@2x.png" class="delete-img" /></div>
 			    <div class="delete-text">确认执行退班?</div>
 			</a-modal>
 		</div>	
@@ -131,13 +128,15 @@
 	import {
 		Icon
 	} from 'ant-design-vue'
-	import { getFaculty } from '@/api/api'
+	import { getFaculty } from '@/api/enroll/api'
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
 	const IconFont = Icon.createFromIconfontCN({
 		scriptUrl: '//at.alicdn.com/t/font_2390461_f6v2cx4wmzq.js',
 	})
 	export default {
 		components: {
-			IconFont
+			IconFont,
+			JSelectGrade
 		},
 		data() {
 			return {
@@ -220,42 +219,52 @@
 						dataIndex: 'id',
 						key: 'id',
 						align: 'center',
+						fixed: 'left',
+						width: 150,
 					},
 					{
 						title: '姓名',
 						dataIndex: 'xm',
 						key: 'xm',
 						align: 'center',
+						fixed: 'left',
+						width: 150,
 					},
 					{
 						title: '学号',
 						dataIndex: 'xh',
 						key: 'xh',
 						align: 'center',
+						width: 250,
 					},
 					{
 						title: '年级',
 						dataIndex: 'njmc',
 						key: 'njmc',
 						align: 'center',
+						width: 150,
 					},
 					{
 						title: '录取校区',
 						dataIndex: 'xqmc',
 						key: 'xqmc',
 						align: 'center',
+						width: 150,
 					},
 					{
 						title: '录取专业',
 						dataIndex: 'zymc',
 						key: 'zymc',
 						align: 'center',
+						width: 150,
 					},
 					{
 						align: 'center',
 						title: '操作',
 						dataIndex: 'X',
 						key: 'cId',
+						fixed: 'right',
+						width: 200,
 						scopedSlots: {
 							customRender: 'action'
 						},
@@ -303,7 +312,6 @@
 			},
 			getSearchList(){
 				this.getFacultyList()
-				this.getGrade()
 			},
 			specialtyChange(e){
 				if(e.length > 0){
@@ -352,26 +360,6 @@
 						}
 					}else{
 						this.$message.warning('专业信息获取失败')
-					}
-				})
-			},
-			
-			// 获取所属年级
-			getGrade(){
-				axios({
-				   url: 'enroll/divideClassMng/getGrade',
-				   method: 'post',
-				   params: {},
-				 }).then((res)=>{
-					if(res.code == '200'){
-						for( var i = 0 ;  i < res.result.length ; i++ ){
-							this.grade.push({
-								label:res.result[i].njmc,
-								value:res.result[i].id
-							})
-						}
-					}else{
-						this.$message.warning('所属年级信息获取失败')
 					}
 				})
 			},
@@ -487,7 +475,7 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 	
 	.setCondition{
 		padding-bottom: 30px;

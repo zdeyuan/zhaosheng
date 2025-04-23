@@ -3,10 +3,10 @@
 		<a-row>
 			<a-col :span='24'>
 				<div class="content-head-type2">
-					<div>
+					<div style="margin-bottom: 10px;">
 						<span class="title_span">所属年级：</span>
-						<a-cascader class="condition" :options="grade" v-model='gradeId' placeholder="请选择年级"
-							@change='classListChange' />
+						<j-select-grade placeholder="请选择年级" v-model="gradeId" @change='classListChange'></j-select-grade>
+						
 						<span class="title_span">院系：</span>
 						<a-cascader class="condition" :options="faculty" v-model='facultyId' placeholder="请选择院系"
 							@change='specialtyChange' />
@@ -14,25 +14,23 @@
 						<a-cascader class="condition" :options="specialty" v-model='specialtyId' placeholder="请选择专业" />
 						<span class="title_span">班级：</span>
 						<a-cascader class="condition" :options="classList" v-model='classId' placeholder="请选择班级" />
+					</div>
+					<div style="margin-bottom: 10px;">
 						<span class="title_span">分配状态：</span>
 						<a-cascader class="condition" :options="stateList" v-model='state' placeholder="请选择分配状态" />
-					</div>
-					<div>
 						<span class="title_span">招生类型：</span>
 						<a-cascader class="condition" :options="stuType" v-model='stuTypeId' placeholder="请选择招生类型" />
 						<span class="title_span">性别：</span>
 						<a-cascader class="condition" :options="sexList" v-model='sex' placeholder="请选择性别" />
-						<a-button class="icon_btn search-button" size="small"
+						<a-button type="primary" icon="search" style="margin-left: 10px;"  
 							@click='getArrangeClassList'>
 							<span class="flex_box">
-								<a-icon type="search" class="icon-img" />
 								搜索
 							</span>
 						</a-button>
-						<a-button class="icon_btn  empty-button" size="small" @click='empty'>
+						<a-button type="danger" style="margin-left: 10px;"   @click='empty'>
 							<span class="flex_box">
 								<!-- <a-icon type="search" class="icon-img" /> -->
-								<img src='@/assets/img/clean.png' class="icon-img" />
 								清空
 							</span>
 						</a-button>
@@ -77,10 +75,12 @@
 	} from 'ant-design-vue'
 	import {
 		getFaculty
-	} from '@/api/api'
+	} from '@/api/enroll/api'
+	import JSelectGrade from '@/components/kwglbiz/JSelectGrade'
 	export default {
 		components: {
 			Icon,
+			JSelectGrade
 		},
 		data() {
 			return {
@@ -266,7 +266,7 @@
 			},
 			getSearchList() {
 				this.getFacultyList()
-				this.getGrade()
+				// this.getGrade()
 			},
 			specialtyChange(e) {
         this.specialty = []
@@ -380,25 +380,6 @@
 				}
 				this.$emit('pages', 2)
 			},
-			//获取所有年级
-			getGradeList() {
-				axios({
-						url: 'enroll/divideClassMng/getGrade',
-						method: 'post',
-						params: {},
-					})
-					.then((res) => {
-						for (let grade of res.result) {
-							this.grade.push({
-								value: grade.id,
-								label: grade.njmc
-							})
-						}
-					})
-					.catch((err) => {
-						this.$message.warning('获取年级失败')
-					})
-			},
 
 			//获取所有院系
 			getFaculty() {
@@ -480,7 +461,7 @@
 </script>
 
 <style scoped>
-	@import '~@assets/less/common.less';
+	
 
 	.pageContentBox {
 		padding: 30px;
@@ -649,7 +630,7 @@
 	}
 
 	/* 表格 */
-	.scanTable {
+	/* .scanTable {
 		margin: 5px auto;
 	}
 
@@ -695,5 +676,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
+	} */
 </style>
