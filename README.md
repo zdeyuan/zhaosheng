@@ -52,11 +52,11 @@ npm run build
 ### 联系方式
 ### 微信联系方式
 
-![输入图片说明](src/assets/1715140097145.png)</br>
+![输入图片说明](public/images/1715140097145.png)</br>
 
 ### QQ群
 
-![输入图片说明](src/assets/63d9778d009ea49532a243ad744328c.png)
+![输入图片说明](public/images/63d9778d009ea49532a243ad744328c.png)
 ### 期待您的联系
 
 
